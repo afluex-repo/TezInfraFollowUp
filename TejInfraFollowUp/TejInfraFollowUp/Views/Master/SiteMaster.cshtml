@@ -1,0 +1,452 @@
+﻿@model TejInfraFollowUp.Models.Master
+
+@{
+    ViewBag.Title = "SiteMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .errortext {
+        border: 1px solid red !important;
+        background-color: #f5c1cb !important;
+    }
+</style>
+<div class="page-wrapper">
+
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-5 align-self-center">
+                <h4 class="page-title"></h4>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Masters</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Site Master</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    @using (Html.BeginForm("SiteMaster", "Master", FormMethod.Post, new { @id = "signupForm", enctype = "multipart/form-data" }))
+    {
+        <div class="container-fluid">
+           
+            <div class="alert alert-success" style="display:@ViewBag.saverrormsg">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span> </button>
+                <h5 class="text-success"><i class="fa fa-check-circle"></i> @TempData["SiteError"]</h5>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header bg-info">
+                            <h4 class="m-b-0 text-white">Site Master
+                                 <a href="/Master/SiteList"  class="btn btn-success pull-right" style="margin-left: 82%;">Back To List</a>
+                            </h4>
+                            
+                        </div>
+
+                        <div class="form-body">
+
+                            
+
+
+                            <span style="color: red">Note : All fields which have star sign are mandatory.</span>
+                            <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label class="control-label text-right col-md-3">Vendor <span style="color: red">*</span></label>
+                                            <div class="col-md-9">
+                                                @Html.DropDownListFor(m => m.VendorID, new SelectList(ViewBag.ddlVendors, "Value", "Text"), new { @class = "form-control form-control-lg" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-8">
+                                        <div class="form-group row">
+                                            <label class="control-label text-right col-md-3">Site Name <span style="color: red">*</span></label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(m => m.SiteName, new { @class = "form-control form-control-lg", @Placeholder = "Site Name" })
+                                                 @Html.HiddenFor(m => m.SiteID, new { @Placeholder = "Site Name" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <!--/row-->
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label class="control-label text-right col-md-3">PinCode <span style="color: red">*</span></label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(m => m.Pincode, new { @class = "form-control form-control-lg", @Placeholder = "PinCode", @onchange = "getstatecity()", @Maxlength = "6" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label class="control-label text-right col-md-3">State</label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(m => m.StateName, new { @class = "form-control form-control-lg", @Placeholder = "State", @readonly = "true" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label class="control-label text-right col-md-3">City</label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(m => m.City, new { @class = "form-control form-control-lg", @Placeholder = "City", @readonly = "true" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <!--/row-->
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label class="control-label text-right col-md-3">Facing <span style="color: red">*</span></label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(m => m.Facing, new { @class = "form-control form-control-lg", @Placeholder = "Facing" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label class="control-label text-right col-md-3">Rational</label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(m => m.Rational, new { @class = "form-control form-control-lg", @Placeholder = "Rational" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label class="control-label text-right col-md-3">Side <span style="color: red">*</span></label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(m => m.Side, new { @class = "form-control form-control-lg", @Placeholder = "Side", onkeypress = "return isNumber(event);", onchange = "calculateSiteArea();" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <!--/row-->
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label class="control-label text-right col-md-3">Quantity <span style="color: red">*</span></label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(m => m.Quantity, new { @class = "form-control form-control-lg", @Placeholder = "Quantity", onkeypress = "return isNumber(event);", onchange = "calculateSiteArea();" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label class="control-label text-right col-md-3">Width <span style="color: red">*</span></label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(m => m.Width, new { @class = "form-control form-control-lg", @Placeholder = "Width", onkeypress = "return isNumber(event);", onchange = "calculateSiteArea();" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label class="control-label text-right col-md-3">Height <span style="color: red">*</span></label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(m => m.Height, new { @class = "form-control form-control-lg", @Placeholder = "Height", onkeypress = "return isNumber(event);", onchange = "calculateSiteArea();" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label class="control-label text-right col-md-3">Area <span style="color: red">*</span></label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(m => m.Area, new { @class = "form-control form-control-lg", @Placeholder = "Area", @readonly = "true", onkeypress = "return isNumber(event);" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label class="control-label text-right col-md-3">Media Vehicle <span style="color: red">*</span></label>
+                                            <div class="col-md-9">
+                                                @Html.DropDownListFor(m => m.MediaVehicleID, new SelectList(ViewBag.ddlMediaVehicle, "Value", "Text"), new { @class = "form-control form-control-lg" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label class="control-label text-right col-md-3">Media Type <span style="color: red">*</span></label>
+                                            <div class="col-md-9">
+                                                @Html.DropDownListFor(m => m.MediaTypeID, new SelectList(ViewBag.ddlMediaType, "Value", "Text"), new { @class = "form-control form-control-lg" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label class="control-label text-right col-md-3">Cart Rate </label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(m => m.CartRate, new { @class = "form-control form-control-lg", @Placeholder = "Cart Rate", onkeypress = "return isNumber(event);" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-8">
+                                        <div class="form-group row">
+                                            <label class="control-label text-right col-md-3">Comments</label>
+                                            <div class="col-md-9">
+                                                @Html.TextAreaFor(m => m.Comments, new { @class = "form-control form-control-lg", @Placeholder = "Comments" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--/span-->
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label class="control-label text-right col-md-3">Actual Site Owner </label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(m => m.SiteOwner, new { @class = "form-control form-control-lg", @Placeholder = "Site Owner" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label class="control-label text-right col-md-3">Site Image</label>
+                                            <div class="col-md-9">
+                                                @*<input type="image" />*@
+                                                <input type="file" name="postedFile" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" style="display:@ViewBag.Isvisible">
+                                        <div class="form-group row">
+
+                                            <div class="col-md-9">
+                                                @*<input type="image" />*@
+                                                <input type="submit" value="Add" class="btn btn-info" name="addSite" onclick="return validatesite();" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <div class="row" style="display:@ViewBag.Isvisible">
+                                    <table class="tablesaw table-striped table-hover table-bordered table no-wrap"
+                                        data-tablesaw-mode="columntoggle" style="color: white">
+                                        <thead>
+                                            <tr>
+
+                                                <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col
+                                                    data-tablesaw-priority="3" class="border">SiteName</th>
+                                                <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col
+                                                    data-tablesaw-priority="3" class="border">Pincode</th>
+                                                <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col
+                                                    data-tablesaw-priority="3" class="border">Facing</th>
+                                                <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col
+                                                    data-tablesaw-priority="3" class="border">Rational</th>
+                                                <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col
+                                                    data-tablesaw-priority="3" class="border">Side</th>
+                                                <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col
+                                                    data-tablesaw-priority="3" class="border">Qty</th>
+                                                <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col
+                                                    data-tablesaw-priority="3" class="border">Height
+                                            </th>
+                                                <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col
+                                                    data-tablesaw-priority="3" class="border">Width
+                                                </th>
+                                                <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col
+                                                    data-tablesaw-priority="3" class="border">Area
+                                            </th>
+
+                                                <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col
+                                                    data-tablesaw-priority="3" class="border">CartRate
+                                            </th>
+                                                <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col
+                                                    data-tablesaw-priority="3" class="border">SiteImage
+                                            </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model != null)
+                                            {
+                                                if (Model.lstSites != null)
+                                                {
+                                                    foreach (var item in Model.lstSites)
+                                                    {
+
+                                                <tr>
+
+                                                    <td>@item.SiteName</td>
+                                                    <td>@item.Pincode</td>
+                                                    <td>@item.Facing</td>
+                                                    <td>@item.Rational</td>
+                                                    <td>@item.Side</td>
+                                                    <td>@item.Quantity</td>
+                                                    <td>@item.Height</td>
+                                                    <td>@item.Width</td>
+                                                    <td>@item.Area</td>
+                                                    <td>@item.CartRate</td>
+                                                    <td>
+                                                        <img src="@item.SiteImage" height="60" width="60" /></td>
+
+                                                </tr>
+                                                    }
+                                                }
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-offset-3 col-md-9">
+                                                @if (Model != null)
+                                                {
+                                                    <input type="submit" value="Update Site" class="btn btn-success" name="UpdateSite" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="submit" value="Save Site" class="btn btn-success" name="SaveSite" />
+                                                    <a href="/Master/SiteMaster" class="btn btn-dark" >Reset</a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6"></div>
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    }
+
+</div>
+<script>
+    
+
+    function isNumber(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+          && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    function calculateSiteArea() {
+        var area = Number($('#Side').val()) * Number($('#Quantity').val()) * Number($('#Width').val()) * Number($('#Height').val());
+        $('#Area').val(area);
+    }
+    function validatesite() {
+        $(".errortext").removeClass("errortext");
+        if ($('#VendorID').val() == '0') {
+            $("#VendorID").addClass('errortext');
+            $('#VendorID').focus();
+            return false;
+        }
+        if ($('#SiteName').val() == '') {
+            $("#SiteName").addClass('errortext');
+            $('#SiteName').focus();
+            return false;
+        }
+        if ($('#Pincode').val() == '') {
+            $("#Pincode").addClass('errortext');
+            $('#Pincode').focus();
+            return false;
+        }
+        if ($('#Facing').val() == '') {
+            $("#Facing").addClass('errortext');
+            $('#Facing').focus();
+            return false;
+        }
+        if ($('#Side').val() == '') {
+            $("#Side").addClass('errortext');
+            $('#Side').focus();
+            return false;
+
+        }
+        if ($('#Quantity').val() == '') {
+            $("#Quantity").addClass('errortext');
+            $('#Quantity').focus();
+            return false;
+        }
+        if ($('#Width').val() == '') {
+            $("#Width").addClass('errortext');
+            $('#Width').focus();
+            return false;
+        }
+        if ($('#Height').val() == '') {
+            $("#Height").addClass('errortext');
+            $('#Height').focus();
+            return false;
+        }
+        if ($('#MediaVehicleID').val() == '0') {
+            $("#MediaVehicleID").addClass('errortext');
+            $('#MediaVehicleID').focus();
+            return false;
+        }
+        if ($('#MediaTypeID').val() == '0') {
+            $("#MediaTypeID").addClass('errortext');
+            $('#MediaTypeID').focus();
+            return false;
+        }
+
+
+    }
+    function getstatecity() {
+
+        $.ajax({
+            url: "/Master/GetStateCity",
+            Type: "Get",
+            DataType: "JSON",
+            data: { PinCode: $("#Pincode").val() },
+            success: function (data) {
+                if (data.Result == "1") {
+                    $("#StateName").val(data.StateName);
+                    $("#City").val(data.City);
+                }
+                else {
+                    $("#StateName").val('');
+                    $("#City").val('');
+                    $("#PinCode").val('');
+                    alert('Invalid PinCode');
+                    $('#PinCode').focus();
+
+
+                }
+
+
+            }
+
+        });
+    }
+</script>

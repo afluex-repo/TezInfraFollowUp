@@ -1,0 +1,165 @@
+﻿@model TejInfraFollowUp.Models.Master
+
+@{
+    ViewBag.Title = "SiteList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-wrapper">
+
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-5 align-self-center">
+                <h4 class="page-title"></h4>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Masters</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Site List</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    @using (Html.BeginForm("SiteList", "Master", FormMethod.Post, new { @id = "signupForm", enctype = "multipart/form-data" }))
+    {
+        <div class="alert alert-success" style="display:@ViewBag.saverrormsg">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span> </button>
+            <h5 class="text-success"><i class="fa fa-check-circle"></i>@TempData["SiteDelete"]</h5>
+
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Vendor </label>
+                                    <div class="col-md-9">
+                                        @Html.DropDownListFor(m => m.VendorID, new SelectList(ViewBag.ddlVendors, "Value", "Text"), new { @class = "form-control form-control-lg" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Site Name </label>
+                                    <div class="col-md-9">
+                                        @Html.TextBoxFor(m => m.SiteName, new { @class = "form-control form-control-lg", @Placeholder = "Site Name" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Media Vehicle</label>
+                                    <div class="col-md-9">
+                                        @Html.DropDownListFor(m => m.MediaVehicleID, new SelectList(ViewBag.ddlMediaVehicle, "Value", "Text"), new { @class = "form-control form-control-lg" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Media Type </label>
+                                    <div class="col-md-9">
+                                        @Html.DropDownListFor(m => m.MediaTypeID, new SelectList(ViewBag.ddlMediaType, "Value", "Text"), new { @class = "form-control form-control-lg" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group row">
+
+                                    <div class="col-md-9">
+                                        <input type="submit" value="Get Details" class="btn btn-primary" name="GetDetails" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="file_export" class="table table-striped table-bordered display">
+                                <thead>
+                                    <tr>
+                                         <th>Action</th>
+                                        <th>Site Name</th>
+                                        <th>Media Vehicle</th>
+                                        <th>Media Type</th>
+                                        <th>Pincode</th>
+                                        <th>Facing</th>
+                                        <th>Rational</th>
+                                        <th>Side</th>
+                                        <th>Qty</th>
+                                        <th>Height</th>
+                                        <th>Width</th>
+                                        <th>Area</th>
+                                        <th>CartRate</th>
+                                        <th>Site Image</th>
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null)
+                                    {
+                                        if (Model.lstSites != null)
+                                        {
+                                            foreach (var item in Model.lstSites)
+                                            {
+                                        <tr>
+                                             <td>
+                                                <a href="/Master/SiteMaster?SiteId=@item.SiteID" class="label label-primary">Edit</a>
+                                                &nbsp;
+                                             <a href="/Master/DeleteSite?SiteId=@item.SiteID" onclick="return confirm('Sure you want to delete this Service ?');" class="label label-danger">Delete</a>
+                                            </td>
+                                            <td>@item.SiteName</td>
+                                            <td>@item.MediaVehicleName</td>
+                                            <td>@item.MediaTypeName</td>
+                                            <td>@item.Pincode</td>
+                                            <td>@item.Facing</td>
+                                            <td>@item.Rational</td>
+                                            <td>@item.Side</td>
+                                            <td>@item.Quantity</td>
+                                            <td>@item.Height</td>
+                                            <td>@item.Width</td>
+                                            <td>@item.Area</td>
+                                            <td>@item.CartRate</td>
+                                            <td>
+                                                <img src="@item.SiteImage" height="50px" width="50px" />
+                                            </td>
+                                           
+
+                                        </tr>
+                                            }
+                                        }
+                                    }
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                          <th>Action</th>
+                                        <th>Site Name</th>
+                                        <th>Media Vehicle</th>
+                                        <th>Media Type</th>
+                                        <th>Pincode</th>
+                                        <th>Facing</th>
+                                        <th>Rational</th>
+                                        <th>Side</th>
+                                        <th>Qty</th>
+                                        <th>Height</th>
+                                        <th>Width</th>
+                                        <th>Area</th>
+                                        <th>CartRate</th>
+                                        <th>Site Image</th>
+                                      
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }

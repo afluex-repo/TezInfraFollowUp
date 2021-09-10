@@ -1,0 +1,85 @@
+﻿@model TejInfraFollowUp.Models.Master
+
+@{
+    ViewBag.Title = "CategoryList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-wrapper">
+
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-5 align-self-center">
+                <h4 class="page-title"></h4>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Masters</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Category List </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    @using (Html.BeginForm("CategoryList", "Master", FormMethod.Post, new { @id = "signupForm", enctype = "multipart/form-data" }))
+    {
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background: url(../../assets/images/big/auth-bg.jpg) no-repeat center center;min-height: 55vh;display: table-cell;">
+            <div class="auth-box" style="max-width:1286px;margin:2%">
+                <div id="loginform">
+                    <div class="logo">
+
+                        <p class="font-medium m-b-20" style="color:red">@TempData["Delete"]</p>
+                    </div>
+                </div>
+                <br />
+                <div class="table-responsive">
+                    <table id="file_export" class="table table-striped table-bordered display">
+                        <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th>Category Name</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                if (Model.lstCategory != null)
+                                {
+                                    foreach (var item in Model.lstCategory)
+                                    {
+                                        <tr>
+                                            @Html.HiddenFor(m => m.Pk_CategoryId)
+                                            <td>
+                                                <a href="/Master/CategoryMaster?Pk_CategoryId=@item.Pk_CategoryId" class="label label-primary">Edit</a>
+                                                &nbsp;
+
+                                            </td>
+
+                                            <td>@item.CategoryName</td>
+
+
+
+                                        </tr>
+                                    }
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+
+
+
+
+            </div>
+        </div>
+        
+    }
+
+</div>

@@ -1,0 +1,119 @@
+﻿@model TejInfraFollowUp.Models.Master
+
+@{
+    ViewBag.Title = "CategoryMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .errortext {
+        border: 1px solid red !important;
+        background-color: #f5c1cb !important;
+    }
+</style>
+<div class="page-wrapper">
+
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-5 align-self-center">
+                <h4 class="page-title"></h4>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Masters</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"> Category Master</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    @using (Html.BeginForm("CategoryMaster", "Master", FormMethod.Post, new { @id = "signupForm", enctype = "multipart/form-data" }))
+    {
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background: url(../../assets/images/big/auth-bg.jpg) no-repeat center center;min-height: 35vh;display: table-cell;">
+            <div class="auth-box" style="max-width:1286px;margin:0%">
+                <div id="loginform">
+                    <div class="logo">
+
+                        <p class="font-medium m-b-20" style="color:red">@TempData["Error"]</p>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                   @Html.HiddenFor(m => m.Pk_CategoryId)
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Category Name <span style="color: red">*</span></label>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(m => m.CategoryName, new { @class = "form-control form-control-lg", @Placeholder = "Category Name " })
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="col-md-offset-3 col-md-9">
+                            @if (Model.Pk_CategoryId != null)
+                            {
+                                <input type="submit" value="Update " class="btn btn-success" name="btnUpdate" onclick="return validateservice();" />
+
+                            }
+                            else
+                            {
+
+
+                                <input type="submit" value="Save " class="btn btn-success" name="btnSave" onclick="return validateservice();" />
+                            }
+                            <a href="/Master/CategoryMaster" class="btn btn-dark">Reset</a>
+                            <a href="/Master/CategoryList" class="btn btn-info">Back To List</a>
+
+                        </div>
+                    </div>
+                    <!--/span-->
+                </div>
+                <!--/row-->
+                <!--/row-->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+
+                        </div>
+                    </div>
+                    <div class="col-md-6"></div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+        
+    }
+
+</div>
+<script>
+
+
+    //function isNumber(evt) {
+    //    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    //    if (charCode != 46 && charCode > 31
+    //      && (charCode < 48 || charCode > 57))
+    //        return false;
+
+    //    return true;
+    //}
+
+
+    function validateservice() {
+        $(".errortext").removeClass("errortext");
+        if ($('#CategoryName').val() == '') {
+            $("#CategoryName").addClass('errortext');
+            $('#CategoryName').focus();
+            return false;
+        }
+     
+        return true;
+    }
+
+</script>
+

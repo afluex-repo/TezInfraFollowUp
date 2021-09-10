@@ -1,0 +1,326 @@
+﻿@model TejInfraFollowUp.Models.EmployeeLead
+
+@{
+    ViewBag.Title = "EmployeeLead";
+    Layout = "~/Views/Shared/EmployeeLayout.cshtml";
+}
+
+<style>
+    .errortext {
+        border: 1px solid red !important;
+        background-color: #f5c1cb !important;
+    }
+</style>
+<div class="page-wrapper">
+
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-5 align-self-center">
+                <h4 class="page-title"></h4>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Lead</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Lead Master</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    @using (Html.BeginForm("EmployeeLead", "EmployeeLead", FormMethod.Post, new { @id = "signupForm", enctype = "multipart/form-data" }))
+    {
+
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background: url(../../assets/images/big/auth-bg.jpg) no-repeat center center;min-height: 55vh;display: table-cell;">
+            <div class="auth-box" style="max-width:1286px;margin:2%">
+                <div id="loginform">
+                    <div class="logo">
+
+                        <p class="font-medium m-b-20" style="color:red">@TempData["Error"]</p>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+
+                    <!--/span-->
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Prospect Name <span style="color: red">*</span></label>
+                            <div class="col-md-9">
+
+
+                                @Html.DropDownListFor(q => q.Fk_ProcpectId, new SelectList(ViewBag.ddlProspect, "Value", "Text"), new { @class = "form-control", @OnChange = "return GetProspectDetailsByID();" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Contact Email ID <span style="color: red"></span></label>
+                            <div class="col-md-9">
+                                <span id="spContactEmailID"></span>
+                                @Html.DisplayFor(q => q.ContactEmailId)
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Contact Number <span style="color: red"></span></label>
+                            <div class="col-md-9">
+                                <span id="spContactNo"></span>
+                                @Html.DisplayFor(q => q.ContactNo)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Company Name <span style="color: red"></span></label>
+                            <div class="col-md-9">
+                                <span id="spCompanyName"></span>
+
+                                @Html.DisplayFor(q => q.CompanyName)
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Company Address <span style="color: red"></span></label>
+                            <div class="col-md-9">
+
+                                <span id="spAddress"></span>
+                                @Html.DisplayFor(q => q.Address)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Company Contact No <span style="color: red"></span></label>
+                            <div class="col-md-9">
+                                <span id="spCompanyContactNo"></span>
+
+                                @Html.DisplayFor(q => q.CompanyContactNo)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">First Date Of  Interraction <span style="color: red">*</span></label>
+                            <div class="col-md-9">
+
+
+                                @Html.TextBoxFor(f => f.FirstInstructionDate, new { @class = "form-control form-control-lg mydatepicker", @Placeholder = "Interraction Date" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Expected Product Category <span style="color: red">*</span></label>
+                            <div class="col-md-9">
+
+
+                                @Html.DropDownListFor(q => q.Fk_ExpectedProductCategoryId, new SelectList(ViewBag.ddlProductCategory, "Value", "Text"), new { @class = "form-control" })
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Source Of Data<span style="color: red">*</span></label>
+                            <div class="col-md-9">
+
+
+                                @Html.DropDownListFor(q => q.Fk_SourceId, new SelectList(ViewBag.ddlDataSource, "Value", "Text"), new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Executive Name <span style="color: red">*</span></label>
+                            <div class="col-md-9">
+
+
+                                @Html.DropDownListFor(q => q.Fk_ExecutiveId, new SelectList(ViewBag.ddlName, "Value", "Text"), new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Mode Of InterAction<span style="color: red">*</span></label>
+                            <div class="col-md-9">
+
+                                @Html.HiddenFor(m => m.Pk_LeadeId)
+                                @Html.DropDownListFor(q => q.Fk_ModeInterActionId, new SelectList(ViewBag.ddlInterAction, "Value", "Text"), new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3"> FollowUpdate <span style="color: red">*</span></label>
+                            <div class="col-md-9">
+
+
+                                @Html.TextBoxFor(f => f.FollowupDate, new { @class = "form-control form-control-lg mydatepicker", @Placeholder = "FollowUp Date" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3"> Description <span style="color: red"></span></label>
+                            <div class="col-md-9">
+
+
+                                @Html.TextAreaFor(f => f.Description, new { @class = "form-control form-control-lg mydatepicker", @Placeholder = "Description " })
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <div class="col-md-offset-3 col-md-9">
+                            @if (Model != null)
+                            {
+                                <input type="submit" value="Update " class="btn btn-success" name="btnUpdate" onclick="return validateservice();" />
+
+                            }
+                            else
+                            {
+
+                                <input type="submit" value="Save " class="btn btn-success" name="btnSave" onclick="return validateservice();" />
+
+                                <a href="/Master/LeadMaster" class="btn btn-dark">Reset</a>
+                            }
+                        </div>
+                    </div>
+                    <!--/span-->
+                </div>
+
+
+
+            </div>
+        </div>
+
+    }
+    <script src="~/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+
+    <script>
+    // Date Picker
+    jQuery('.mydatepicker, #datepicker, .input-group.date').datepicker(
+        {
+            dateFormat: 'dd/mm/yy',
+
+            changeYear: true,
+            changeMonth: true
+
+        });
+
+    </script>
+    <script src="../../Scripts/jquery.min.js"></script>
+    @*  <script src="../Scripts/jquery.min.js"></script>*@
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+    <script>
+
+
+    //function isNumber(evt) {
+    //    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    //    if (charCode != 46 && charCode > 31
+    //      && (charCode < 48 || charCode > 57))
+    //        return false;
+
+    //    return true;
+    //}
+           $('#InterractionDate').datepicker({
+            dateFormat: 'dd/mm/yy',
+            minDate: 0,
+            maxDate: '+1Y+6M',
+})
+
+      function GetProspectDetailsByID() {
+
+            var value = $('#Pk_ProcpectId').val();
+
+            $.ajax({
+                url: '/EmployeeLead/GetProspectDetailsByID', type: 'post', dataType: 'json',
+                data: { 'Pk_ProcpectId': value }, success: function (data) {
+                    if (data.Result == "Yes") {
+                      //  alert(data.ContactEmailId);
+                        document.getElementById("spContactEmailID").innerText= data.ContactEmailId;
+                         document.getElementById("spContactNo").innerText= data.ContactNo;
+                         document.getElementById("spCompanyName").innerText= data.CompanyName;
+                         document.getElementById("spAddress").innerText= data.Address;
+                         document.getElementById("spCompanyContactNo").innerText= data.CompanyContactNo;
+                        $('#ContactEmailId').val() = data.ContactEmailId;
+                          $('#ContactNo').val(data.ContactNo);
+                          $('#CompanyName').val(data.CompanyName);
+                          $('#Address').val(data.Address);
+                          $('#CompanyContactNo').val(data.CompanyContactNo);
+
+
+
+                    }
+                    else {
+                        alert("Invalid Teacher LoginID");
+                        $('#Pk_ProcpectId').val('');
+                        $('#ContactEmailId').val('');
+                         $('#ContactNo').val('');
+                         $('#CompanyName').val('');
+                         $('#Address').val('');
+                         $('#CompanyContactNo').val('');
+
+                    }
+                }
+
+            });
+
+        }
+
+    function validateservice() {
+        $(".errortext").removeClass("errortext");
+        if ($('#Fk_ProcpectId').val() == '0') {
+            $("#Fk_ProcpectId").addClass('errortext');
+            $('#Fk_ProcpectId').focus();
+            return false;
+        }
+        if ($('#FirstInstructionDate').val() == '') {
+            $("#FirstInstructionDate").addClass('errortext');
+            $('#FirstInstructionDate').focus();
+            return false;
+        }
+        if ($('#Fk_ExpectedProductCategoryId').val() == '0') {
+            $("#Fk_ExpectedProductCategoryId").addClass('errortext');
+            $('#Fk_ExpectedProductCategoryId').focus();
+            return false;
+        }
+        if ($('#Fk_SourceId').val() == '0') {
+            $("#Fk_SourceId").addClass('errortext');
+            $('#Fk_SourceId').focus();
+            return false;
+        }
+        if ($('#Fk_ExecutiveId').val() == '0') {
+            $("#Fk_ExecutiveId").addClass('errortext');
+            $('#Fk_ExecutiveId').focus();
+            return false;
+        }
+        if ($('#Fk_ModeInterActionId').val() == '0') {
+            $("#Fk_ModeInterActionId").addClass('errortext');
+            $('#Fk_ModeInterActionId').focus();
+            return false;
+        }
+        if ($('#FollowupDate').val() == '') {
+            $("#FollowupDate").addClass('errortext');
+            $('#FollowupDate').focus();
+            return false;
+        }
+
+
+        return true;
+    }
+
+    </script>
