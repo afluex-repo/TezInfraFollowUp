@@ -1,0 +1,97 @@
+﻿@model TejInfraFollowUp.Models.EmployeeDWR
+
+@{
+    ViewBag.Title = "GetEmployeeDWRList";
+    Layout = "~/Views/Shared/EmployeeLayout.cshtml";
+}
+
+<div class="page-wrapper">
+
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-5 align-self-center">
+                <h4 class="page-title"></h4>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">DWR</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Lead List </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    @using (Html.BeginForm("GetEmployeeDWRList", "EmployeeDWR", FormMethod.Post, new { @id = "signupForm", enctype = "multipart/form-data" }))
+    {
+        <div class="alert alert-success" style="display:@ViewBag.saverrormsg">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span> </button>
+            <h5 class="text-success"><i class="fa fa-check-circle"></i>@TempData["Error"]</h5>
+
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="file_export" class="table table-striped table-bordered display">
+                                <thead>
+                                    <tr>
+                                        <th>Action</th>
+                                        <th>Prospect Name</th>
+                                        <th>Lead Description</th>
+                                        <th>Next FollowUp Date</th>
+                                        <th>Remark</th>
+                                        <th>Business Chance</th>
+                                        <th>Mode Of Interaction</th>
+                                        <th>Executive Name</th>
+                                        <th>Meeting Date And Time </th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null)
+                                    {
+                                        if (Model.lstDWR != null)
+                                        {
+                                            foreach (var item in Model.lstDWR)
+                                            {
+                                                <tr>
+                                                    @Html.HiddenFor(m => m.Pk_DwrId)
+                                                    <td>
+                                                        <a href="/EmployeeDWR/DeleteDWR?Pk_LeadeId=@item.Pk_DwrId" class="label label-primary" onclick="return confirm('Are you want to delete?;')">Delete</a>
+                                                        &nbsp;
+                                                        @*   <a href="/DWR/ListDWR?Pk_LeadeId=@item.Pk_DwrId" class="label label-primary"  onclick>Add Comment</a>
+                                                            &nbsp;*@
+                                                    </td>
+
+                                                    <td>@item.Fk_ProcpectId</td>
+                                                    <td>@item.Fk_ExpectedProductCategoryId</td>
+                                                    <td>@item.NextFollowupDate</td>
+                                                    <td>@item.Remark</td>
+                                                    <td>@item.Fk_BusinessChanceId</td>
+                                                    <td>@item.Fk_ModeInterActionId</td>
+                                                    <td>@item.Fk_ExecutiveId</td>
+                                                    <td>@item.MeetingDate,@item.MeetingTime</td>
+
+
+
+                                                </tr>
+                                            }
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+

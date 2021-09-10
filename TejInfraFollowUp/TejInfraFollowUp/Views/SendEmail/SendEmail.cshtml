@@ -1,0 +1,163 @@
+﻿@model TejInfraFollowUp.Models.SendEmail
+
+@{
+    ViewBag.Title = "SendEmail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .errortext {
+        border: 1px solid red !important;
+        background-color: #f5c1cb !important;
+    }
+</style>
+<div class="page-wrapper">
+
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-5 align-self-center">
+                <h4 class="page-title"></h4>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Email</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Send Email</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    @using (Html.BeginForm("SendEmail", "SendEmail", FormMethod.Post, new { @id = "signupForm", enctype = "multipart/form-data" }))
+    {
+        
+        <div class="alert alert-success" style="display:@ViewBag.saverrormsg">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span> </button>
+            <h5 class="text-success"><i class="fa fa-check-circle"></i>@TempData["Message"]</h5>
+
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                  <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Enter Message </label>
+                                    <div class="col-md-6">
+                                        @Html.TextAreaFor(m => m.Message, new { @class = "form-control form-control-lg", @Placeholder = "Enter Your Message" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        <div class="col-md-3">
+                                <div class="form-group row">
+                                    <div class="col-md-9">
+                                        <input type="submit" value="Proceed" class="btn btn-primary" name="btnProceed" id="btnProceed" />
+                                    </div>
+                                </div>
+                            </div>
+                               </div>
+                           <div class="row">
+                             <div class="col-md-3">
+                                  <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Send SMS </label>
+                                       <input type="hidden" name="hdMobile" id="hdMobile"  />
+                                    <div class="col-md-9">
+                                          
+                                    <input type="checkbox" name="chksms" id="chksms"  checked="checked"/>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="col-md-3">
+                                  <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Send Email </label>
+                                    <div class="col-md-9">
+                                    <input type="checkbox" name="chkemail" id="chkemail"  checked="checked"/>
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="col-md-3">
+                                 
+                            </div>
+                                <div class="col-md-3">
+                                  
+                                </div>
+                            </div>
+                          
+                     @if(Model!=null)
+                     {
+                        <div class="table-responsive">
+                            <table  class="table table-striped table-bordered display">
+                                <thead>
+                                    <tr>
+                                        <th>SI No.</th>
+                                        <th></th>
+                                        <th>Name </th>
+                                        <th>Contact Number</th>
+                                        <th>Email ID</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null)
+                                    {
+                                        if (Model.lstEmail != null)
+                                        {
+                                            int i = 1;
+                                            foreach (var item in Model.lstEmail)
+                                            {
+                                        <tr>
+                                            <td>
+                                                @i
+                                                @Html.HiddenFor(m => m.Pk_Id)
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" checked="checked" name="chkSelect_ @i" id="chkSelect_ @i"/></td>
+                                            <td>@item.Name</td>
+                                            <td>
+                                                @item.ContactNo
+                                                <input type="hidden" value="@item.ContactNo" name="hdMobile_ @i" id="hdMobile_ @i" />
+                                            </td>
+                                            <td>
+                                                @item.EmailId
+                                                <input type="hidden" value="@item.EmailId" name="hdEmail_ @i" id="hdEmail_ @i" />
+                                            </td>
+
+                                        </tr>
+                                                i++;
+                                            }
+                                        <input type="hidden" id="hdRows" name="hdRows" value="@i" />
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                             <input type="submit" class="btn btn-success pull-right btn-sm" name="btnSendSms" id="btnSendSms" value="Send Sms" onclick="return validateservice();"/>
+                        </div>
+                     }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    }
+
+</div>
+<script>
+    function validateservice() {
+        $(".errortext").removeClass("errortext");
+        if ($('#Message').val() == '') {
+            $("#Message").addClass('errortext');
+            $('#Message').focus();
+            return false;
+        }
+
+        return true;
+    }
+
+</script>
+

@@ -1,0 +1,126 @@
+﻿@model TejInfraFollowUp.Models.Admin
+
+@{
+    ViewBag.Title = "EmailTemplate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-5 align-self-center">
+            <h4 class="page-title"></h4>
+            <div class="d-flex align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Masters</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Email Template</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("EmailTemplate", "Admin", FormMethod.Post, new { @id = "signupForm", enctype = "multipart/form-data" }))
+{
+    if (TempData["EmailTemplate"] != null)
+    {
+        <div class="@TempData["Class"]">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span> </button>
+            <h5 class="text-success"><i class="fa fa-check-circle"></i>@TempData["EmailTemplate"]</h5>
+        </div>
+    }
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">
+                        Email Template Master
+                        <a href="/Admin/SendEmail" class="btn btn-sm btn-success pull-right" style="margin-left: 65%;">Send Email</a>
+                    </h4>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label>Subject</label>
+                            @Html.TextBoxFor(m => m.Subject, new { @class = "form-control", @placeholder = "Subject of Email" })
+                        </div>
+                        <div class="col-md-6 form-group" style="display:none">
+                            <label>Select File</label>
+                            <input type="file" name="postedfile" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label>Body</label>
+                            <div id="emailbody"><p></p></div>
+                            @Html.HiddenFor(m => m.EmailBodyHTML)
+                            @*@Html.TextAreaFor(m => m.Body, new { @class="form-control", @rows="20"})*@
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <br />
+                            <input type="submit" value="Save Template" name="btnSaveTemplate" class="btn btn-sm btn-success" onclick="return validateForm();" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <style>
+        .errortext {
+            border: 1px solid red !important;
+            background-color: #ff00003b !important;
+        }
+    </style>
+
+    <script src = "../../assets/libs/jquery/dist/jquery.min.js" ></script >
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#divload").css({ 'display': 'none' });
+            $('#emailbody').summernote(
+            {
+                height: 150,
+                toolbar: [
+                  // [groupName, [list of button]]
+                  ['style', ['bold', 'italic', 'underline', 'clear']],
+                  ['font', ['strikethrough', 'superscript', 'subscript']],
+                  ['fontsize', ['fontsize']],
+                  ['para', ['ul', 'ol', 'paragraph']],
+                  ['height', ['height']]
+                ]
+            });
+        });
+
+        function validateForm() {
+            var emailBodyHTML = $('#emailbody').summernote('code');
+            $('#EmailBodyHTML').val(emailBodyHTML);
+
+            $(".errortext").removeClass("errortext");
+
+            if ($('#Subject').val() == '') {
+                $("#Subject").addClass('errortext');
+                $('#Subject').focus();
+                return false;
+            }
+            if ($('#Body').val() == '') {
+                $("#Body").addClass('errortext');
+                $('#Body').focus();
+                return false;
+            }
+
+        }
+    </script>
+    
+}
