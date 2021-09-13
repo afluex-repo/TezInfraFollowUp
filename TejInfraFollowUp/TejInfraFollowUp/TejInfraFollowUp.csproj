@@ -1026,6 +1026,7 @@
     <Folder Include="cdn.datatables.net\rowgroup\1.1.0\css\" />
     <Folder Include="cdn.datatables.net\scroller\1.5.1\css\" />
     <Folder Include="cdnjs.cloudflare.com\ajax\libs\twitter-bootstrap\2.3.2\css\" />
+    <Folder Include="Content\Upload\" />
     <Folder Include="dist\css\icons\flag-icon-css\flags\" />
     <Folder Include="PostImages\" />
     <Folder Include="SoftwareImages\" />

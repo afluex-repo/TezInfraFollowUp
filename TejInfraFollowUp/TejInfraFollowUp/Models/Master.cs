@@ -65,7 +65,7 @@ namespace TejInfraFollowUp.Models
         public string Address { get; set; }
         public string UserID { get; set; }
         public string LoginId { get; set; }
-        public HttpPostedFileBase Picfile { get; set; }
+        //public HttpPostedFileBase files { get; set; }
         public string Image { get; set; }
         public List<SelectListItem> ddlsite { get; set; }
 

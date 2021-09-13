@@ -71,7 +71,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 Image<span style="color: red">*</span>
-                               <input type="file" id="file" name="file" />
+                               <input type="file" id="fileInput" name="fileInput" multiple />
                             </div>
                         </div>
 
@@ -90,11 +90,11 @@
                                 <tbody id="TextBoxContainer">
                                     <tr class="mycontainer" id="mainrow">
                                         <td>
-                                            @Html.TextBoxFor(m => m.Name, new { @class = "CustomerName form-control", @Placeholder = "Customer Name" })
+                                            @Html.TextBoxFor(m => m.Name, new { @class = "Name form-control", @Placeholder = "Customer Name" })
 
                                         </td>
                                         <td>
-                                            @Html.TextBoxFor(m => m.MobileNo, new { @class = "Mobile form-control", @Placeholder = "Mobile Number", @onkeypress = "return isNumberKey(event)", @maxlength = "12" })
+                                            @Html.TextBoxFor(m => m.MobileNo, new { @class = "MobileNo form-control", @Placeholder = "Mobile Number", @onkeypress = "return isNumberKey(event)", @maxlength = "12" })
 
                                         </td>
                                         <td>
@@ -131,9 +131,11 @@
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
 
+
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>*@
+
     <script type="text/javascript">
         $(document).ready(function () {
-
             $('#Mobile').keypress(function () {
                 $('.Number').keypress(function (event) {
                     var keycode;
@@ -146,8 +148,6 @@
                     }
                 });
             });
-
-
             $('#add').click(function () {
                 debugger;
                 var isAllValid = true;
@@ -190,12 +190,8 @@
             $('#orderdetailsItems').on('click', '.remove', function () {
                 $(this).parents('tr').remove();
             });
-
-
             $('#btnsssubmit').click(function () {
                 var isAllValid = true;
-
-
                 if ($('#SiteID').val() == '0') {
                     $("#SiteID").addClass('errortext');
                     $('#SiteID').focus();
@@ -221,16 +217,6 @@
                     $("#divload").css({ 'display': 'none' });
                     return false;
                 }
-
-                if ($('#file').val() == '') {
-                    $("#file").addClass('errortext');
-                    $('#file').focus();
-                    $("#divload").css({ 'display': 'none' });
-                    return false;
-                }
-
-
-
                 $('#orderItemError').text('');
                 var list = [];
                 var errorItemCount = 0;
@@ -264,15 +250,49 @@
                     var data = {
                         AddData: JSON.stringify(list)
                     }
-                    debugger;
-                    //$(this).val('Please wait...');
+
+
+                //    if (window.FormData == undefined)
+                //    {
+                //        alert("Error: FormData is undefined");
+                //    }
+                //else {
+                //    var fileUpload = $("#fileToUpload").get(0);
+                //    var files = fileUpload.files;
+                //    var fileData = new FormData();
+                //    fileData.append(files[0].name, files[0]);
+                    //  }
+
+
+
+
+                    var files = $("#fileInput").get(0).files;
+                    var fileData = new FormData();
+
+                    for (var i = 0; i < files.length; i++) {
+                        fileData.append("fileInput", files[i]);
+                    }
+                   // $(this).val('Please wait...');
                     $.ajax({
-                        type: 'POST',
-                        url: 'Save',
-                        data: JSON.stringify({ dataValue: JSON.stringify(data), SiteID: $("#SiteID").val(), AssociateID: $("#UserID").val(), AssociateName: $("#AssociateName").val(), Amount: $("#Amount").val(), VisiteDate: $("#VisitDate").val(), file: $("#file").val() }),
-                        contentType: 'application/json',
-                        success: function (data) {
-                            if (data.status) {
+                        type: "POST",
+                        url: "/Master/save",
+                        dataType: "json",
+                        contentType: false, // Not to set any content header
+                        processData: false, // Not to process data
+                        data: fileData,
+
+
+
+
+                        //url: 'save',
+                        //type: 'POST',
+                        //processData: false,
+                        //contentType: false,
+                        //data: fileData,
+                        //data: JSON.stringify({ dataValue: JSON.stringify(data), SiteID: $("#SiteID").val(), AssociateID: $("#UserID").val(), AssociateName: $("#AssociateName").val(), Amount: $("#Amount").val(), VisiteDate: $("#VisitDate").val() }),
+                        //contentType: 'application/json',
+                        success: function (response) {
+                            if (response.status) {
 
                                 //here we will clear the form
                                 list = [];

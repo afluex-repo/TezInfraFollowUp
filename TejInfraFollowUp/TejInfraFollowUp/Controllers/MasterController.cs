@@ -1796,8 +1796,16 @@ namespace TejInfraFollowUp.Controllers
 
         
         [HttpPost]
-        public JsonResult save(HttpPostedFileBase Picfile, Master obj, string dataValue, string SiteID, string AssociateID, string AssociateName, string Amount, string VisiteDate,string file)
+        public JsonResult save(Master obj, string dataValue, string SiteID, string AssociateID, string AssociateName, string Amount, string VisiteDate)
         {
+            string path = Server.MapPath("~/Content/Upload/");
+            HttpFileCollectionBase files = Request.Files;
+            for (int i = 0; i < files.Count; i++)
+            {
+                HttpPostedFileBase file = files[i];
+                file.SaveAs(path + file.FileName);
+            }
+            return Json(files.Count + " Files Uploaded!");
 
             obj.VisitDate = string.IsNullOrEmpty(VisiteDate) ? null : Common.ConvertToSystemDate(VisiteDate, "dd/MM/yyyy");
             bool status = false;
@@ -1811,22 +1819,22 @@ namespace TejInfraFollowUp.Controllers
 
             VisitorDetails = JsonConvert.DeserializeObject<DataTable>(jdv["AddData"]);
             obj.dtVisitorDetails = VisitorDetails;
-            obj.AddedBy = Session["Pk_AdminId"].ToString();
+            //obj.AddedBy = Session["Pk_AdminId"].ToString();
 
 
-            if (Picfile != null)
-            {
-                var randomValue = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            //if (Picfile != null)
+            //{
+            //    var randomValue = DateTime.Now.ToString("yyyyMMddHHmmssfff");
 
-                string path = Server.MapPath("~/UploadFiles/");
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-                var fileName = randomValue + Path.GetFileName(Picfile.FileName);
-                Picfile.SaveAs(path + fileName);
-                obj.Image = fileName;
-                
+            //    string path = Server.MapPath("~/UploadFiles/");
+            //    if (!Directory.Exists(path))
+            //    {
+            //        Directory.CreateDirectory(path);
+            //    }
+            //    var fileName = randomValue + Path.GetFileName(Picfile.FileName);
+            //    Picfile.SaveAs(path + fileName);
+            //    obj.Image = fileName;
+
                 DataSet ds = new DataSet();
                  ds = obj.SaveVisitorDetails();
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
@@ -1845,7 +1853,7 @@ namespace TejInfraFollowUp.Controllers
                 {
                     TempData["Visitor"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
                 }
-            }
+            //}
             return new JsonResult { Data = new { status = status } };
         }
 
