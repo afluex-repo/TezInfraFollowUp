@@ -247,6 +247,7 @@
                 }
 
                 if (isAllValid) {
+                    debugger;
                     var data = {
                         AddData: JSON.stringify(list)
                     }
@@ -264,37 +265,25 @@
                     //  }
 
 
-
-
                     var files = $("#fileInput").get(0).files;
                     var fileData = new FormData();
 
                     for (var i = 0; i < files.length; i++) {
                         fileData.append("fileInput", files[i]);
                     }
-                   // $(this).val('Please wait...');
                     $.ajax({
-                        type: "POST",
-                        url: "/Master/save",
-                        dataType: "json",
-                        contentType: false, // Not to set any content header
-                        processData: false, // Not to process data
+                        url: 'save',
+                        type: 'POST',
+                        processData: false,
+                        contentType: false,
                         data: fileData,
-
-
-
-
-                        //url: 'save',
-                        //type: 'POST',
-                        //processData: false,
-                        //contentType: false,
-                        //data: fileData,
-                        //data: JSON.stringify({ dataValue: JSON.stringify(data), SiteID: $("#SiteID").val(), AssociateID: $("#UserID").val(), AssociateName: $("#AssociateName").val(), Amount: $("#Amount").val(), VisiteDate: $("#VisitDate").val() }),
-                        //contentType: 'application/json',
+                        data: JSON.stringify({ dataValue: JSON.stringify(data), SiteID: $("#SiteID").val(), AssociateID: $("#UserID").val(), AssociateName: $("#AssociateName").val(), Amount: $("#Amount").val(), VisiteDate: $("#VisitDate").val() }),
+                        contentType: 'application/json',
                         success: function (response) {
+                            alert(result);
                             if (response.status) {
 
-                                //here we will clear the form
+                               // here we will clear the form
                                 list = [];
 
                                 //$('#ExpenseID,#ExpenseName,#TransactionID,#PaymentMode').val('0');

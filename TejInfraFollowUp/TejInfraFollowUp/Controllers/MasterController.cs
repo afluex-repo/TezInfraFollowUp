@@ -1798,15 +1798,6 @@ namespace TejInfraFollowUp.Controllers
         [HttpPost]
         public JsonResult save(Master obj, string dataValue, string SiteID, string AssociateID, string AssociateName, string Amount, string VisiteDate)
         {
-            string path = Server.MapPath("~/Content/Upload/");
-            HttpFileCollectionBase files = Request.Files;
-            for (int i = 0; i < files.Count; i++)
-            {
-                HttpPostedFileBase file = files[i];
-                file.SaveAs(path + file.FileName);
-            }
-            return Json(files.Count + " Files Uploaded!");
-
             obj.VisitDate = string.IsNullOrEmpty(VisiteDate) ? null : Common.ConvertToSystemDate(VisiteDate, "dd/MM/yyyy");
             bool status = false;
             var isValidModel = TryUpdateModel(obj);
@@ -1819,7 +1810,7 @@ namespace TejInfraFollowUp.Controllers
 
             VisitorDetails = JsonConvert.DeserializeObject<DataTable>(jdv["AddData"]);
             obj.dtVisitorDetails = VisitorDetails;
-            //obj.AddedBy = Session["Pk_AdminId"].ToString();
+            obj.AddedBy = Session["UserID"].ToString();
 
 
             //if (Picfile != null)
@@ -1835,7 +1826,8 @@ namespace TejInfraFollowUp.Controllers
             //    Picfile.SaveAs(path + fileName);
             //    obj.Image = fileName;
 
-                DataSet ds = new DataSet();
+            
+               DataSet ds = new DataSet();
                  ds = obj.SaveVisitorDetails();
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
@@ -1858,5 +1850,33 @@ namespace TejInfraFollowUp.Controllers
         }
 
 
+        public ActionResult GetVisitorDetails()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ActionName("GetVisitorDetails")]
+        public ActionResult SearchVisitorDetails()
+        {
+            //Master model = new Master();
+            //List<Master> lst = new List<Master>();
+            //DataSet ds = model.GetVisitorDetails();
+            //if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            //{
+            //    foreach (DataRow r in ds.Tables[0].Rows)
+            //    {
+            //        Master obj = new Master();
+            //        obj.VisitorId = r["PK_VisitorMasterId"].ToString();
+            //        obj.SiteID = r["FK_SiteId"].ToString();
+            //        obj.AssociateID = r["AssociateID"].ToString();
+            //        obj.AssociateName = r["AssociateName"].ToString();
+            //        obj.Amount = r["Amount"].ToString();
+            //        obj.VisitDate = r["VisitDate"].ToString();
+            //        lst.Add(obj);
+            //    }
+            //    model.VisitorList = lst;
+            //}
+            return View();
+        }
     }
 }

@@ -57,6 +57,8 @@ namespace TejInfraFollowUp.Models
         public string SGST { get; set; }
         public string DateFormat { get; set; }
 
+        public string VisitorId { get; set; }
+        public string VisitorImage { get; set; }
         public string AssociateID { get; set; }
         public string AssociateName { get; set; }
         public string Amount { get; set; }
@@ -65,9 +67,10 @@ namespace TejInfraFollowUp.Models
         public string Address { get; set; }
         public string UserID { get; set; }
         public string LoginId { get; set; }
-        //public HttpPostedFileBase files { get; set; }
+        public HttpPostedFileBase files { get; set; }
         public string Image { get; set; }
         public List<SelectListItem> ddlsite { get; set; }
+        public List<Master> VisitorList { get; set; }
 
         public DataSet SaveSite()
         {
@@ -336,7 +339,7 @@ namespace TejInfraFollowUp.Models
         {
             SqlParameter[] para = {
                                       new SqlParameter("@FK_SiteID",SiteID),
-                                       new SqlParameter("@AssociateID", AssociateID),
+                                       new SqlParameter("@FK_AssociateId", AssociateID),
                                        new SqlParameter("@Amount", Amount),
                                        new SqlParameter("@VisiteDate", VisitDate),
                                        new SqlParameter("@VisitorImage", Image),
@@ -347,9 +350,10 @@ namespace TejInfraFollowUp.Models
             return ds;
         }
 
-
-
-
-
+        public DataSet GetVisitorDetails()
+        {
+            DataSet ds = DBHelper.ExecuteQuery("GetVisitorDetails");
+            return ds;
+        }
     }
 }
