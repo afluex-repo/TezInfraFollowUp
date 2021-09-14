@@ -1,0 +1,101 @@
+﻿@model TejInfraFollowUp.Models.Master
+@{
+    ViewBag.Title = "GetVisitorDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="page-wrapper">
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-5 align-self-center">
+                <h4 class="page-title"></h4>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Masters</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">GetVisitorDetails Master</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @using (Html.BeginForm("GetVisitorDetails", "Master", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+    {
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background: url(../../assets/images/big/auth-bg.jpg) no-repeat center center;min-height: 35vh;display: table-cell;">
+            <div class="auth-box" style="max-width:1286px;margin:0%">
+                <div id="loginform">
+                    <div class="logo">
+
+                        <p class="font-medium m-b-20" style="color:red">@TempData["Visitor"]</p>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                AssociateID 
+                                @Html.TextBoxFor(m => m.AssociateID, new { @class = "form-control", @Placeholder = "Affiliate ID", @onchange = "return GetAssociateNameByAssociateID();" })
+                                @Html.HiddenFor(m => m.UserID)
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                Visiting From Date
+                                @Html.TextBoxFor(m => m.VisitDate, new { @class = "form-control", @placeholder = "DD/MM/YYYY", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                Visiting To Date
+                                @Html.TextBoxFor(m => m.VisitDate, new { @class = "form-control", @placeholder = "DD/MM/YYYY", @readonly = "readonly" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input class="btn btn-success pull-left" type="submit" value="Search" id="btnsearch" name="Search" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>S No.</th>
+                    <th>Site</th>
+                    <th>Associate</th>
+                    <th>Associate Name</th>
+                    <th>Amount</th>
+                    <th>Visit Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    if (Model.VisitorList != null)
+                    {
+                        int i = 1;
+                        foreach (var item in Model.VisitorList)
+                        {
+                            <tr>
+                                @*<td>@i</td>
+                                <td>@item.SiteID</td>
+                                <td>@AssociateID</td>
+                                <td>@AssociateName</td>
+                                <td>@Amount</td>
+                                <td>@VisitDate</td>*@
+                            </tr>
+                            i++;
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    }
+</div>
+

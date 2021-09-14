@@ -1014,6 +1014,7 @@
     <Content Include="Views\Procpect\Procpect.cshtml" />
     <Content Include="Views\SendEmail\SendEmail.cshtml" />
     <Content Include="Views\Master\VisitorForm.cshtml" />
+    <Content Include="Views\Master\GetVisitorDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1028,7 +1029,6 @@
     <Folder Include="cdnjs.cloudflare.com\ajax\libs\twitter-bootstrap\2.3.2\css\" />
     <Folder Include="Content\Upload\" />
     <Folder Include="dist\css\icons\flag-icon-css\flags\" />
-    <Folder Include="PostImages\" />
     <Folder Include="SoftwareImages\" />
   </ItemGroup>
   <ItemGroup>
