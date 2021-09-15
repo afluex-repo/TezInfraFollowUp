@@ -352,14 +352,14 @@ namespace TejInfraFollowUp.Models
 
         public DataSet GetVisitorDetails()
         {
-            SqlParameter[] para = {
-                                      new SqlParameter("@PK_VisitorId",VisitorId),
-                                       new SqlParameter("@Associateid",AssociateID),
-                                       new SqlParameter("@FromDate", VisitDate),
-                                       new SqlParameter("@ToDate", VisitDate)
+            //SqlParameter[] para = {
+            //                          new SqlParameter("@PK_VisitorId",VisitorId),
+            //                           new SqlParameter("@Associateid",AssociateID),
+            //                           new SqlParameter("@FromDate", VisitDate),
+            //                           new SqlParameter("@ToDate", VisitDate)
                                   
-                                  };
-            DataSet ds = DBHelper.ExecuteQuery("GetVisitorDetails", para);
+            //                      };
+            DataSet ds = DBHelper.ExecuteQuery("GetVisitorDetails");
             return ds;
         }
     }
