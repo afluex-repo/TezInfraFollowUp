@@ -1856,6 +1856,28 @@ namespace TejInfraFollowUp.Controllers
 
         public ActionResult GetVisitorDetails()
         {
+            //Master model = new Master();
+            //List<Master> lst = new List<Master>();
+            //DataSet dss = model.GetVisitorDetails();
+            //if (dss != null && dss.Tables.Count > 0 && dss.Tables[0].Rows.Count > 0)
+            //{
+            //    foreach (DataRow r in dss.Tables[0].Rows)
+            //    {
+            //        Master obj = new Master();
+            //        obj.VisitorId = r["PK_VisitorDetailsID"].ToString();
+                    //obj.SiteName = r["SiteName"].ToString();
+                    //obj.AssociateID = r["LoginId"].ToString();
+                    //obj.AssociateName = r["AssociateName"].ToString();
+                    //obj.Amount = r["Amount"].ToString();
+                    //obj.VisitDate = r["VisitDate"].ToString();
+                    //obj.VisitorImage = r["VisitorImage"].ToString();
+            //        obj.Name = r["Name"].ToString();
+            //        obj.MobileNo = r["Mobile"].ToString();
+            //        obj.Address = r["Address"].ToString();
+            //        lst.Add(obj);
+            //    }
+            //    model.VisitorList = lst;
+            //}
             return View();
         }
         [HttpPost]
@@ -1877,6 +1899,7 @@ namespace TejInfraFollowUp.Controllers
                     obj.AssociateID = r["LoginId"].ToString();
                     obj.AssociateName = r["AssociateName"].ToString();
                     obj.Amount = r["Amount"].ToString();
+                    obj.VisitDate = r["VisitDate"].ToString();
                     obj.VisitDate = r["VisitDate"].ToString();
                     obj.VisitorImage = r["VisitorImage"].ToString();
                     obj.Name = r["Name"].ToString();
