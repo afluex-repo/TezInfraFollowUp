@@ -1796,8 +1796,12 @@ namespace TejInfraFollowUp.Controllers
 
         
         [HttpPost]
-        public JsonResult save(Master obj, string dataValue, string SiteID, string AssociateID, string AssociateName, string Amount, string VisiteDate)
+        public JsonResult save(Master obj, string dataValue,string SiteID, string AssociateID, string Amount, string VisiteDate)// string AssociateName,
         {
+            if (System.Web.HttpContext.Current.Request.Files.AllKeys.Any())
+            {
+                var pic = System.Web.HttpContext.Current.Request.Files["HelpSectionImages"];
+            }
             obj.VisitDate = string.IsNullOrEmpty(VisiteDate) ? null : Common.ConvertToSystemDate(VisiteDate, "dd/MM/yyyy");
             bool status = false;
             var isValidModel = TryUpdateModel(obj);
@@ -1858,25 +1862,31 @@ namespace TejInfraFollowUp.Controllers
         [ActionName("GetVisitorDetails")]
         public ActionResult SearchVisitorDetails()
         {
-            //Master model = new Master();
-            //List<Master> lst = new List<Master>();
-            //DataSet ds = model.GetVisitorDetails();
-            //if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            //{
-            //    foreach (DataRow r in ds.Tables[0].Rows)
-            //    {
-            //        Master obj = new Master();
-            //        obj.VisitorId = r["PK_VisitorMasterId"].ToString();
-            //        obj.SiteID = r["FK_SiteId"].ToString();
-            //        obj.AssociateID = r["AssociateID"].ToString();
-            //        obj.AssociateName = r["AssociateName"].ToString();
-            //        obj.Amount = r["Amount"].ToString();
-            //        obj.VisitDate = r["VisitDate"].ToString();
-            //        lst.Add(obj);
-            //    }
-            //    model.VisitorList = lst;
-            //}
-            return View();
+            Master model = new Master();
+            List<Master> lst = new List<Master>();
+            model.VisitDate = string.IsNullOrEmpty(model.VisitDate) ? null : Common.ConvertToSystemDate(model.VisitDate, "dd/MM/yyyy");
+            model.VisitDate = string.IsNullOrEmpty(model.VisitDate) ? null : Common.ConvertToSystemDate(model.VisitDate, "dd/MM/yyyy");
+            DataSet ds = model.GetVisitorDetails();
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow r in ds.Tables[0].Rows)
+                {
+                    Master obj = new Master();
+                    obj.VisitorId = r["PK_VisitorMasterID"].ToString();
+                    obj.SiteName = r["SiteName"].ToString();
+                    obj.AssociateID = r["LoginId"].ToString();
+                    obj.AssociateName = r["AssociateName"].ToString();
+                    obj.Amount = r["Amount"].ToString();
+                    obj.VisitDate = r["VisitDate"].ToString();
+                    obj.VisitorImage = r["VisitorImage"].ToString();
+                    obj.Name = r["Name"].ToString();
+                    obj.MobileNo = r["Mobile"].ToString();
+                    obj.Address = r["Address"].ToString();
+                    lst.Add(obj);
+                }
+                model.VisitorList = lst;
+            }
+            return View(model);
         }
     }
 }

@@ -249,10 +249,10 @@
                 if (isAllValid) {
                     debugger;
                     var data = {
-                        AddData: JSON.stringify(list)
+                        AddData: JSON.stringify(list),
+                        files : $("#fileInput").get(0).files,
+                        image:data.append("HelpSectionImages", files[0])
                     }
-
-
                 //    if (window.FormData == undefined)
                 //    {
                 //        alert("Error: FormData is undefined");
@@ -263,13 +263,10 @@
                 //    var fileData = new FormData();
                 //    fileData.append(files[0].name, files[0]);
                     //  }
-
-
+                    var Image = new FormData();
                     var files = $("#fileInput").get(0).files;
-                    var fileData = new FormData();
-
-                    for (var i = 0; i < files.length; i++) {
-                        fileData.append("fileInput", files[i]);
+                    if (files.length > 0) {
+                        Image.append("HelpSectionImages", files[0]);
                     }
                     $.ajax({
                         url: 'save',
@@ -277,10 +274,10 @@
                         processData: false,
                         contentType: false,
                         data: fileData,
-                        data: JSON.stringify({ dataValue: JSON.stringify(data), SiteID: $("#SiteID").val(), AssociateID: $("#UserID").val(), AssociateName: $("#AssociateName").val(), Amount: $("#Amount").val(), VisiteDate: $("#VisitDate").val() }),
+                        data: JSON.stringify({ dataValue: JSON.stringify(data), SiteID: $("#SiteID").val(), AssociateID: $("#UserID").val(), Amount: $("#Amount").val(), VisiteDate: $("#VisitDate").val() }), //AssociateName: $("#AssociateName").val(),
                         contentType: 'application/json',
                         success: function (response) {
-                            alert(result);
+                            //alert(result);
                             if (response.status) {
 
                                // here we will clear the form
@@ -304,8 +301,6 @@
                     $('#submit').text('Save');
                 }
             });
-
-
         });
     </script>
     <script>
@@ -328,6 +323,7 @@
                 return false;
             return true;
         }
+    
         function GetAssociateNameByAssociateID() {
             $("#divload").css({ 'display': '' });
 

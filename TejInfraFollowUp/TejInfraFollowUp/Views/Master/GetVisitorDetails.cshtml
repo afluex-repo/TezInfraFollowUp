@@ -68,10 +68,13 @@
                 <tr>
                     <th>S No.</th>
                     <th>Site</th>
-                    <th>Associate</th>
+                    <th>AssociateId</th>
                     <th>Associate Name</th>
                     <th>Amount</th>
                     <th>Visit Date</th>
+                    <th>Customer Name</th>
+                    <th>Mobile</th>
+                    <th>Address</th>
                 </tr>
             </thead>
             <tbody>
@@ -83,12 +86,15 @@
                         foreach (var item in Model.VisitorList)
                         {
                             <tr>
-                                @*<td>@i</td>
+                                <td>@i</td>
                                 <td>@item.SiteID</td>
-                                <td>@AssociateID</td>
-                                <td>@AssociateName</td>
-                                <td>@Amount</td>
-                                <td>@VisitDate</td>*@
+                                <td>@item.AssociateID</td>
+                                <td>@item.AssociateName</td>
+                                <td>@item.Amount</td>
+                                <td>@item.VisitDate</td>
+                                <td>@item.Name</td>
+                                <td>@item.MobileNo</td>
+                                <td>@item.Address</td>
                             </tr>
                             i++;
                         }
