@@ -71,7 +71,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 Image<span style="color: red">*</span>
-                               <input type="file" id="fileInput" name="fileInput" multiple />
+                                <input type="file" name="postedFile1" id="Image" onchange="readURL(this)" />
                             </div>
                         </div>
 
@@ -250,31 +250,23 @@
                     debugger;
                     var data = {
                         AddData: JSON.stringify(list),
-                        files : $("#fileInput").get(0).files,
-                        image:data.append("HelpSectionImages", files[0])
                     }
-                //    if (window.FormData == undefined)
-                //    {
-                //        alert("Error: FormData is undefined");
-                //    }
-                //else {
-                //    var fileUpload = $("#fileToUpload").get(0);
-                //    var files = fileUpload.files;
-                //    var fileData = new FormData();
-                //    fileData.append(files[0].name, files[0]);
-                    //  }
-                    var Image = new FormData();
-                    var files = $("#fileInput").get(0).files;
-                    if (files.length > 0) {
-                        Image.append("HelpSectionImages", files[0]);
+                  debugger
+                    var formData = new FormData();
+                    var totalFiles = document.getElementById("Image").files.length;
+                    for (var i = 0; i < totalFiles; i++) {
+                        var file = document.getElementById("Image").files[i];
+                        formData.append("FileUpload", file);
                     }
                     $.ajax({
                         url: 'save',
-                        type: 'POST',
-                        processData: false,
-                        contentType: false,
-                        data: fileData,
-                        data: JSON.stringify({ dataValue: JSON.stringify(data), SiteID: $("#SiteID").val(), AssociateID: $("#UserID").val(), Amount: $("#Amount").val(), VisiteDate: $("#VisitDate").val() }), //AssociateName: $("#AssociateName").val(),
+                        Type: "POST",
+                        DataType: "JSON",
+                        data: { dataValue: JSON.stringify(data), SiteID: $("#SiteID").val(), AssociateID: $("#UserID").val(), Amount: $("#Amount").val(), VisiteDate: $("#VisitDate").val(), postedFile1: formData},
+                        //type: 'POST',
+                        //processData: false,
+                        //contentType: false,
+                        //data: JSON.stringify({ dataValue: JSON.stringify(data), SiteID: $("#SiteID").val(), AssociateID: $("#UserID").val(), Amount: $("#Amount").val(), VisiteDate: $("#VisitDate").val(), postedFile1: $("#Image").val() }), //AssociateName: $("#AssociateName").val(),
                         contentType: 'application/json',
                         success: function (response) {
                             //alert(result);
@@ -302,12 +294,20 @@
                 }
             });
         });
+
     </script>
     <script>
-
-        $(document).ready(function () {
-            $("#divload").css({ 'display': 'none' });
-        });
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#ContentPlaceHolder1_imgProductImage')
+                        .attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+               
+            }
+        }
         function isNumberOrDecimal(evt) {
             var charCode = (evt.which) ? evt.which : evt.keyCode;
             if (charCode != 46 && charCode > 31

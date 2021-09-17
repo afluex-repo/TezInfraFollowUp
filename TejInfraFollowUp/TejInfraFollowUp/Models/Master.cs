@@ -71,6 +71,7 @@ namespace TejInfraFollowUp.Models
         public string Image { get; set; }
         public List<SelectListItem> ddlsite { get; set; }
         public List<Master> VisitorList { get; set; }
+        public string postedFile1 { get; set; }
 
         public DataSet SaveSite()
         {

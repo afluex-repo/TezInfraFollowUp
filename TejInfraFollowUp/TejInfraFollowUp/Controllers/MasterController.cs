@@ -1793,15 +1793,10 @@ namespace TejInfraFollowUp.Controllers
                 return View(ex.Message);
             }
         }
-
-        
-        [HttpPost]
-        public JsonResult save(Master obj, string dataValue,string SiteID, string AssociateID, string Amount, string VisiteDate)// string AssociateName,
+        public ActionResult save(Master obj, string dataValue,string SiteID, string AssociateID, string Amount, string VisiteDate, string postedFile1)// string AssociateName,
         {
-            if (System.Web.HttpContext.Current.Request.Files.AllKeys.Any())
-            {
-                var pic = System.Web.HttpContext.Current.Request.Files["HelpSectionImages"];
-            }
+    
+
             obj.VisitDate = string.IsNullOrEmpty(VisiteDate) ? null : Common.ConvertToSystemDate(VisiteDate, "dd/MM/yyyy");
             bool status = false;
             var isValidModel = TryUpdateModel(obj);
