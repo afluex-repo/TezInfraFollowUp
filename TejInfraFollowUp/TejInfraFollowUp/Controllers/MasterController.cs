@@ -1882,6 +1882,7 @@ namespace TejInfraFollowUp.Controllers
         }
         [HttpPost]
         [ActionName("GetVisitorDetails")]
+        [OnAction(ButtonName = "Search")]
         public ActionResult SearchVisitorDetails()
         {
             Master model = new Master();
