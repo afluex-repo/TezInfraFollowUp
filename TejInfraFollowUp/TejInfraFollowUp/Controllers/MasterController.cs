@@ -1793,62 +1793,122 @@ namespace TejInfraFollowUp.Controllers
                 return View(ex.Message);
             }
         }
-        public ActionResult save(Master obj, string dataValue,string SiteID, string AssociateID, string Amount, string VisiteDate, string postedFile1)// string AssociateName,
+        [HttpPost]
+        public JsonResult AddProfile(Master userDetail)
         {
-    
-
-            obj.VisitDate = string.IsNullOrEmpty(VisiteDate) ? null : Common.ConvertToSystemDate(VisiteDate, "dd/MM/yyyy");
+            var profile = Request.Files;
             bool status = false;
-            var isValidModel = TryUpdateModel(obj);
-            var jss = new JavaScriptSerializer();
-            var jdv = jss.Deserialize<dynamic>(dataValue);
-
-            //var serializeData = JsonConvert.DeserializeObject<List<Customer>>(empdata);
-            //System.Globalization.CultureInfo ci = System.Globalization.CultureInfo.CreateSpecificCulture("en-GB");
-            DataTable VisitorDetails = new DataTable();
-
-            VisitorDetails = JsonConvert.DeserializeObject<DataTable>(jdv["AddData"]);
-            obj.dtVisitorDetails = VisitorDetails;
-            obj.AddedBy = Session["UserID"].ToString();
-
-
-            //if (Picfile != null)
+            var datavalue= Request["dataValue"];
+            //string imgname = string.Empty;
+            //string ImageName = string.Empty;
+            //HttpPostedFileBase postedFile = Request.Files["Image"];
+            //if (postedFile != null)
             //{
-            //    var randomValue = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-
-            //    string path = Server.MapPath("~/UploadFiles/");
-            //    if (!Directory.Exists(path))
+            //    userDetail.Image = "../VisitorImage/" + Guid.NewGuid() + Path.GetExtension(postedFile.FileName);
+            //    postedFile.SaveAs(Path.Combine(Server.MapPath(userDetail.Image)));
+            //}
+            //if (System.Web.HttpContext.Current.Request.Files.AllKeys.Any())
+            //{
+            //    var logo = System.Web.HttpContext.Current.Request.Files["Image"];
+            //    if (logo.ContentLength > 0)
             //    {
-            //        Directory.CreateDirectory(path);
-            //    }
-            //    var fileName = randomValue + Path.GetFileName(Picfile.FileName);
-            //    Picfile.SaveAs(path + fileName);
-            //    obj.Image = fileName;
+            //        var profileName = Path.GetFileName(logo.FileName);
+            //        var ext = Path.GetExtension(logo.FileName);
 
-            
-               DataSet ds = new DataSet();
-                 ds = obj.SaveVisitorDetails();
-                if (ds != null && ds.Tables[0].Rows.Count > 0)
+            //        ImageName = profileName;
+
+            //        var comPath = Server.MapPath("../VisitorImage/") + ImageName;
+
+            //        logo.SaveAs(comPath);
+            //        userDetail.Image = comPath;
+            //    }
+
+            //}
+            //else
+            //userDetail.Image = Server.MapPath("../VisitorImage/") + "profile.jpg";
+            userDetail.VisitDate = string.IsNullOrEmpty(userDetail.VisitDate) ? null : Common.ConvertToSystemDate(userDetail.VisitDate, "dd/MM/yyyy");
+            var jss = new JavaScriptSerializer();
+            var jdv = jss.Deserialize<dynamic>(Request["dataValue"]);
+            DataTable VisitorDetails = new DataTable();
+            VisitorDetails = JsonConvert.DeserializeObject<DataTable>(jdv["AddData"]);
+            userDetail.dtVisitorDetails = VisitorDetails;
+            userDetail.AddedBy = Session["UserID"].ToString();
+            DataSet ds = new DataSet();
+            ds = userDetail.SaveVisitorDetails();
+
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            {
+                if (ds.Tables[0].Rows[0][0].ToString() == "1")
                 {
-                    if (ds.Tables[0].Rows[0][0].ToString() == "1")
-                    {
-                        TempData["Visitor"] = "Visitor Details saved successfully";
-                        status = true;
-                    }
-                    else if (ds.Tables[0].Rows[0][0].ToString() == "0")
-                    {
-                        TempData["Visitor"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
-                    }
+                    TempData["Visitor"] = "Visitor Details saved successfully";
+                    status = true;
                 }
-                else
+                else if (ds.Tables[0].Rows[0][0].ToString() == "0")
                 {
                     TempData["Visitor"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
                 }
-            //}
+            }
+            else
+            {
+                TempData["Visitor"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+            }
             return new JsonResult { Data = new { status = status } };
         }
 
+        //public ActionResult save(Master obj, string dataValue, string SiteID, string AssociateID, string Amount, string VisiteDate, string postedFile1)// string AssociateName,
+        //{
 
+
+        //    obj.VisitDate = string.IsNullOrEmpty(VisiteDate) ? null : Common.ConvertToSystemDate(VisiteDate, "dd/MM/yyyy");
+        //    bool status = false;
+        //    var isValidModel = TryUpdateModel(obj);
+        //    var jss = new JavaScriptSerializer();
+        //    var jdv = jss.Deserialize<dynamic>(dataValue);
+
+        //    //var serializeData = JsonConvert.DeserializeObject<List<Customer>>(empdata);
+        //    //System.Globalization.CultureInfo ci = System.Globalization.CultureInfo.CreateSpecificCulture("en-GB");
+        //    DataTable VisitorDetails = new DataTable();
+
+        //    VisitorDetails = JsonConvert.DeserializeObject<DataTable>(jdv["AddData"]);
+        //    obj.dtVisitorDetails = VisitorDetails;
+        //    obj.AddedBy = Session["UserID"].ToString();
+
+
+        //    //if (Picfile != null)
+        //    //{
+        //    //    var randomValue = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+
+        //    //    string path = Server.MapPath("~/UploadFiles/");
+        //    //    if (!Directory.Exists(path))
+        //    //    {
+        //    //        Directory.CreateDirectory(path);
+        //    //    }
+        //    //    var fileName = randomValue + Path.GetFileName(Picfile.FileName);
+        //    //    Picfile.SaveAs(path + fileName);
+        //    //    obj.Image = fileName;
+
+
+        //    DataSet ds = new DataSet();
+        //    ds = obj.SaveVisitorDetails();
+        //    if (ds != null && ds.Tables[0].Rows.Count > 0)
+        //    {
+        //        if (ds.Tables[0].Rows[0][0].ToString() == "1")
+        //        {
+        //            TempData["Visitor"] = "Visitor Details saved successfully";
+        //            status = true;
+        //        }
+        //        else if (ds.Tables[0].Rows[0][0].ToString() == "0")
+        //        {
+        //            TempData["Visitor"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+        //        }
+        //    }
+        //    else
+        //    {
+        //        TempData["Visitor"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+        //    }
+        //    //}
+        //    return new JsonResult { Data = new { status = status } };
+        //}
         public ActionResult GetVisitorDetails()
         {
             //Master model = new Master();
@@ -1877,19 +1937,19 @@ namespace TejInfraFollowUp.Controllers
         }
         [HttpPost]
         [ActionName("GetVisitorDetails")]
-        public ActionResult SearchVisitorDetails()
+        public ActionResult SearchVisitorDetails(Master model)
         {
-            Master model = new Master();
+            
             List<Master> lst = new List<Master>();
-            model.VisitDate = string.IsNullOrEmpty(model.VisitDate) ? null : Common.ConvertToSystemDate(model.VisitDate, "dd/MM/yyyy");
-            model.VisitDate = string.IsNullOrEmpty(model.VisitDate) ? null : Common.ConvertToSystemDate(model.VisitDate, "dd/MM/yyyy");
+            model.FromDate = string.IsNullOrEmpty(model.FromDate) ? null : Common.ConvertToSystemDate(model.FromDate, "dd/MM/yyyy");
+            model.ToDate = string.IsNullOrEmpty(model.ToDate) ? null : Common.ConvertToSystemDate(model.ToDate, "dd/MM/yyyy");
             DataSet ds = model.GetVisitorDetails();
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow r in ds.Tables[0].Rows)
                 {
                     Master obj = new Master();
-                    obj.VisitorId = r["PK_VisitorMasterID"].ToString();
+                    obj.EncryptKey = Crypto.Encrypt(r["PK_VisitorMasterID"].ToString());
                     obj.SiteName = r["SiteName"].ToString();
                     obj.AssociateID = r["LoginId"].ToString();
                     obj.AssociateName = r["AssociateName"].ToString();
@@ -1897,14 +1957,46 @@ namespace TejInfraFollowUp.Controllers
                     obj.VisitDate = r["VisitDate"].ToString();
                     obj.VisitDate = r["VisitDate"].ToString();
                     obj.VisitorImage = r["VisitorImage"].ToString();
-                    obj.Name = r["Name"].ToString();
-                    obj.MobileNo = r["Mobile"].ToString();
-                    obj.Address = r["Address"].ToString();
+                    obj.VehicleNumber = r["VehicleDetails"].ToString();
+                    //obj.Name = r["Name"].ToString();
+                    //obj.MobileNo = r["Mobile"].ToString();
+                    //obj.Address = r["Address"].ToString();
                     lst.Add(obj);
                 }
                 model.VisitorList = lst;
             }
             return View(model);
+        }
+        public ActionResult PrintVisitor(string Id)
+        {
+            Master newdata = new Master();
+            List<Master> lstvisitor = new List<Master>();
+            newdata.VisitorId = Crypto.Decrypt(Id);
+            DataSet ds = newdata.VisitorListById();
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            {
+                ViewBag.PK_VisitorID = ds.Tables[0].Rows[0]["PK_VisitorMasterID"].ToString();
+                ViewBag.SiteName = ds.Tables[0].Rows[0]["SiteName"].ToString();
+                ViewBag.LoginId = ds.Tables[0].Rows[0]["LoginId"].ToString();
+                ViewBag.AssociateName = ds.Tables[0].Rows[0]["AssociateName"].ToString();
+                ViewBag.Amount = ds.Tables[0].Rows[0]["Amount"].ToString();
+                ViewBag.VisitDate = ds.Tables[0].Rows[0]["VisitDate"].ToString();
+                ViewBag.Image = ds.Tables[0].Rows[0]["VisitorImage"].ToString();
+                ViewBag.VehicleDetails = ds.Tables[0].Rows[0]["VehicleDetails"].ToString();
+                if (ds.Tables[1].Rows.Count > 0)
+                {
+                    foreach (DataRow r in ds.Tables[1].Rows)
+                    {
+                        Master obj = new Master();
+                        obj.Name = r["Name"].ToString();
+                        obj.MobileNo = r["Mobile"].ToString();
+                        obj.Address = r["Address"].ToString();
+                        lstvisitor.Add(obj);
+                    }
+                }
+                newdata.VisitorList = lstvisitor;
+            }
+            return View(newdata);
         }
     }
 }

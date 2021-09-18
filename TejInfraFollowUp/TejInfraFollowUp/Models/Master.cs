@@ -72,7 +72,19 @@ namespace TejInfraFollowUp.Models
         public List<SelectListItem> ddlsite { get; set; }
         public List<Master> VisitorList { get; set; }
         public string postedFile1 { get; set; }
-
+        public string EncryptKey { get; set; }
+        public string VehicleNumber { get; set; }
+        public string ToDate { get; set; }
+        public string FromDate { get; set; }
+        public DataSet VisitorListById()
+        {
+            SqlParameter[] para =
+            {
+                new SqlParameter("@PK_VisitorId",VisitorId),
+            };
+            DataSet ds = DBHelper.ExecuteQuery("VisitorListById", para);
+            return ds;
+        }
         public DataSet SaveSite()
         {
             SqlParameter[] para ={new SqlParameter ("@SiteMaster",dtSiteMaster),
@@ -345,6 +357,8 @@ namespace TejInfraFollowUp.Models
                                        new SqlParameter("@VisiteDate", VisitDate),
                                        new SqlParameter("@VisitorImage", Image),
                                        new SqlParameter("@AddedBy", AddedBy),
+                                       new SqlParameter("@AssociateName",AssociateName),
+                                       new SqlParameter("@VehicleDetails",VehicleNumber),
                                       new SqlParameter("@DtVisitorDetail",dtVisitorDetails)
                                   };
             DataSet ds = DBHelper.ExecuteQuery("SaveVisitor", para);
@@ -353,14 +367,14 @@ namespace TejInfraFollowUp.Models
 
         public DataSet GetVisitorDetails()
         {
-            //SqlParameter[] para = {
-            //                          new SqlParameter("@PK_VisitorId",VisitorId),
-            //                           new SqlParameter("@Associateid",AssociateID),
-            //                           new SqlParameter("@FromDate", VisitDate),
-            //                           new SqlParameter("@ToDate", VisitDate)
-                                  
-            //                      };
-            DataSet ds = DBHelper.ExecuteQuery("GetVisitorDetails");
+            SqlParameter[] para = {
+                                      new SqlParameter("@PK_VisitorId",VisitorId),
+                                       new SqlParameter("@Associateid",AssociateID),
+                                       new SqlParameter("@FromDate", FromDate),
+                                       new SqlParameter("@ToDate", ToDate)
+
+                                  };
+            DataSet ds = DBHelper.ExecuteQuery("GetVisitorDetails",para);
             return ds;
         }
     }

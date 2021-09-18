@@ -338,6 +338,7 @@
     <Content Include="assets\images\logo-light-icon.png" />
     <Content Include="assets\images\logo-light-text.png" />
     <Content Include="assets\images\logo-text.png" />
+    <Content Include="assets\images\logotej.png" />
     <Content Include="assets\images\product\chair.png" />
     <Content Include="assets\images\product\chair2.png" />
     <Content Include="assets\images\product\chair3.png" />
@@ -941,6 +942,7 @@
     <Content Include="emailDesign\vendor\font-awesome\scss\_spinning.scss" />
     <Content Include="emailDesign\vendor\font-awesome\scss\_stacked.scss" />
     <Content Include="emailDesign\vendor\font-awesome\scss\_variables.scss" />
+    <None Include="Properties\PublishProfiles\Tejfollowup.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -969,7 +971,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Home\SendTejInfraFollowUpMail.cshtml" />
     <Content Include="Views\Shared\EmployeeLayout.cshtml" />
     <Content Include="Views\Admin\DashBoard.cshtml" />
     <Content Include="Views\Admin\EmailMaster.cshtml" />
@@ -1015,6 +1016,7 @@
     <Content Include="Views\SendEmail\SendEmail.cshtml" />
     <Content Include="Views\Master\VisitorForm.cshtml" />
     <Content Include="Views\Master\GetVisitorDetails.cshtml" />
+    <Content Include="Views\Master\PrintVisitor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1029,7 +1031,9 @@
     <Folder Include="cdnjs.cloudflare.com\ajax\libs\twitter-bootstrap\2.3.2\css\" />
     <Folder Include="Content\Upload\" />
     <Folder Include="dist\css\icons\flag-icon-css\flags\" />
+    <Folder Include="ProspectImage\" />
     <Folder Include="SoftwareImages\" />
+    <Folder Include="VisitorImage\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
