@@ -1739,8 +1739,8 @@ namespace TejInfraFollowUp.Controllers
 
         }
 
-        
 
+        
         public ActionResult VisitorForm()
         {
             Master model = new Master();
@@ -1761,6 +1761,22 @@ namespace TejInfraFollowUp.Controllers
             }
             ViewBag.ddlsite = ddlsite;
 
+            int count2 = 0;
+            List<SelectListItem> ddlCategoryName = new List<SelectListItem>();
+            DataSet ds1 = model.GetCategoryName();
+            if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds1.Tables[0].Rows)
+                {
+                    if (count2 == 0)
+                    {
+                        ddlsite.Add(new SelectListItem { Text = "-select-", Value = "0" });
+                    }
+                    ddlCategoryName.Add(new SelectListItem { Text = dr["CategoryName"].ToString(), Value = dr["Pk_CategoryId"].ToString() });
+                    count2 = count2 + 1;
+                }
+            }
+            ViewBag.ddlCategoryName = ddlCategoryName;
             return View();
         }
 
@@ -1949,11 +1965,13 @@ namespace TejInfraFollowUp.Controllers
                 foreach (DataRow r in ds.Tables[0].Rows)
                 {
                     Master obj = new Master();
-                    obj.EncryptKey = Crypto.Encrypt(r["PK_VisitorMasterID"].ToString());
+                    obj.VisitorId = r["PK_VisitorMasterID"].ToString();
+                    obj.VisitorImage = r["VisitorImage"].ToString();
                     obj.SiteName = r["SiteName"].ToString();
-                    obj.AssociateID = r["LoginId"].ToString();
+                    obj.LoginId = r["LoginId"].ToString();
                     obj.AssociateName = r["AssociateName"].ToString();
-                    obj.Amount = r["Amount"].ToString();
+                    obj.VehicleDetails = r["VehicleDetails"].ToString();
+                    obj.CategoryName = r["CategoryName"].ToString();
                     obj.VisitDate = r["VisitDate"].ToString();
                     obj.VisitDate = r["VisitDate"].ToString();
                     obj.VisitorImage = r["VisitorImage"].ToString();

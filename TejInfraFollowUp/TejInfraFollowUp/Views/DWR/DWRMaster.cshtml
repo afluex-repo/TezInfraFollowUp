@@ -193,7 +193,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-4">
                         <div class="form-group row">
                             <label class="control-label text-right col-md-3"> Meeting Date <span style="color: red">*</span></label>
@@ -201,6 +200,15 @@
 
 
                                 @Html.TextBoxFor(f => f.MeetingTime, new { @class = "form-control", @Placeholder = "Meeting Time" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">File Upload</label>
+                            <div class="col-md-9">
+
+                                <input type="file" name="postedFile" />
                             </div>
                         </div>
                     </div>
@@ -221,6 +229,7 @@
                         </div>
                     </div>
 
+                    <br /><br /><br />
 
                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                         <thead>

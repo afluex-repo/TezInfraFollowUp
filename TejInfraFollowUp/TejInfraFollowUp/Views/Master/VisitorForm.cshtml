@@ -53,10 +53,16 @@
                                 @Html.TextBoxFor(m => m.AssociateName, new { @class = "form-control", @Placeholder = "Associate Name" })
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        @*<div class="col-md-2">
                             <div class="form-group">
                                 Amount<span style="color: red">*</span>
                                 @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @Placeholder = "Amount", @onkeypress = "return isNumberOrDecimal(event)" })
+                            </div>
+                        </div>*@
+                        <div class="col-md-2">
+                            <div class="form-group">
+                               Category Name <span style="color: red">*</span>
+                                @Html.DropDownListFor(m => m.Pk_CategoryId, new SelectList(ViewBag.ddlCategoryName, "Value", "Text"), new { @class = "form-control" })
                             </div>
                         </div>
 
@@ -267,7 +273,8 @@
                     formData.append("Image", files[0]);
                     formData.append("SiteID", $('#SiteID').val());
                     formData.append("AssociateID", $('#UserID').val());
-                    formData.append("Amount", $('#Amount').val());
+                    formData.append("Pk_CategoryId", $('#Pk_CategoryId').val());
+                    //formData.append("Amount", $('#Amount').val());
                     formData.append("VisitDate", $('#VisitDate').val());
                     formData.append("AssociateName", $('#AssociateName').val());
                     formData.append("VehicleNumber", $('#VehicleNumber').val());

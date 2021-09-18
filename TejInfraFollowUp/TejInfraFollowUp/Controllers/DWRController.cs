@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
 
 namespace TejInfraFollowUp.Controllers
 {
@@ -233,15 +234,20 @@ namespace TejInfraFollowUp.Controllers
         [HttpPost]
         [ActionName("DWRMaster")]
         [OnAction(ButtonName = "btnSave")]
-        public ActionResult DWRMaster(DWR model)
+        public ActionResult DWRMaster(DWR model, HttpPostedFileBase postedFile)
         {
-
             try
             {
                 model.MeetingDate = Common.ConvertToSystemDate(model.MeetingDate, "dd/MM/yyyy");
                // model.MeetingTime = Common.ConvertToSystemDate(model.MeetingTime, "dd/MM/yyyy");
                 model.NextFollowupDate = Common.ConvertToSystemDate(model.NextFollowupDate, "dd/MM/yyyy");
                 model.AddedBy = Session["UserID"].ToString();
+
+                if (postedFile != null)
+                {
+                    model.UserImage = "../FileUpload/" + Guid.NewGuid() + Path.GetExtension(postedFile.FileName);
+                    postedFile.SaveAs(Path.Combine(Server.MapPath(model.UserImage)));
+                }
                 DataSet ds = model.InsertDWR();
                 if (ds != null && ds.Tables.Count > 0)
                 {
