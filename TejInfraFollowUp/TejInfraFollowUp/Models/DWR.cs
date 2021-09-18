@@ -36,6 +36,8 @@ namespace TejInfraFollowUp.Models
         public List<DWR> ddlInterAction { get; set; }
         public List<SelectListItem> ddlLead{ get; set; }
         public List<DWR> lstDWR { get; set; }
+        public string postedFile { get; set; }
+        public string UserImage { get; set; }
 
 
         public DataSet GetProspectList()
@@ -100,6 +102,7 @@ namespace TejInfraFollowUp.Models
                                     new SqlParameter("@Fk_ExecutiveId", Fk_ExecutiveId), 
                                     new SqlParameter("@MeetingDate", MeetingDate), 
                                     new SqlParameter("@MeetingTime", MeetingTime),
+                                     new SqlParameter("@FileUpload",UserImage),
                                    new SqlParameter("@AddedBy",AddedBy)};
             DataSet ds = DBHelper.ExecuteQuery("InsertDWR", param);
             return ds;

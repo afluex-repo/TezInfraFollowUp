@@ -1896,16 +1896,18 @@ namespace TejInfraFollowUp.Controllers
                 {
                     Master obj = new Master();
                     obj.VisitorId = r["PK_VisitorMasterID"].ToString();
+                    obj.VisitorImage = r["VisitorImage"].ToString();
                     obj.SiteName = r["SiteName"].ToString();
-                    obj.AssociateID = r["LoginId"].ToString();
+                    obj.LoginId = r["LoginId"].ToString();
                     obj.AssociateName = r["AssociateName"].ToString();
+                    obj.VehicleDetails = r["VehicleDetails"].ToString();
                     obj.Amount = r["Amount"].ToString();
                     obj.VisitDate = r["VisitDate"].ToString();
-                    obj.VisitDate = r["VisitDate"].ToString();
-                    obj.VisitorImage = r["VisitorImage"].ToString();
-                    obj.Name = r["Name"].ToString();
-                    obj.MobileNo = r["Mobile"].ToString();
-                    obj.Address = r["Address"].ToString();
+
+                    //obj.VisitDate = r["VisitDate"].ToString();
+                    //obj.Name = r["Name"].ToString();
+                    //obj.MobileNo = r["Mobile"].ToString();
+                    //obj.Address = r["Address"].ToString();
                     lst.Add(obj);
                 }
                 model.VisitorList = lst;

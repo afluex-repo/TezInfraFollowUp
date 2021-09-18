@@ -68,15 +68,17 @@
                                     <thead>
                                         <tr>
                                             <th>S No.</th>
-                                            <th>Site</th>
-                                            <th>AssociateId</th>
+                                            <th>Visitor Image</th>
+                                            <th>Site Name</th>
+                                            <th>LoginId</th>
                                             <th>Associate Name</th>
+                                            <th>Vehicle Details</th>
                                             <th>Amount</th>
                                             <th>Visit Date</th>
-                                            <th>Visitor Image</th>
-                                            <th>Customer Name</th>
-                                            <th>Mobile</th>
-                                            <th>Address</th>
+                                            @*<th>AssociateId</th>*@
+                                            @*<th>Customer Name</th>*@
+                                            @*<th>Mobile</th>
+                                            <th>Address</th>*@
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -89,16 +91,18 @@
                         {
                                                     <tr>
                                                         <td>@i</td>
+                                                        <td>@item.VisitorImage</td>
                                                         <td>@item.SiteName</td>
-                                                        <td>@item.AssociateID</td>
+                                                        <td>@item.LoginId</td>
                                                         <td>@item.AssociateName</td>
+                                                        <td>@item.VehicleDetails</td>
                                                         <td>@item.Amount</td>
                                                         <td>@item.VisitDate</td>
-                                                        <td>@item.VisitDate</td>
-                                                        <td>@item.VisitorImage</td>
-                                                        <td>@item.Name</td>
+                                                        
+                                                        @*<td>@item.AssociateID</td>*@
+                                                        @*<td>@item.Name</td>
                                                         <td>@item.MobileNo</td>
-                                                        <td>@item.Address</td>
+                                                        <td>@item.Address</td>*@
                                                     </tr>
                                                     i++;
                                                 }

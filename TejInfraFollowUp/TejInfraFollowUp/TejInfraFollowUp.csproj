@@ -1029,6 +1029,7 @@
     <Folder Include="cdnjs.cloudflare.com\ajax\libs\twitter-bootstrap\2.3.2\css\" />
     <Folder Include="Content\Upload\" />
     <Folder Include="dist\css\icons\flag-icon-css\flags\" />
+    <Folder Include="FileUpload\" />
     <Folder Include="SoftwareImages\" />
   </ItemGroup>
   <ItemGroup>
