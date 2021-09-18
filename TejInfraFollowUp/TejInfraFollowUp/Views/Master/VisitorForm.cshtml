@@ -42,21 +42,27 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                Affiliate ID <span style="color: red">*</span>
+                                Associate ID 
                                 @Html.TextBoxFor(m => m.AssociateID, new { @class = "form-control", @Placeholder = "Affiliate ID", @onchange = "return GetAssociateNameByAssociateID();" })
                                 @Html.HiddenFor(m => m.UserID)
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                Affiliate Name
-                                @Html.TextBoxFor(m => m.AssociateName, new { @class = "form-control", @Placeholder = "Affiliate Name", @readonly = "readonly" })
+                                Associate Name
+                                @Html.TextBoxFor(m => m.AssociateName, new { @class = "form-control", @Placeholder = "Associate Name" })
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        @*<div class="col-md-2">
                             <div class="form-group">
                                 Amount<span style="color: red">*</span>
                                 @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @Placeholder = "Amount", @onkeypress = "return isNumberOrDecimal(event)" })
+                            </div>
+                        </div>*@
+                        <div class="col-md-2">
+                            <div class="form-group">
+                               Category Name <span style="color: red">*</span>
+                                @Html.DropDownListFor(m => m.Pk_CategoryId, new SelectList(ViewBag.ddlCategoryName, "Value", "Text"), new { @class = "form-control" })
                             </div>
                         </div>
 
@@ -67,11 +73,16 @@
 
                             </div>
                         </div>
-
                         <div class="col-md-2">
                             <div class="form-group">
+                                Vehicle Number<span style="color: red">*</span>
+                                @Html.TextBoxFor(m => m.VehicleNumber, new { @class = "form-control", @placeholder = "Vehicle Number"})
+                            </div>
+                        </div>
+                        <div class="col-md-2" style="display:none">
+                            <div class="form-group">
                                 Image<span style="color: red">*</span>
-                               <input type="file" id="fileInput" name="fileInput" multiple />
+                                <input type="file" name="postedFile1" id="postedFile1" onchange="readURL(this)" />
                             </div>
                         </div>
 
@@ -94,7 +105,7 @@
 
                                         </td>
                                         <td>
-                                            @Html.TextBoxFor(m => m.MobileNo, new { @class = "MobileNo form-control", @Placeholder = "Mobile Number", @onkeypress = "return isNumberKey(event)", @maxlength = "12" })
+                                            @Html.TextBoxFor(m => m.MobileNo, new { @class = "MobileNo form-control", @Placeholder = "Mobile Number", @onkeypress = "return isNumberKey(event)", @maxlength = "10" })
 
                                         </td>
                                         <td>
@@ -130,9 +141,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
-
-
-@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>*@
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -198,12 +206,12 @@
                     $("#divload").css({ 'display': 'none' });
                     return false;
                 }
-                if ($('#AssociateID').val() == '') {
-                    $("#AssociateID").addClass('errortext');
-                    $('#AssociateID').focus();
-                    $("#divload").css({ 'display': 'none' });
-                    return false;
-                }
+                //if ($('#AssociateID').val() == '') {
+                //    $("#AssociateID").addClass('errortext');
+                //    $('#AssociateID').focus();
+                //    $("#divload").css({ 'display': 'none' });
+                //    return false;
+                //}
 
                 if ($('#Amount').val() == '') {
                     $("#Amount").addClass('errortext');
@@ -214,6 +222,12 @@
                 if ($('#VisitDate').val() == '') {
                     $("#VisitDate").addClass('errortext');
                     $('#VisitDate').focus();
+                    $("#divload").css({ 'display': 'none' });
+                    return false;
+                }
+                if ($('#VehicleNumber').val() == '') {
+                    $("#VehicleNumber").addClass('errortext');
+                    $('#VehicleNumber').focus();
                     $("#divload").css({ 'display': 'none' });
                     return false;
                 }
@@ -244,38 +258,41 @@
                 if (list.length == 0) {
                     $('#orderItemError').text('At least 1 row data required.');
                     isAllValid = false;
+                    $("#divload").css({ 'display': 'none' });
+                    return false;
                 }
 
                 if (isAllValid) {
                     debugger;
                     var data = {
                         AddData: JSON.stringify(list),
-                        files : $("#fileInput").get(0).files,
-                        image:data.append("HelpSectionImages", files[0])
                     }
-                //    if (window.FormData == undefined)
-                //    {
-                //        alert("Error: FormData is undefined");
-                //    }
-                //else {
-                //    var fileUpload = $("#fileToUpload").get(0);
-                //    var files = fileUpload.files;
-                //    var fileData = new FormData();
-                //    fileData.append(files[0].name, files[0]);
-                    //  }
-                    var Image = new FormData();
-                    var files = $("#fileInput").get(0).files;
-                    if (files.length > 0) {
-                        Image.append("HelpSectionImages", files[0]);
-                    }
+                    debugger
+                    var formData = new FormData();
+                    var files = $("#postedFile1").get(0).files;
+                    formData.append("Image", files[0]);
+                    formData.append("SiteID", $('#SiteID').val());
+                    formData.append("AssociateID", $('#UserID').val());
+                    formData.append("Pk_CategoryId", $('#Pk_CategoryId').val());
+                    //formData.append("Amount", $('#Amount').val());
+                    formData.append("VisitDate", $('#VisitDate').val());
+                    formData.append("AssociateName", $('#AssociateName').val());
+                    formData.append("VehicleNumber", $('#VehicleNumber').val());
+                    formData.append("dataValue", JSON.stringify(data));
+                    console.log(formData);
                     $.ajax({
-                        url: 'save',
                         type: 'POST',
-                        processData: false,
+                        url: "AddProfile",
+                        data: formData,
+                        cache: false,
                         contentType: false,
-                        data: fileData,
-                        data: JSON.stringify({ dataValue: JSON.stringify(data), SiteID: $("#SiteID").val(), AssociateID: $("#UserID").val(), Amount: $("#Amount").val(), VisiteDate: $("#VisitDate").val() }), //AssociateName: $("#AssociateName").val(),
-                        contentType: 'application/json',
+                        processData: false,
+                        //url: 'save',
+                        //Type: "POST",
+                        //DataType: "JSON",
+                        //data: { dataValue: JSON.stringify(data), SiteID: $("#SiteID").val(), AssociateID: $("#UserID").val(), Amount: $("#Amount").val(), VisiteDate: $("#VisitDate").val(), postedFile1: formData},
+                     
+                        //contentType: 'application/json',
                         success: function (response) {
                             //alert(result);
                             if (response.status) {
@@ -302,12 +319,20 @@
                 }
             });
         });
+
     </script>
     <script>
-
-        $(document).ready(function () {
-            $("#divload").css({ 'display': 'none' });
-        });
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#ContentPlaceHolder1_imgProductImage')
+                        .attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+               
+            }
+        }
         function isNumberOrDecimal(evt) {
             var charCode = (evt.which) ? evt.which : evt.keyCode;
             if (charCode != 46 && charCode > 31

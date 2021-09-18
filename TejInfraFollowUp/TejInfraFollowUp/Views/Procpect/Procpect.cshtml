@@ -212,7 +212,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group row">
-                            <label class="control-label text-right col-md-3">ApproximateEmployee</label>
+                            <label class="control-label text-right col-md-3">Approximate Employee</label>
                             <div class="col-md-9">
                                 @Html.TextBoxFor(m => m.ApproximateEmployee, new { @class = "form-control form-control-lg", @Placeholder = "Approximate Employee" })
                             </div>
@@ -295,9 +295,15 @@
                         </div>
 
                         <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">File Upload</label>
+                                    <div class="col-md-9">
 
-                            <!--/span-->
-
+                                        <input type="file" name="postedFile" />
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-md-4">
                                 <div class="form-group row">
                                     <label class="control-label text-right col-md-3">Description</label>
