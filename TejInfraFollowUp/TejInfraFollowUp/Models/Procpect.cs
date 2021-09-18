@@ -37,6 +37,7 @@ namespace TejInfraFollowUp.Models
         public string TwitterId { get; set; }
         public string State { get; set; }
         public string PK_InterActionId { get; set; }
+        public string ProspectImage { get; set; }
         public List<Procpect> lstProcpect { get; set; }
         public string Pk_Id { get; set; }
         public string EmployeeId { get; set; }
@@ -104,7 +105,8 @@ namespace TejInfraFollowUp.Models
                                       new SqlParameter("@Fk_ModeInterActionId",Fk_ModeInterActionId),
                                       new SqlParameter("@FollowupDate",FollowupDate),
                                       new SqlParameter("@Description",Description),
-                                      new SqlParameter("@AddedBy",AddedBy)
+                                      new SqlParameter("@AddedBy",AddedBy),
+                                      new SqlParameter("@ProspectFile",ProspectImage)
                                   };
             DataSet ds = DBHelper.ExecuteQuery("InsertProcpectLeads", para);
             return ds;

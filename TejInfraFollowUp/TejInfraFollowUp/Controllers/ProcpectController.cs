@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Data;
 using TejInfraFollowUp.Models;
 using TejInfraFollowUp.Filter;
+using System.IO;
 
 namespace TejInfraFollowUp.Controllers
 {
@@ -181,7 +182,7 @@ namespace TejInfraFollowUp.Controllers
         [HttpPost]
         [ActionName("Procpect")]
         [OnAction(ButtonName = "btnSave")]
-        public ActionResult SaveProspect(Procpect obj)
+        public ActionResult SaveProspect(Procpect obj ,HttpPostedFileBase postedFile)
         {
 
             if (TempData["ProcpectError"] == null)
@@ -192,6 +193,11 @@ namespace TejInfraFollowUp.Controllers
             obj.FollowupDate = string.IsNullOrEmpty(obj.FollowupDate) ? null : Common.ConvertToSystemDate(obj.FollowupDate, "dd/MM/yyyy");
             try
             {
+                if (postedFile != null)
+                {
+                    obj.ProspectImage = "../ProspectImage/" + Guid.NewGuid() + Path.GetExtension(postedFile.FileName);
+                    postedFile.SaveAs(Path.Combine(Server.MapPath(obj.ProspectImage)));
+                }
                 obj.AddedBy = Session["UserID"].ToString();
                 DataSet ds = obj.SaveProspect();
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -244,6 +250,7 @@ namespace TejInfraFollowUp.Controllers
                         obj.CompanyName = r["CompanyName"].ToString();
                         obj.CompanyContactNo = r["CompanyContactNo"].ToString();
                         obj.Address = r["Address"].ToString();
+                        obj.ProspectImage = r["ProspectFile"].ToString();
                         lst.Add(obj);
                     }
                     model.lstProcpect = lst;
