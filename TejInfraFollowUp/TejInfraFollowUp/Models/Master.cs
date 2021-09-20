@@ -355,7 +355,7 @@ namespace TejInfraFollowUp.Models
         public DataSet SaveVisitorDetails()
         {
             SqlParameter[] para = {
-                                      new SqlParameter("@FK_SiteID",SiteID),
+                                      new SqlParameter("@SiteName",SiteID),
                                        new SqlParameter("@FK_AssociateId", AssociateID),
                                        new SqlParameter("@Fk_CategoryId", Pk_CategoryId),
                                        new SqlParameter("@VisiteDate", VisitDate),

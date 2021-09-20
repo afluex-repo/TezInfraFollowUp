@@ -1753,9 +1753,9 @@ namespace TejInfraFollowUp.Controllers
                 {
                     if (count1 == 0)
                     {
-                        ddlsite.Add(new SelectListItem { Text = "-select-", Value = "0" });
+                        ddlsite.Add(new SelectListItem { Text = "Select Site", Value = "0" });
                     }
-                    ddlsite.Add(new SelectListItem { Text = r["SiteName"].ToString(), Value = r["PK_SiteID"].ToString() });
+                    ddlsite.Add(new SelectListItem { Text = r["SiteName"].ToString(), Value = r["SiteName"].ToString() });
                     count1 = count1 + 1;
                 }
             }
@@ -1770,7 +1770,7 @@ namespace TejInfraFollowUp.Controllers
                 {
                     if (count2 == 0)
                     {
-                        ddlsite.Add(new SelectListItem { Text = "-select-", Value = "0" });
+                        ddlCategoryName.Add(new SelectListItem { Text = "Select Category", Value = "0" });
                     }
                     ddlCategoryName.Add(new SelectListItem { Text = dr["CategoryName"].ToString(), Value = dr["Pk_CategoryId"].ToString() });
                     count2 = count2 + 1;
