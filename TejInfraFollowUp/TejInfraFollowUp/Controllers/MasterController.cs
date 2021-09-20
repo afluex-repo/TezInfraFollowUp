@@ -1953,7 +1953,7 @@ namespace TejInfraFollowUp.Controllers
                     obj.SiteName = r["SiteName"].ToString();
                     obj.AssociateID = r["LoginId"].ToString();
                     obj.AssociateName = r["AssociateName"].ToString();
-                    obj.Amount = r["Amount"].ToString();
+                    //obj.Amount = r["Amount"].ToString();
                     obj.VisitDate = r["VisitDate"].ToString();
                     obj.VisitDate = r["VisitDate"].ToString();
                     obj.VisitorImage = r["VisitorImage"].ToString();
