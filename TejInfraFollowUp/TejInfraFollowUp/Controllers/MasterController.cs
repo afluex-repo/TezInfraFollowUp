@@ -1965,16 +1965,17 @@ namespace TejInfraFollowUp.Controllers
                 foreach (DataRow r in ds.Tables[0].Rows)
                 {
                     Master obj = new Master();
+                    obj.EncryptKey= Crypto.Encrypt(r["PK_VisitorMasterID"].ToString());
                     obj.VisitorId = r["PK_VisitorMasterID"].ToString();
-                    obj.VisitorImage = r["VisitorImage"].ToString();
+                   // obj.VisitorImage = r["VisitorImage"].ToString();
                     obj.SiteName = r["SiteName"].ToString();
                     obj.LoginId = r["LoginId"].ToString();
                     obj.AssociateName = r["AssociateName"].ToString();
                     obj.VehicleDetails = r["VehicleDetails"].ToString();
                     obj.CategoryName = r["CategoryName"].ToString();
+                   // obj.VisitDate = r["VisitDate"].ToString();
                     obj.VisitDate = r["VisitDate"].ToString();
-                    obj.VisitDate = r["VisitDate"].ToString();
-                    obj.VisitorImage = r["VisitorImage"].ToString();
+                    //obj.VisitorImage = r["VisitorImage"].ToString();
                     obj.VehicleNumber = r["VehicleDetails"].ToString();
                     //obj.Name = r["Name"].ToString();
                     //obj.MobileNo = r["Mobile"].ToString();
@@ -1997,9 +1998,10 @@ namespace TejInfraFollowUp.Controllers
                 ViewBag.SiteName = ds.Tables[0].Rows[0]["SiteName"].ToString();
                 ViewBag.LoginId = ds.Tables[0].Rows[0]["LoginId"].ToString();
                 ViewBag.AssociateName = ds.Tables[0].Rows[0]["AssociateName"].ToString();
-                ViewBag.Amount = ds.Tables[0].Rows[0]["Amount"].ToString();
+                ViewBag.CategoryName = ds.Tables[0].Rows[0]["CategoryName"].ToString();
+                //ViewBag.Amount = ds.Tables[0].Rows[0]["Amount"].ToString();
                 ViewBag.VisitDate = ds.Tables[0].Rows[0]["VisitDate"].ToString();
-                ViewBag.Image = ds.Tables[0].Rows[0]["VisitorImage"].ToString();
+                //ViewBag.Image = ds.Tables[0].Rows[0]["VisitorImage"].ToString();
                 ViewBag.VehicleDetails = ds.Tables[0].Rows[0]["VehicleDetails"].ToString();
                 if (ds.Tables[1].Rows.Count > 0)
                 {
