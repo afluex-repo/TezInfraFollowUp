@@ -1017,6 +1017,8 @@
     <Content Include="Views\Master\VisitorForm.cshtml" />
     <Content Include="Views\Master\GetVisitorDetails.cshtml" />
     <Content Include="Views\Master\PrintVisitor.cshtml" />
+    <Content Include="Views\Master\UserTypeMaster.cshtml" />
+    <Content Include="Views\Master\GetDetailsUserType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

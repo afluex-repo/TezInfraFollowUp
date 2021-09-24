@@ -1751,10 +1751,10 @@ namespace TejInfraFollowUp.Controllers
             {
                 foreach (DataRow r in ds.Tables[0].Rows)
                 {
-                    if (count1 == 0)
-                    {
-                        ddlsite.Add(new SelectListItem { Text = "Select Site", Value = "0" });
-                    }
+                    //if (count1 == 0)
+                    //{
+                    //    ddlsite.Add(new SelectListItem { Text = "Select Site", Value = "0" });
+                    //}
                     ddlsite.Add(new SelectListItem { Text = r["SiteName"].ToString(), Value = r["SiteName"].ToString() });
                     count1 = count1 + 1;
                 }
@@ -1966,7 +1966,7 @@ namespace TejInfraFollowUp.Controllers
                 {
                     Master obj = new Master();
                     obj.EncryptKey= Crypto.Encrypt(r["PK_VisitorMasterID"].ToString());
-                    obj.VisitorId = r["PK_VisitorMasterID"].ToString();
+                    //obj.VisitorId = r["PK_VisitorMasterID"].ToString();
                    // obj.VisitorImage = r["VisitorImage"].ToString();
                     obj.SiteName = r["SiteName"].ToString();
                     obj.LoginId = r["LoginId"].ToString();
@@ -2018,5 +2018,119 @@ namespace TejInfraFollowUp.Controllers
             }
             return View(newdata);
         }
+
+        public ActionResult UserTypeMaster(string Id)
+        {
+            Master model = new Master();
+            model.UserTypeId= Id;
+            if (model.UserTypeId!=null)
+            {
+                DataSet ds = model.GetUserTypeDeatils();
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    //model.UserTypeId = ds.Tables[0].Rows[0]["PK_UserTypeId"].ToString();
+                    model.UserType = ds.Tables[0].Rows[0]["UserType"].ToString();
+                    model.Description = ds.Tables[0].Rows[0]["Description"].ToString();
+                }
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        [ActionName("UserTypeMaster")]
+        [OnAction(ButtonName = "btnSave")]
+        public ActionResult UserTypeMaster(Master model)
+        {
+            try
+            {
+                if(model.UserTypeId==null)
+                {
+                    model.AddedBy = Session["UserID"].ToString();
+                    DataSet ds = model.SaveUserType();
+                    if (ds != null && ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows[0][0].ToString() == "1")
+                        {
+                            TempData["Error"] = "Designation save Successfully";
+                        }
+                        else
+                        {
+                            TempData["Error"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                        }
+                    }
+                }
+                else
+                {
+                    model.AddedBy = Session["UserID"].ToString();
+                    DataSet ds1 = model.UpdateUserType();
+                    if (ds1 != null && ds1.Tables.Count > 0)
+                    {
+                        if (ds1.Tables[0].Rows[0][0].ToString() == "1")
+                        {
+                            TempData["Error"] = "Designation Update Successfully";
+                        }
+                        else
+                        {
+                            TempData["Error"] = ds1.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = ex.Message;
+            }
+            return RedirectToAction("UserTypeMaster", "Master");
+        }
+
+        public ActionResult GetDetailsUserType()
+        {
+            Master model = new Master();
+            List<Master> lst = new List<Master>();
+            DataSet ds = model.GetUserTypeDeatils();
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow r in ds.Tables[0].Rows)
+                {
+                    Master obj = new Master();
+                    obj.UserTypeId = r["PK_UserTypeId"].ToString();
+                    obj.UserType = r["UserType"].ToString();
+                    obj.Description = r["Description"].ToString();
+                    lst.Add(obj);
+                }
+                model.lstUserType = lst;
+            }
+            return View(model);
+        }
+
+   
+        public ActionResult DeleteUserType(string Id)
+        {
+            Master model = new Master();
+            try
+            {
+                model.UserTypeId = Id;
+                model.AddedBy = Session["UserID"].ToString();
+                DataSet ds = model.DeleteUserType();
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    if (ds.Tables[0].Rows[0][0].ToString() == "1")
+                    {
+                        TempData["Error"] = "Designation deleted Successfully";
+                    }
+                    else
+                    {
+                        TempData["Error"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = ex.Message;
+            }
+            return RedirectToAction("GetDetailsUserType", "Master");
+        }
+
+
     }
 }
