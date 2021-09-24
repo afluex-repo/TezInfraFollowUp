@@ -1751,10 +1751,10 @@ namespace TejInfraFollowUp.Controllers
             {
                 foreach (DataRow r in ds.Tables[0].Rows)
                 {
-                    if (count1 == 0)
-                    {
-                        ddlsite.Add(new SelectListItem { Text = "Select Site", Value = "0" });
-                    }
+                    //if (count1 == 0)
+                    //{
+                    //    ddlsite.Add(new SelectListItem { Text = "Select Site", Value = "0" });
+                    //}
                     ddlsite.Add(new SelectListItem { Text = r["SiteName"].ToString(), Value = r["SiteName"].ToString() });
                     count1 = count1 + 1;
                 }
