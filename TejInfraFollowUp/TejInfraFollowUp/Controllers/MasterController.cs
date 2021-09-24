@@ -1739,8 +1739,8 @@ namespace TejInfraFollowUp.Controllers
 
         }
 
-        
 
+        
         public ActionResult VisitorForm()
         {
             Master model = new Master();
@@ -1751,16 +1751,32 @@ namespace TejInfraFollowUp.Controllers
             {
                 foreach (DataRow r in ds.Tables[0].Rows)
                 {
-                    if (count1 == 0)
-                    {
-                        ddlsite.Add(new SelectListItem { Text = "-select-", Value = "0" });
-                    }
-                    ddlsite.Add(new SelectListItem { Text = r["SiteName"].ToString(), Value = r["PK_SiteID"].ToString() });
+                    //if (count1 == 0)
+                    //{
+                    //    ddlsite.Add(new SelectListItem { Text = "Select Site", Value = "0" });
+                    //}
+                    ddlsite.Add(new SelectListItem { Text = r["SiteName"].ToString(), Value = r["SiteName"].ToString() });
                     count1 = count1 + 1;
                 }
             }
             ViewBag.ddlsite = ddlsite;
 
+            int count2 = 0;
+            List<SelectListItem> ddlCategoryName = new List<SelectListItem>();
+            DataSet ds1 = model.GetCategoryName();
+            if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds1.Tables[0].Rows)
+                {
+                    if (count2 == 0)
+                    {
+                        ddlCategoryName.Add(new SelectListItem { Text = "Select Category", Value = "0" });
+                    }
+                    ddlCategoryName.Add(new SelectListItem { Text = dr["CategoryName"].ToString(), Value = dr["Pk_CategoryId"].ToString() });
+                    count2 = count2 + 1;
+                }
+            }
+            ViewBag.ddlCategoryName = ddlCategoryName;
             return View();
         }
 
@@ -1949,14 +1965,17 @@ namespace TejInfraFollowUp.Controllers
                 foreach (DataRow r in ds.Tables[0].Rows)
                 {
                     Master obj = new Master();
-                    obj.EncryptKey = Crypto.Encrypt(r["PK_VisitorMasterID"].ToString());
+                    obj.EncryptKey= Crypto.Encrypt(r["PK_VisitorMasterID"].ToString());
+                    obj.VisitorId = r["PK_VisitorMasterID"].ToString();
+                   // obj.VisitorImage = r["VisitorImage"].ToString();
                     obj.SiteName = r["SiteName"].ToString();
-                    obj.AssociateID = r["LoginId"].ToString();
+                    obj.LoginId = r["LoginId"].ToString();
                     obj.AssociateName = r["AssociateName"].ToString();
-                    //obj.Amount = r["Amount"].ToString();
+                    obj.VehicleDetails = r["VehicleDetails"].ToString();
+                    obj.CategoryName = r["CategoryName"].ToString();
+                   // obj.VisitDate = r["VisitDate"].ToString();
                     obj.VisitDate = r["VisitDate"].ToString();
-                    obj.VisitDate = r["VisitDate"].ToString();
-                    obj.VisitorImage = r["VisitorImage"].ToString();
+                    //obj.VisitorImage = r["VisitorImage"].ToString();
                     obj.VehicleNumber = r["VehicleDetails"].ToString();
                     //obj.Name = r["Name"].ToString();
                     //obj.MobileNo = r["Mobile"].ToString();
@@ -1979,9 +1998,10 @@ namespace TejInfraFollowUp.Controllers
                 ViewBag.SiteName = ds.Tables[0].Rows[0]["SiteName"].ToString();
                 ViewBag.LoginId = ds.Tables[0].Rows[0]["LoginId"].ToString();
                 ViewBag.AssociateName = ds.Tables[0].Rows[0]["AssociateName"].ToString();
-                ViewBag.Amount = ds.Tables[0].Rows[0]["Amount"].ToString();
+                ViewBag.CategoryName = ds.Tables[0].Rows[0]["CategoryName"].ToString();
+                //ViewBag.Amount = ds.Tables[0].Rows[0]["Amount"].ToString();
                 ViewBag.VisitDate = ds.Tables[0].Rows[0]["VisitDate"].ToString();
-                ViewBag.Image = ds.Tables[0].Rows[0]["VisitorImage"].ToString();
+                //ViewBag.Image = ds.Tables[0].Rows[0]["VisitorImage"].ToString();
                 ViewBag.VehicleDetails = ds.Tables[0].Rows[0]["VehicleDetails"].ToString();
                 if (ds.Tables[1].Rows.Count > 0)
                 {

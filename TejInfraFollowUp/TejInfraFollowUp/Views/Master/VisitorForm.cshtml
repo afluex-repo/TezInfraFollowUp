@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "VisitorForm";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    //;
 }
 
 <div class="page-wrapper">
@@ -34,46 +35,58 @@
                 </div>
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 Select Site <span style="color: red">*</span>
-                                @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control" })
+                                @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control selectpicker", multiple = "multiple" })
+
+                                @*<select class="selectpicker" multiple data-live-search="true">
+                                    <option>Mustard</option>
+                                    <option>Ketchup</option>
+                                    <option>Relish</option>
+                                </select>*@
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 Associate ID 
                                 @Html.TextBoxFor(m => m.AssociateID, new { @class = "form-control", @Placeholder = "Affiliate ID", @onchange = "return GetAssociateNameByAssociateID();" })
                                 @Html.HiddenFor(m => m.UserID)
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 Associate Name
                                 @Html.TextBoxFor(m => m.AssociateName, new { @class = "form-control", @Placeholder = "Associate Name" })
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        @*<div class="col-md-2">
                             <div class="form-group">
                                 Amount<span style="color: red">*</span>
                                 @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @Placeholder = "Amount", @onkeypress = "return isNumberOrDecimal(event)" })
                             </div>
+                        </div>*@
+                        <div class="col-md-4">
+                            <div class="form-group">
+                               Category Name <span style="color: red">*</span>
+                                @Html.DropDownListFor(m => m.Pk_CategoryId, new SelectList(ViewBag.ddlCategoryName, "Value", "Text"), new { @class = "form-control" })
+                            </div>
                         </div>
 
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 Visit Date<span style="color: red">*</span>
                                 @Html.TextBoxFor(m => m.VisitDate, new { @class = "form-control", @placeholder = "DD/MM/YYYY", @readonly = "readonly" })
 
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 Vehicle Number<span style="color: red">*</span>
                                 @Html.TextBoxFor(m => m.VehicleNumber, new { @class = "form-control", @placeholder = "Vehicle Number"})
                             </div>
                         </div>
-                        <div class="col-md-2" style="display:none">
+                        <div class="col-md-4" style="display:none">
                             <div class="form-group">
                                 Image<span style="color: red">*</span>
                                 <input type="file" name="postedFile1" id="postedFile1" onchange="readURL(this)" />
@@ -132,12 +145,19 @@
     }
 </div>
 
+
+
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
-
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
     <script type="text/javascript">
         $(document).ready(function () {
+            $('select').selectpicker();
+            $('#Select Site').attr('disabled', 'disabled');
             $('#Mobile').keypress(function () {
                 $('.Number').keypress(function (event) {
                     var keycode;
@@ -267,7 +287,8 @@
                     formData.append("Image", files[0]);
                     formData.append("SiteID", $('#SiteID').val());
                     formData.append("AssociateID", $('#UserID').val());
-                    formData.append("Amount", $('#Amount').val());
+                    formData.append("Pk_CategoryId", $('#Pk_CategoryId').val());
+                    //formData.append("Amount", $('#Amount').val());
                     formData.append("VisitDate", $('#VisitDate').val());
                     formData.append("AssociateName", $('#AssociateName').val());
                     formData.append("VehicleNumber", $('#VehicleNumber').val());

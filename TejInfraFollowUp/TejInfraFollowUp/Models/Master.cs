@@ -76,6 +76,10 @@ namespace TejInfraFollowUp.Models
         public string VehicleNumber { get; set; }
         public string ToDate { get; set; }
         public string FromDate { get; set; }
+        public string VehicleDetails { get; set; }
+        public List<SelectListItem> ddlCategoryName { get; set; }
+
+
         public DataSet VisitorListById()
         {
             SqlParameter[] para =
@@ -351,9 +355,9 @@ namespace TejInfraFollowUp.Models
         public DataSet SaveVisitorDetails()
         {
             SqlParameter[] para = {
-                                      new SqlParameter("@FK_SiteID",SiteID),
+                                      new SqlParameter("@SiteName",SiteID),
                                        new SqlParameter("@FK_AssociateId", AssociateID),
-                                       new SqlParameter("@Amount", Amount),
+                                       new SqlParameter("@Fk_CategoryId", Pk_CategoryId),
                                        new SqlParameter("@VisiteDate", VisitDate),
                                        new SqlParameter("@VisitorImage", Image),
                                        new SqlParameter("@AddedBy", AddedBy),
@@ -377,5 +381,13 @@ namespace TejInfraFollowUp.Models
             DataSet ds = DBHelper.ExecuteQuery("GetVisitorDetails",para);
             return ds;
         }
+
+
+        public DataSet GetCategoryName()
+        {
+            DataSet ds = DBHelper.ExecuteQuery("GetCategoryName");
+            return ds;
+        }
+
     }
 }
