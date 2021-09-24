@@ -86,6 +86,20 @@
                                 @Html.TextBoxFor(m => m.VehicleNumber, new { @class = "form-control", @placeholder = "Vehicle Number"})
                             </div>
                         </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                PickUp Location<span style="color: red">*</span>
+                                @Html.TextBoxFor(m => m.PickUpLocation, new { @class = "form-control", @placeholder = "PickUp Location" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                Drop Location<span style="color: red">*</span>
+                                @Html.TextBoxFor(m => m.DropLocation, new { @class = "form-control", @placeholder = "Drop Location" })
+                            </div>
+                        </div>
                         <div class="col-md-4" style="display:none">
                             <div class="form-group">
                                 Image<span style="color: red">*</span>
@@ -291,6 +305,8 @@
                     formData.append("VisitDate", $('#VisitDate').val());
                     formData.append("AssociateName", $('#AssociateName').val());
                     formData.append("VehicleNumber", $('#VehicleNumber').val());
+                    formData.append("PickUpLocation", $('#PickUpLocation').val());
+                    formData.append("DropLocation", $('#DropLocation').val());
                     formData.append("dataValue", JSON.stringify(data));
                     console.log(formData);
                     $.ajax({
