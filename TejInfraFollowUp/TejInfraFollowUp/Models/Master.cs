@@ -74,10 +74,18 @@ namespace TejInfraFollowUp.Models
         public string postedFile1 { get; set; }
         public string EncryptKey { get; set; }
         public string VehicleNumber { get; set; }
+        
         public string ToDate { get; set; }
         public string FromDate { get; set; }
         public string VehicleDetails { get; set; }
+        public string PickUpLocation { get; set; }
+        public string DropLocation { get; set; }
+
+        public string UserTypeId { get; set; }
+        public string UserType { get; set; }
+        public string Description { get; set; }
         public List<SelectListItem> ddlCategoryName { get; set; }
+        public List<Master> lstUserType { get; set; }
 
 
         public DataSet VisitorListById()
@@ -363,6 +371,8 @@ namespace TejInfraFollowUp.Models
                                        new SqlParameter("@AddedBy", AddedBy),
                                        new SqlParameter("@AssociateName",AssociateName),
                                        new SqlParameter("@VehicleDetails",VehicleNumber),
+                                       new SqlParameter("@PickUpLocation",PickUpLocation),
+                                       new SqlParameter("@DropLocation",DropLocation),
                                       new SqlParameter("@DtVisitorDetail",dtVisitorDetails)
                                   };
             DataSet ds = DBHelper.ExecuteQuery("SaveVisitor", para);
@@ -389,5 +399,50 @@ namespace TejInfraFollowUp.Models
             return ds;
         }
 
+
+        public DataSet SaveUserType()
+        {
+            SqlParameter[] param = {new SqlParameter("@UserType",UserType),
+                                   new SqlParameter("@Description",Description),
+                                   new SqlParameter("@AddedBy",AddedBy)
+            };
+            DataSet ds = DBHelper.ExecuteQuery("CreateUserType", param);
+            return ds;
+        }
+
+        public DataSet UpdateUserType()
+        {
+            SqlParameter[] param = {
+                                    new SqlParameter("@UserTypeId",UserTypeId),
+                                    new SqlParameter("@UserType",UserType),
+                                   new SqlParameter("@Description",Description),
+                                   new SqlParameter("@AddedBy",AddedBy)
+            };
+            DataSet ds = DBHelper.ExecuteQuery("UpdateUserType", param);
+            return ds;
+        }
+
+
+        
+        public DataSet GetUserTypeDeatils()
+        {
+            SqlParameter[] param = {new SqlParameter("@UserTypeId",UserTypeId),
+                                   new SqlParameter("@UserType",UserType),
+                                   new SqlParameter("@Description",Description)
+            };
+            DataSet ds = DBHelper.ExecuteQuery("GetUserTypeDetails",param);
+            return ds;
+        }
+
+
+
+        public DataSet DeleteUserType()
+        {
+            SqlParameter[] param = {new SqlParameter("@UserTypeId",UserTypeId),
+                                 new SqlParameter("@AddedBy",AddedBy)
+            };
+            DataSet ds = DBHelper.ExecuteQuery("DeleteUserType", param);
+            return ds;
+        }
     }
 }
