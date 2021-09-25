@@ -1848,7 +1848,7 @@ namespace TejInfraFollowUp.Controllers
             DataTable VisitorDetails = new DataTable();
             VisitorDetails = JsonConvert.DeserializeObject<DataTable>(jdv["AddData"]);
             userDetail.dtVisitorDetails = VisitorDetails;
-            userDetail.AddedBy = Session["UserID"].ToString();
+            userDetail.CreatedBy = Session["UserID"].ToString();
             DataSet ds = new DataSet();
             ds = userDetail.SaveVisitorDetails();
 

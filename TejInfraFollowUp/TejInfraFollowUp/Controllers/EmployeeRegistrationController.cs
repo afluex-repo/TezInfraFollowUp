@@ -14,13 +14,17 @@ using Newtonsoft.Json;
 
 namespace TejInfraFollowUp.Controllers
 {
-    public class EmployeeRegistrationController : BaseController
+    public class EmployeeRegistrationController : Controller
     {
         //
         // GET: /EmployeeRegistration/
 
         public ActionResult EmployeeRegistration(string Pk_Id)
         {
+            if(Session["UserID"]==null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             EmployeeRegistration model = new EmployeeRegistration();
             #region BindUsertype
             int count = 0;
@@ -76,6 +80,10 @@ namespace TejInfraFollowUp.Controllers
         [OnAction(ButtonName = "btnSave")]
         public ActionResult SaveEmployeeRegistration(EmployeeRegistration obj, HttpPostedFileBase postedFile)
         {
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (TempData["ServiceError"] == null)
             {
                 ViewBag.errormsg = "none";
@@ -92,7 +100,7 @@ namespace TejInfraFollowUp.Controllers
                 }
 
                 string mailbody = "";
-                obj.CreatedBy = Session["ExecutiveID"].ToString();
+                obj.CreatedBy = Session["UserID"].ToString();
                 DataSet ds = obj.SaveEmployeeRegistration();
                 if(ds!=null && ds.Tables.Count>0 && ds.Tables[0].Rows.Count>0)
                 {
@@ -161,16 +169,24 @@ namespace TejInfraFollowUp.Controllers
 
         public ActionResult GetEmpolyeeRegistrationList()
         {
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
         public ActionResult DeleteEmployeeRegistration(string Pk_Id)
         {
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             EmployeeRegistration obj = new EmployeeRegistration();
             try
             {
 
-                obj.DeletedBy = Session["ExecutiveID"].ToString();
+                obj.DeletedBy = Session["UserID"].ToString();
                 obj.Pk_Id = Pk_Id;
                 DataSet ds = new DataSet();
 
@@ -208,13 +224,17 @@ namespace TejInfraFollowUp.Controllers
         {
             try
             {
+                if (Session["UserID"] == null)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
                 if (postedFile != null)
                 {
                     obj.UserImage = "../SoftwareImages/" + Guid.NewGuid() + Path.GetExtension(postedFile.FileName);
                     postedFile.SaveAs(Path.Combine(Server.MapPath(obj.UserImage)));
                 }
 
-                obj.UpdatedBy = Session["ExecutiveID"].ToString();
+                obj.UpdatedBy = Session["UserID"].ToString();
                 obj.Pk_Id = obj.Pk_Id;
                 DataSet ds = new DataSet();
                 ds = obj.UpdateEmployeeRegistration();
@@ -246,7 +266,11 @@ namespace TejInfraFollowUp.Controllers
             List<EmployeeRegistration> lst = new List<EmployeeRegistration>();
             try
             {
-                model.Pk_Id = Session["ExecutiveID"].ToString();
+                if (Session["UserID"] == null)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                model.Pk_Id = Session["UserID"].ToString();
                 DataSet ds = model.FilterEmployee();
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables.Count > 0)
                 {
@@ -283,6 +307,10 @@ namespace TejInfraFollowUp.Controllers
         {
             Master model = new Master();
             int count1 = 0;
+            if(Session["ExecutiveID"]==null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             List<SelectListItem> ddlsite = new List<SelectListItem>();
             DataSet ds = model.GetSiteName();
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -321,6 +349,7 @@ namespace TejInfraFollowUp.Controllers
         [HttpPost]
         public JsonResult AddProfile(Master userDetail)
         {
+            
             var profile = Request.Files;
             bool status = false;
             var datavalue = Request["dataValue"];
@@ -383,6 +412,10 @@ namespace TejInfraFollowUp.Controllers
 
         public ActionResult PrintVisitor(string Id)
         {
+            if (Session["ExecutiveID"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             Master newdata = new Master();
             List<Master> lstvisitor = new List<Master>();
             newdata.VisitorId = Crypto.Decrypt(Id);
@@ -424,6 +457,10 @@ namespace TejInfraFollowUp.Controllers
 
         public ActionResult GetVisitorDetails()
         {
+            if (Session["ExecutiveID"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             //Master model = new Master();
             //List<Master> lst = new List<Master>();
             //DataSet dss = model.GetVisitorDetails();
@@ -452,7 +489,10 @@ namespace TejInfraFollowUp.Controllers
         [ActionName("GetVisitorDetails")]
         public ActionResult SearchVisitorDetails(Master model)
         {
-
+            if (Session["ExecutiveID"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             List<Master> lst = new List<Master>();
             model.FromDate = string.IsNullOrEmpty(model.FromDate) ? null : Common.ConvertToSystemDate(model.FromDate, "dd/MM/yyyy");
             model.ToDate = string.IsNullOrEmpty(model.ToDate) ? null : Common.ConvertToSystemDate(model.ToDate, "dd/MM/yyyy");
@@ -488,6 +528,10 @@ namespace TejInfraFollowUp.Controllers
         {
             try
             {
+                if (Session["ExecutiveID"] == null)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
                 Master model = new Master();
                 model.LoginId = AssociateID;
 
