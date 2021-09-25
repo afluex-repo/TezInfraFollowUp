@@ -1977,8 +1977,8 @@ namespace TejInfraFollowUp.Controllers
                     obj.VisitDate = r["VisitDate"].ToString();
                     //obj.VisitorImage = r["VisitorImage"].ToString();
                     obj.VehicleNumber = r["VehicleDetails"].ToString();
-                    //obj.Name = r["Name"].ToString();
-                    //obj.MobileNo = r["Mobile"].ToString();
+                    obj.PickUpLocation = r["PickUpLocation"].ToString();
+                    obj.DropLocation = r["DropLocation"].ToString();
                     //obj.Address = r["Address"].ToString();
                     lst.Add(obj);
                 }
@@ -2003,6 +2003,10 @@ namespace TejInfraFollowUp.Controllers
                 ViewBag.VisitDate = ds.Tables[0].Rows[0]["VisitDate"].ToString();
                 //ViewBag.Image = ds.Tables[0].Rows[0]["VisitorImage"].ToString();
                 ViewBag.VehicleDetails = ds.Tables[0].Rows[0]["VehicleDetails"].ToString();
+                ViewBag.PickUpLocation = ds.Tables[0].Rows[0]["PickUpLocation"].ToString(); 
+                ViewBag.DropLocation = ds.Tables[0].Rows[0]["DropLocation"].ToString();
+
+
                 if (ds.Tables[1].Rows.Count > 0)
                 {
                     foreach (DataRow r in ds.Tables[1].Rows)
