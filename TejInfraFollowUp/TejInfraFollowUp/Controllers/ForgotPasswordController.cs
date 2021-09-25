@@ -88,6 +88,10 @@ namespace TejInfraFollowUp.Controllers
         {
             try
             {
+                if (Session["ExecutiveID"] == null)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
                 model.UpdatedBy = Session["ExecutiveID"].ToString();
                 //model.UpdatedBy = Session["UserID"].ToString();
                 DataSet ds = model.ChangePassword();
