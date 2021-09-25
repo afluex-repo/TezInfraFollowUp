@@ -196,6 +196,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\AdminBaseController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\DashBoard.cs" />
@@ -1019,6 +1020,10 @@
     <Content Include="Views\Master\PrintVisitor.cshtml" />
     <Content Include="Views\Master\UserTypeMaster.cshtml" />
     <Content Include="Views\Master\GetDetailsUserType.cshtml" />
+    <Content Include="Views\EmployeeRegistration\GetVisitorDetails.cshtml" />
+    <Content Include="Views\EmployeeRegistration\VisitorForm.cshtml" />
+    <Content Include="Views\EmployeeRegistration\PrintVisitor.cshtml" />
+    <Content Include="Views\ForgotPassword\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

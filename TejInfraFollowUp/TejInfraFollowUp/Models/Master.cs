@@ -85,8 +85,9 @@ namespace TejInfraFollowUp.Models
         public string UserType { get; set; }
         public string Description { get; set; }
         public List<SelectListItem> ddlCategoryName { get; set; }
+        
         public List<Master> lstUserType { get; set; }
-
+        public string CreatedBy { get; set; }
 
         public DataSet VisitorListById()
         {
@@ -368,7 +369,7 @@ namespace TejInfraFollowUp.Models
                                        new SqlParameter("@Fk_CategoryId", Pk_CategoryId),
                                        new SqlParameter("@VisiteDate", VisitDate),
                                        new SqlParameter("@VisitorImage", Image),
-                                       new SqlParameter("@AddedBy", AddedBy),
+                                       new SqlParameter("@AddedBy", CreatedBy),
                                        new SqlParameter("@AssociateName",AssociateName),
                                        new SqlParameter("@VehicleDetails",VehicleNumber),
                                        new SqlParameter("@PickUpLocation",PickUpLocation),
@@ -391,6 +392,23 @@ namespace TejInfraFollowUp.Models
             DataSet ds = DBHelper.ExecuteQuery("GetVisitorDetails",para);
             return ds;
         }
+
+        public DataSet GetVisitorDetailsforEmployee()
+        {
+            SqlParameter[] para = {
+                                      new SqlParameter("@PK_VisitorId",VisitorId),
+                                       new SqlParameter("@Associateid",AssociateID),
+                                       new SqlParameter("@FromDate", FromDate),
+                                       new SqlParameter("@ToDate", ToDate),
+                                        new SqlParameter("@AddedBy",CreatedBy)
+
+
+                                  };
+            DataSet ds = DBHelper.ExecuteQuery("GetVisitorDetailsforEmployee", para);
+            return ds;
+        }
+
+
 
 
         public DataSet GetCategoryName()

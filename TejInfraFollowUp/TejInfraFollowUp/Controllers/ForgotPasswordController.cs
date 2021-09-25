@@ -78,6 +78,42 @@ namespace TejInfraFollowUp.Controllers
             return RedirectToAction("ForgotPassword");
         }
 
-       
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ActionName("ChangePassword")]
+        public ActionResult ChangePassword(ForgotPassword model)
+        {
+            try
+            {
+                model.UpdatedBy = Session["ExecutiveID"].ToString();
+                //model.UpdatedBy = Session["UserID"].ToString();
+                DataSet ds = model.ChangePassword();
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    if (ds.Tables[0].Rows[0][0].ToString() == "1")
+                    {
+                        TempData["Error"] = "Password Changed  Successfully";
+                    }
+                    else
+                    {
+                        TempData["Error"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = ex.Message;
+            }
+            return RedirectToAction("ChangePassword", "ForgotPassword");
+
+           
+        }
+
+
+
+
     }
 }
