@@ -11,6 +11,7 @@ using System.Net.Mail;
 using System.Net;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
+using System.Drawing;
 
 namespace TejInfraFollowUp.Controllers
 {
@@ -176,6 +177,8 @@ namespace TejInfraFollowUp.Controllers
             return View();
         }
 
+
+
         public ActionResult DeleteEmployeeRegistration(string Pk_Id)
         {
             if (Session["UserID"] == null)
@@ -270,7 +273,6 @@ namespace TejInfraFollowUp.Controllers
                 {
                     return RedirectToAction("Index", "Home");
                 }
-                model.Pk_Id = Session["UserID"].ToString();
                 DataSet ds = model.FilterEmployee();
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables.Count > 0)
                 {
@@ -279,7 +281,7 @@ namespace TejInfraFollowUp.Controllers
                     {
                        
                         EmployeeRegistration obj = new EmployeeRegistration();
-                        obj.Pk_Id = r["Pk_Id"].ToString();
+                       //obj.Pk_Id = r["Pk_Id"].ToString();
                         obj.Fk_UserTypeId = r["UserName"].ToString();
                         obj.Name = r["Name"].ToString();
                         obj.ContactNo = r["ContactNo"].ToString();
@@ -556,5 +558,167 @@ namespace TejInfraFollowUp.Controllers
                 return View(ex.Message);
             }
         }
+
+
+
+        [HttpPost]
+        public ActionResult AddDocuments(EmployeeRegistration formData)
+        {
+            var profile = Request.Files;
+            bool status = false;
+            var datavalue = Request["dataValue"];
+            string imgname = string.Empty;
+            string ImageName = string.Empty;
+            HttpPostedFileBase postedFile = Request.Files["Image"];
+            if (postedFile != null)
+            {
+                formData.Image = "../UploadImage/" + Guid.NewGuid() + Path.GetExtension(postedFile.FileName);
+                postedFile.SaveAs(Path.Combine(Server.MapPath(formData.Image)));
+            }
+            if (System.Web.HttpContext.Current.Request.Files.AllKeys.Any())
+            {
+                var logo = System.Web.HttpContext.Current.Request.Files["Image"];
+                if (logo.ContentLength > 0)
+                {
+                    var profileName = Path.GetFileName(logo.FileName);
+                    var ext = Path.GetExtension(logo.FileName);
+
+                    ImageName = profileName;
+
+                    var comPath = Server.MapPath("../UploadImage/") + ImageName;
+
+                    logo.SaveAs(comPath);
+                    formData.Image = comPath;
+                }
+
+            }
+            else
+                formData.Image = Server.MapPath("../UploadImage/") + "profile.jpg";
+
+            formData.Date = string.IsNullOrEmpty(formData.Date) ? null : Common.ConvertToSystemDate(formData.Date, "dd/MM/yyyy");
+            var jss = new JavaScriptSerializer();
+            var jdv = jss.Deserialize<dynamic>(Request["dataValue"]);
+            DataTable VisitorDetails = new DataTable();
+            VisitorDetails = JsonConvert.DeserializeObject<DataTable>(jdv["AddData"]);
+            // userDetail.dtVisitorDetails = VisitorDetails;
+            formData.AddedBy = Session["ExecutiveID"].ToString();
+            DataSet ds = new DataSet();
+            ds = formData.SaveEmployeeDocuments();
+
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            {
+                if (ds.Tables[0].Rows[0][0].ToString() == "1")
+                {
+                    TempData["Employee"] = "saved Details  successfully";
+                    status = true;
+                }
+                else if (ds.Tables[0].Rows[0][0].ToString() == "0")
+                {
+                    TempData["Employee"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                }
+            }
+            else
+            {
+                TempData["Employee"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+            }
+            return new JsonResult { Data = new { status = status } };
+        }
+
+
+
+        public ActionResult index()
+        {
+            return View();
+        }
+
+        
+
+        [HttpPost]
+        public JsonResult AddProfileee(HttpPostedFileBase file,EmployeeRegistration userDetail)
+        {
+            try
+            { 
+            if (file != null)
+            {
+                userDetail.file = "../UploadImage/" + Guid.NewGuid() + Path.GetExtension(file.FileName);
+                file.SaveAs(Path.Combine(Server.MapPath(userDetail.file)));
+            }
+            userDetail.AddedBy = Session["UserID"].ToString();
+            DataSet ds = userDetail.SaveEmployeeDocuments();
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                if (ds != null && ds.Tables[0].Rows[0][0].ToString() == "1")
+                {
+                    TempData["Image"] = "Document Save  Successfully";
+                }
+                else
+                {
+                    TempData["Image"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                }
+            }
+            }
+            catch (Exception ex)
+            {
+                TempData["Image"] = ex.Message;
+            }
+            return Json(userDetail, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult DocumentAndDateDetails(EmployeeRegistration model)
+        {
+            List<EmployeeRegistration> lstDocument = new List<EmployeeRegistration>();
+            DataSet ds = model.DocumentAndDateDetails();
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow r in ds.Tables[0].Rows)
+                {
+                    EmployeeRegistration obj = new EmployeeRegistration();
+                    obj.PK_EmployeeDocumentId = r["PK_EmployeeDocumentId"].ToString();
+                    obj.file = r["UpLoadDocument"].ToString();
+                    obj.Name = r["Name"].ToString();
+                    obj.Date = r["UpLoadDocumentDate"].ToString();
+                    lstDocument.Add(obj);
+                }
+                model.lstDocumentAndDate = lstDocument;
+            }
+            return View(model);
+        }
+
+
+
+
+        public FileResult Download(EmployeeRegistration userDetail, HttpPostedFileBase file)
+        {
+            try
+            {
+                
+                    userDetail.file = "../UploadImage/" + Guid.NewGuid() + Path.GetExtension(file.FileName);
+                    file.SaveAs(Path.Combine(Server.MapPath(userDetail.file)));
+             
+                userDetail.AddedBy = Session["UserID"].ToString();
+                DataSet ds = userDetail.SaveEmployeeDocuments();
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    if (ds != null && ds.Tables[0].Rows[0][0].ToString() == "1")
+                    {
+                        TempData["Image"] = "Document Save  Successfully";
+                    }
+                    else
+                    {
+                        TempData["Image"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Image"] = ex.Message;
+            }
+          
+        
+            return File("DocumentAndDateDetails", "EmployeeRegistration");
+        }
+
+        
     }
  }

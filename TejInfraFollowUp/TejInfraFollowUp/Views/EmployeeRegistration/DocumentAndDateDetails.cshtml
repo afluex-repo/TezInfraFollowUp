@@ -1,0 +1,101 @@
+﻿@model TejInfraFollowUp.Models.EmployeeRegistration
+@{
+    ViewBag.Title = "DocumentAndDateDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+<div class="main-wrapper">
+
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-5 align-self-center">
+                <h4 class="page-title"></h4>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Employee </a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Employee List </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    @using (Html.BeginForm("DocumentAndDateDetails", "EmployeeRegistration", FormMethod.Post, new { @id = "signupForm", enctype = "multipart/form-data" }))
+    {
+
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background: url(../../assets/images/big/auth-bg.jpg) no-repeat center center;min-height: 55vh;display: table-cell;">
+            <div class="auth-box" style="max-width:1286px;margin:2%">
+                <div id="loginform">
+                    <div class="logo">
+
+                        <p class="font-medium m-b-20" style="color:red">
+                            @TempData["EmployeeDelete"]
+                            @TempData["Employee"]
+                            @TempData["Image"]
+
+                        </p>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table id="file_export" class="table table-striped table-bordered display">
+                                    <thead>
+                                        <tr>
+                                            <th>S No.</th>
+                                            <th>Date</th>
+                                            <th>Employee Name</th>
+                                            <th>File</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null)
+                                        {
+                                            if (Model.lstDocumentAndDate != null)
+                                            {
+                                                int i = 1;
+                                                foreach (var item in Model.lstDocumentAndDate)
+                                                {
+                                                    <tr>
+                                                        <td>@i</td>
+                                                        <td>@item.Date</td>
+                                                        <td>@item.Name</td>
+                                                        <td>
+                                                            @*<iframe src="@item.file" width="50" height="50"></iframe>*@
+                                                     <img src="@item.file" height="50" width="50" /></td>
+                                                        <td>
+                                                            <a href="/EmployeeRegistration/Download" download="@item.file"><i class="fa fa-download" aria-hidden="true"></i></a>
+                                                        </td>
+
+                                                    </tr>
+                                                    i++;
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

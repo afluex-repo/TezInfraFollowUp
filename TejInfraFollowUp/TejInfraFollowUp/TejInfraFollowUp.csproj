@@ -1024,6 +1024,7 @@
     <Content Include="Views\EmployeeRegistration\VisitorForm.cshtml" />
     <Content Include="Views\EmployeeRegistration\PrintVisitor.cshtml" />
     <Content Include="Views\ForgotPassword\ChangePassword.cshtml" />
+    <Content Include="Views\EmployeeRegistration\DocumentAndDateDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1040,6 +1041,7 @@
     <Folder Include="dist\css\icons\flag-icon-css\flags\" />
     <Folder Include="ProspectImage\" />
     <Folder Include="SoftwareImages\" />
+    <Folder Include="UploadImage\" />
     <Folder Include="VisitorImage\" />
   </ItemGroup>
   <ItemGroup>
