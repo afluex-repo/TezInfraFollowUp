@@ -18,10 +18,18 @@ namespace TejInfraFollowUp.Models
         public string UserImage { get; set; }
         public string Pk_UserTypeID { get; set; }
         public string Fk_UserTypeId { get; set; }
+        public string Loginid { get; set; }
         public string CreatedBy { get; set; }
+        public string Date { get; set; }
+        public string Image { get; set; }
+        public string file { get; set; }
+        public string PK_EmployeeDocumentId { get; set; }
+        public string Profile { get; set; }
         public List<EmployeeRegistration> lstemployee { get; set; }
         public string postedFile { get; set; }
-      
+        public List<EmployeeRegistration> lstDocumentAndDate { get; set; }
+        public HttpPostedFileBase profilePic { get; set; }
+   
         public DataSet BindUserType()
         {
             
@@ -78,6 +86,7 @@ namespace TejInfraFollowUp.Models
         public DataSet FilterEmployee()
         {
             SqlParameter[] para = {
+               
                                       new SqlParameter("@Fk_UserTypeId",UserName),
                                       new SqlParameter("@Name",Name),
                                       new SqlParameter("@ContactNo",ContactNo)
@@ -85,6 +94,29 @@ namespace TejInfraFollowUp.Models
             DataSet ds = DBHelper.ExecuteQuery("GetEmployeeRegistration",para);
             return ds;
         }
+
+
+
+        public DataSet SaveEmployeeDocuments()
+        {
+            SqlParameter[] para = {
+                                      new SqlParameter("@UpLoadDocument",file),
+                                      new SqlParameter("@UpLoadDocumentDate",Date),
+                                        new SqlParameter("@FK_EmployeeId",Pk_Id),
+                                                 new SqlParameter("@AddedBy",AddedBy)
+
+                                  };
+            DataSet ds = DBHelper.ExecuteQuery("CreateEmployeeDocument", para);
+            return ds;
+        }
+
+
+        public DataSet DocumentAndDateDetails()
+        {
+            DataSet ds = DBHelper.ExecuteQuery("DocumentAndDateDetails");
+            return ds;
+        }
+
 
     }
 }
