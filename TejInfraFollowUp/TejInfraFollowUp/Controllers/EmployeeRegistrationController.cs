@@ -75,7 +75,6 @@ namespace TejInfraFollowUp.Controllers
                 return View(model);
             }
         }
-
         [HttpPost]
         [ActionName("EmployeeRegistration")]
         [OnAction(ButtonName = "btnSave")]
@@ -167,7 +166,6 @@ namespace TejInfraFollowUp.Controllers
             }
             return RedirectToAction(FormName, Controller);
         }
-
         public ActionResult GetEmpolyeeRegistrationList()
         {
             if (Session["UserID"] == null)
@@ -176,9 +174,6 @@ namespace TejInfraFollowUp.Controllers
             }
             return View();
         }
-
-
-
         public ActionResult DeleteEmployeeRegistration(string Pk_Id)
         {
             if (Session["UserID"] == null)
@@ -260,7 +255,6 @@ namespace TejInfraFollowUp.Controllers
             }
             return RedirectToAction("EmployeeRegistration");
         }
-
         [HttpPost]
         [ActionName("GetEmpolyeeRegistrationList")]
         [OnAction(ButtonName = "GetDetails")]
@@ -281,7 +275,7 @@ namespace TejInfraFollowUp.Controllers
                     {
                        
                         EmployeeRegistration obj = new EmployeeRegistration();
-                       //obj.Pk_Id = r["Pk_Id"].ToString();
+                        obj.Pk_Id = r["Pk_Id"].ToString();
                         obj.Fk_UserTypeId = r["UserName"].ToString();
                         obj.Name = r["Name"].ToString();
                         obj.ContactNo = r["ContactNo"].ToString();
@@ -302,9 +296,6 @@ namespace TejInfraFollowUp.Controllers
 
             return View(model);
         }
-
-
-
         public ActionResult VisitorForm()
         {
             Master model = new Master();
@@ -347,7 +338,6 @@ namespace TejInfraFollowUp.Controllers
             ViewBag.ddlCategoryName = ddlCategoryName;
             return View();
         }
-
         [HttpPost]
         public JsonResult AddProfile(Master userDetail)
         {
@@ -411,7 +401,6 @@ namespace TejInfraFollowUp.Controllers
             }
             return new JsonResult { Data = new { status = status } };
         }
-
         public ActionResult PrintVisitor(string Id)
         {
             if (Session["ExecutiveID"] == null)
@@ -451,12 +440,6 @@ namespace TejInfraFollowUp.Controllers
             }
             return View(newdata);
         }
-
-
-
-
-
-
         public ActionResult GetVisitorDetails()
         {
             if (Session["ExecutiveID"] == null)
@@ -558,9 +541,6 @@ namespace TejInfraFollowUp.Controllers
                 return View(ex.Message);
             }
         }
-
-
-
         [HttpPost]
         public ActionResult AddDocuments(EmployeeRegistration formData)
         {
@@ -623,16 +603,10 @@ namespace TejInfraFollowUp.Controllers
             }
             return new JsonResult { Data = new { status = status } };
         }
-
-
-
         public ActionResult index()
         {
             return View();
         }
-
-        
-
         [HttpPost]
         public JsonResult AddProfileee(HttpPostedFileBase file,EmployeeRegistration userDetail)
         {
@@ -643,17 +617,21 @@ namespace TejInfraFollowUp.Controllers
                 userDetail.file = "../UploadImage/" + Guid.NewGuid() + Path.GetExtension(file.FileName);
                 file.SaveAs(Path.Combine(Server.MapPath(userDetail.file)));
             }
+            userDetail.Pk_Id = Request["Pk_Id"];
+            userDetail.Date = string.IsNullOrEmpty(userDetail.Date) ? null : Common.ConvertToSystemDate(userDetail.Date, "dd/MM/yyyy");
             userDetail.AddedBy = Session["UserID"].ToString();
             DataSet ds = userDetail.SaveEmployeeDocuments();
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 if (ds != null && ds.Tables[0].Rows[0][0].ToString() == "1")
                 {
+                    userDetail.Result ="1";
                     TempData["Image"] = "Document Save  Successfully";
                 }
                 else
                 {
-                    TempData["Image"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                        userDetail.Result = "0";
+                        TempData["Image"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
                 }
             }
             }
@@ -663,8 +641,6 @@ namespace TejInfraFollowUp.Controllers
             }
             return Json(userDetail, JsonRequestBehavior.AllowGet);
         }
-
-
         public ActionResult DocumentAndDateDetails(EmployeeRegistration model)
         {
             List<EmployeeRegistration> lstDocument = new List<EmployeeRegistration>();
@@ -675,6 +651,7 @@ namespace TejInfraFollowUp.Controllers
                 {
                     EmployeeRegistration obj = new EmployeeRegistration();
                     obj.PK_EmployeeDocumentId = r["PK_EmployeeDocumentId"].ToString();
+                    obj.Loginid = r["LoginId"].ToString();
                     obj.file = r["UpLoadDocument"].ToString();
                     obj.Name = r["Name"].ToString();
                     obj.Date = r["UpLoadDocumentDate"].ToString();
@@ -684,41 +661,28 @@ namespace TejInfraFollowUp.Controllers
             }
             return View(model);
         }
-
-
-
-
-        public FileResult Download(EmployeeRegistration userDetail, HttpPostedFileBase file)
+        [HttpPost]
+        [ActionName("DocumentAndDateDetails")]
+        [OnAction(ButtonName = "GetDetails")]
+        public ActionResult DocumentAndDateDetailsbyId(EmployeeRegistration model)
         {
-            try
+            List<EmployeeRegistration> lstDocument = new List<EmployeeRegistration>();
+            DataSet ds = model.DocumentAndDateDetails();
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
-                
-                    userDetail.file = "../UploadImage/" + Guid.NewGuid() + Path.GetExtension(file.FileName);
-                    file.SaveAs(Path.Combine(Server.MapPath(userDetail.file)));
-             
-                userDetail.AddedBy = Session["UserID"].ToString();
-                DataSet ds = userDetail.SaveEmployeeDocuments();
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                foreach (DataRow r in ds.Tables[0].Rows)
                 {
-                    if (ds != null && ds.Tables[0].Rows[0][0].ToString() == "1")
-                    {
-                        TempData["Image"] = "Document Save  Successfully";
-                    }
-                    else
-                    {
-                        TempData["Image"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
-                    }
+                    EmployeeRegistration obj = new EmployeeRegistration();
+                    obj.Loginid = r["LoginId"].ToString();
+                    obj.PK_EmployeeDocumentId = r["PK_EmployeeDocumentId"].ToString();
+                    obj.file = r["UpLoadDocument"].ToString();
+                    obj.Name = r["Name"].ToString();
+                    obj.Date = r["UpLoadDocumentDate"].ToString();
+                    lstDocument.Add(obj);
                 }
+                model.lstDocumentAndDate = lstDocument;
             }
-            catch (Exception ex)
-            {
-                TempData["Image"] = ex.Message;
-            }
-          
-        
-            return File("DocumentAndDateDetails", "EmployeeRegistration");
+            return View(model);
         }
-
-        
     }
  }
