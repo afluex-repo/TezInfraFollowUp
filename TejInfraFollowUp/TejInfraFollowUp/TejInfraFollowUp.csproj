@@ -1025,6 +1025,7 @@
     <Content Include="Views\EmployeeRegistration\PrintVisitor.cshtml" />
     <Content Include="Views\ForgotPassword\ChangePassword.cshtml" />
     <Content Include="Views\EmployeeRegistration\DocumentAndDateDetails.cshtml" />
+    <Content Include="Views\Employee\EmployeeDocuments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

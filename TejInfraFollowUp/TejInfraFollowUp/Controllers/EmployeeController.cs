@@ -100,5 +100,26 @@ namespace TejInfraFollowUp.Controllers
             }
             return View(obj);
         }
+        public ActionResult EmployeeDocuments(EmployeeRegistration model)
+        {
+            List<EmployeeRegistration> lstDocument = new List<EmployeeRegistration>();
+            model.Fk_EmployeeId = Session["ExecutiveID"].ToString();
+            DataSet ds = model.DocumentAndDateDetails();
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow r in ds.Tables[0].Rows)
+                {
+                    EmployeeRegistration obj = new EmployeeRegistration();
+                    obj.Loginid = r["LoginId"].ToString();
+                    obj.PK_EmployeeDocumentId = r["PK_EmployeeDocumentId"].ToString();
+                    obj.file = r["UpLoadDocument"].ToString();
+                    obj.Name = r["Name"].ToString();
+                    obj.Date = r["UpLoadDocumentDate"].ToString();
+                    lstDocument.Add(obj);
+                }
+                model.lstDocumentAndDate = lstDocument;
+            }
+            return View(model);
+        }
     }
 }
