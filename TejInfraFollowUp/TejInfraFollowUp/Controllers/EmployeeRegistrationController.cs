@@ -686,39 +686,6 @@ namespace TejInfraFollowUp.Controllers
         }
 
 
-
-
-        public FileResult Download(EmployeeRegistration userDetail, HttpPostedFileBase file)
-        {
-            try
-            {
-                
-                    userDetail.file = "../UploadImage/" + Guid.NewGuid() + Path.GetExtension(file.FileName);
-                    file.SaveAs(Path.Combine(Server.MapPath(userDetail.file)));
-             
-                userDetail.AddedBy = Session["UserID"].ToString();
-                DataSet ds = userDetail.SaveEmployeeDocuments();
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                {
-                    if (ds != null && ds.Tables[0].Rows[0][0].ToString() == "1")
-                    {
-                        TempData["Image"] = "Document Save  Successfully";
-                    }
-                    else
-                    {
-                        TempData["Image"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                TempData["Image"] = ex.Message;
-            }
-          
-        
-            return File("DocumentAndDateDetails", "EmployeeRegistration");
-        }
-
         
     }
  }
