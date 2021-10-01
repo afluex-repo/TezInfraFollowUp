@@ -40,7 +40,7 @@
                                     <tr>
                                         <th>S No.</th>
                                         <th>Designation</th>
-                                        <th>Description</th>
+                                        @*<th>Description</th>*@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -55,10 +55,10 @@
                                                 <tr>
                                                     <td>@i</td>
                                                     <td>@item.UserType</td>
-                                                    <td>@item.Description</td>
+                                                    @*<td>@item.Description</td>*@
                                                     <td>
                                                         <a href="/Master/UserTypeMaster?Id=@item.UserTypeId" class="btn btn-outline-success" target="_blank">Edit</a>
-                                                        <a href="/Master/DeleteUserType?Id=@item.UserTypeId" class="btn btn-outline-danger" target="_blank">Delete</a>
+                                                        <a href="/Master/DeleteUserType?Id=@item.UserTypeId" class="btn btn-outline-danger">Delete</a>
                                                     </td>
 
                                                 </tr>

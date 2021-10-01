@@ -19,6 +19,7 @@ namespace TejInfraFollowUp.Models
         public string Pk_UserTypeID { get; set; }
         public string Fk_UserTypeId { get; set; }
         public string Loginid { get; set; }
+        public string Fk_EmployeeId { get; set; }
         public string CreatedBy { get; set; }
         public string Date { get; set; }
         public string Image { get; set; }
@@ -113,8 +114,11 @@ namespace TejInfraFollowUp.Models
 
         public DataSet DocumentAndDateDetails()
         {
-
-            DataSet ds = DBHelper.ExecuteQuery("DocumentAndDateDetails");
+            SqlParameter[] para = {
+                                      new SqlParameter("@Loginid",Loginid),
+                                      new SqlParameter("@Fk_EmployeeId",Fk_EmployeeId)
+                                  };
+            DataSet ds = DBHelper.ExecuteQuery("DocumentAndDateDetails",para);
             return ds;
         }
 

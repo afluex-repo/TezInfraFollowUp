@@ -29,6 +29,9 @@ namespace TejInfraFollowUp.Models
         public string Pk_ProductCategoryId { get; set; }
         public string Area { get; set; }
         public string SiteName { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerMobile { get; set; }
+
         public string Pk_CategoryId { get; set; }
         public string ChanceName { get; set; }
         public string Pk_BusinessChanceId { get; set; }
@@ -80,6 +83,9 @@ namespace TejInfraFollowUp.Models
         public string VehicleDetails { get; set; }
         public string PickUpLocation { get; set; }
         public string DropLocation { get; set; }
+
+        public string PickUpTime { get; set; }
+        public string DropTime { get; set; }
 
         public string UserTypeId { get; set; }
         public string UserType { get; set; }
@@ -374,6 +380,8 @@ namespace TejInfraFollowUp.Models
                                        new SqlParameter("@VehicleDetails",VehicleNumber),
                                        new SqlParameter("@PickUpLocation",PickUpLocation),
                                        new SqlParameter("@DropLocation",DropLocation),
+                                        new SqlParameter("@PickUpTime",PickUpTime),
+                                         new SqlParameter("@DropTime",DropTime),
                                       new SqlParameter("@DtVisitorDetail",dtVisitorDetails)
                                   };
             DataSet ds = DBHelper.ExecuteQuery("SaveVisitor", para);
@@ -421,7 +429,7 @@ namespace TejInfraFollowUp.Models
         public DataSet SaveUserType()
         {
             SqlParameter[] param = {new SqlParameter("@UserType",UserType),
-                                   new SqlParameter("@Description",Description),
+                                   //new SqlParameter("@Description",Description),
                                    new SqlParameter("@AddedBy",AddedBy)
             };
             DataSet ds = DBHelper.ExecuteQuery("CreateUserType", param);

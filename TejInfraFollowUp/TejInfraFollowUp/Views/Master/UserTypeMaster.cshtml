@@ -36,22 +36,22 @@
                     <div class="col-md-4">
                         <input type="hidden" name="UserTypeId" id="UserTypeId" value="@Model.UserTypeId" />
                         <div class="form-group row">
-                            <label class="control-label text-right col-md-3">Designation</label>
+                            <label class="control-label text-right col-md-3">Designation<span style="color: red">*</span></label>
                             <div class="col-md-9">
                                 @Html.TextBoxFor(m => m.UserType, new { @class = "form-control form-control-lg", @Placeholder = "Designation" })
 
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    @*<div class="col-md-4" style="display:none;">
                         <div class="form-group row">
                             <label class="control-label text-right col-md-3">Description</label>
-                            <div class="col-md-9">
+                            <div class="col-md-9" style="display:none;">
                                 @Html.TextBoxFor(m => m.Description, new { @class = "form-control form-control-lg", @Placeholder = "Description" })
 
                             </div>
                         </div>
-                    </div>
+                    </div>*@
                     <div class="col-md-4">
                         <div class="col-md-offset-3 col-md-9">
                             <input type="submit" value="Save " class="btn btn-success" name="btnSave" id="btnSave" onclick="return ValidateForm();" />
@@ -74,4 +74,25 @@
     {
         $("#btnSave").val("Update");
     }
+
+    
+
+    function ValidateForm()
+    {
+
+        if ($('#UserType').val() == '') {
+            $("#UserType").addClass('errortext');
+            $('#UserType').focus();
+            return false;
+        }
+
+    }
+
 </script>
+
+<style>
+      .errortext {
+        border: 1px solid red !important;
+        background-color: #fff0f0 !important;
+    }
+</style>

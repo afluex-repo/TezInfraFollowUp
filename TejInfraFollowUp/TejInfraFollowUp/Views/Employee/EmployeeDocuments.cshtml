@@ -1,7 +1,8 @@
 ﻿@model TejInfraFollowUp.Models.EmployeeRegistration
+
 @{
-    ViewBag.Title = "DocumentAndDateDetails";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "EmployeeDocuments";
+    Layout = "~/Views/Shared/EmployeeLayout.cshtml";
 }
 <div class="main-wrapper">
 
@@ -19,7 +20,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Employee </a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Employee List </li>
+                            <li class="breadcrumb-item active" aria-current="page">Employee Documents</li>
                         </ol>
                     </nav>
                 </div>
@@ -28,39 +29,12 @@
         </div>
     </div>
 
-    @using (Html.BeginForm("DocumentAndDateDetails", "EmployeeRegistration", FormMethod.Post, new { @id = "signupForm", enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("EmployeeDocuments", "Employee", FormMethod.Post, new { @id = "signupForm", enctype = "multipart/form-data" }))
     {
 
         <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background: url(../../assets/images/big/auth-bg.jpg) no-repeat center center;min-height: 55vh;display: table-cell;">
             <div class="auth-box" style="max-width:1286px;margin:2%">
-                <div id="loginform">
-                    <div class="logo">
-                        <p class="font-medium m-b-20" style="color:red">
-                            @TempData["Image"]
-                        </p>
-                    </div>
-                </div>
-
                 <div class="container">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="control-label text-right col-md-3">Employee LoginId</label>
-                                <div class="col-md-9">
-                                    @Html.TextBoxFor(m => m.Loginid, new { @class = "form-control form-control-lg", @Placeholder = "Employee LoginId" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group row">
-                                <div class="col-md-9">
-                                    <input type="submit" value="Get Details" class="btn btn-primary" name="GetDetails" id="GetDetails" />
-                                </div>
-                            </div>
-                        </div>
-                        <!--/span-->
-                        <!--/span-->
-                    </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="table-responsive">
@@ -69,9 +43,7 @@
                                         <tr>
                                             <th>S No.</th>
                                             <th>Date</th>
-                                            <th>Emp Loginid</th>
-                                            <th>Employee Name</th>
-                                            <th>Action</th>
+                                            <th>Download</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -85,9 +57,7 @@
                                                     <tr>
                                                         <td>@i</td>
                                                         <td>@item.Date</td>
-                                                        <td>@item.Loginid</td>
-                                                        <td>@item.Name</td>
-                                                        <td>
+                                                         <td>
                                                             <a href="@item.file"><i class="fa fa-download" aria-hidden="true"></i>Download File</a>
                                                         </td>
 
@@ -106,4 +76,3 @@
         </div>
     }
 </div>
-

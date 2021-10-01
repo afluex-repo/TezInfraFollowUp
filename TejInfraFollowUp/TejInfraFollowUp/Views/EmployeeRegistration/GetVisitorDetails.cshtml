@@ -81,6 +81,8 @@
                                             <th>Visit Date</th>
                                             <th>PickUp Location</th>
                                             <th>Drop Location</th>
+                                            <th>PickUp Time</th>
+                                            <th>Drop Time</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -102,6 +104,8 @@
                                                         <td>@item.VisitDate</td>
                                                         <td>@item.PickUpLocation</td>
                                                         <td>@item.DropLocation</td>
+                                                        <td>@item.PickUpTime</td>
+                                                        <td>@item.DropTime</td>
                                                         <td><a href="/EmployeeRegistration/PrintVisitor?Id=@item.EncryptKey" class="btn btn-outline-primary" target="_blank">Print</a></td>
                                                         @*<td><input type="submit" class="btn btn-outline-primary" value="Print"/></td>*@
                                                     </tr>

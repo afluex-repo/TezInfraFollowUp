@@ -1971,6 +1971,8 @@ namespace TejInfraFollowUp.Controllers
                     obj.SiteName = r["SiteName"].ToString();
                     obj.LoginId = r["LoginId"].ToString();
                     obj.AssociateName = r["AssociateName"].ToString();
+                    obj.CustomerName = r["CustomerName"].ToString();
+                    obj.CustomerMobile = r["CustomerMobile"].ToString();
                     obj.VehicleDetails = r["VehicleDetails"].ToString();
                     obj.CategoryName = r["CategoryName"].ToString();
                    // obj.VisitDate = r["VisitDate"].ToString();
@@ -1979,6 +1981,8 @@ namespace TejInfraFollowUp.Controllers
                     obj.VehicleNumber = r["VehicleDetails"].ToString();
                     obj.PickUpLocation = r["PickUpLocation"].ToString();
                     obj.DropLocation = r["DropLocation"].ToString();
+                    obj.PickUpTime = r["PickUpTime"].ToString();
+                    obj.DropTime = r["DropTime"].ToString();
                     //obj.Address = r["Address"].ToString();
                     lst.Add(obj);
                 }
@@ -2005,8 +2009,8 @@ namespace TejInfraFollowUp.Controllers
                 ViewBag.VehicleDetails = ds.Tables[0].Rows[0]["VehicleDetails"].ToString();
                 ViewBag.PickUpLocation = ds.Tables[0].Rows[0]["PickUpLocation"].ToString(); 
                 ViewBag.DropLocation = ds.Tables[0].Rows[0]["DropLocation"].ToString();
-
-
+                ViewBag.PickUpTime = ds.Tables[0].Rows[0]["PickUpTime"].ToString();
+                ViewBag.DropTime = ds.Tables[0].Rows[0]["DropTime"].ToString();
                 if (ds.Tables[1].Rows.Count > 0)
                 {
                     foreach (DataRow r in ds.Tables[1].Rows)
@@ -2034,7 +2038,7 @@ namespace TejInfraFollowUp.Controllers
                 {
                     //model.UserTypeId = ds.Tables[0].Rows[0]["PK_UserTypeId"].ToString();
                     model.UserType = ds.Tables[0].Rows[0]["UserType"].ToString();
-                    model.Description = ds.Tables[0].Rows[0]["Description"].ToString();
+                    //model.Description = ds.Tables[0].Rows[0]["Description"].ToString();
                 }
             }
             return View(model);
@@ -2099,7 +2103,7 @@ namespace TejInfraFollowUp.Controllers
                     Master obj = new Master();
                     obj.UserTypeId = r["PK_UserTypeId"].ToString();
                     obj.UserType = r["UserType"].ToString();
-                    obj.Description = r["Description"].ToString();
+                    //obj.Description = r["Description"].ToString();
                     lst.Add(obj);
                 }
                 model.lstUserType = lst;
