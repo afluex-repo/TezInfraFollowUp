@@ -84,6 +84,7 @@ namespace TejInfraFollowUp.Models
         public string PickUpLocation { get; set; }
         public string DropLocation { get; set; }
 
+        
         public string PickUpTime { get; set; }
         public string DropTime { get; set; }
 

@@ -1849,6 +1849,7 @@ namespace TejInfraFollowUp.Controllers
             VisitorDetails = JsonConvert.DeserializeObject<DataTable>(jdv["AddData"]);
             userDetail.dtVisitorDetails = VisitorDetails;
             userDetail.CreatedBy = Session["UserID"].ToString();
+            userDetail.PickUpLocation = System.DateTime.Today.ToShortDateString();
             DataSet ds = new DataSet();
             ds = userDetail.SaveVisitorDetails();
 
@@ -2138,7 +2139,5 @@ namespace TejInfraFollowUp.Controllers
             }
             return RedirectToAction("GetDetailsUserType", "Master");
         }
-
-
     }
 }
