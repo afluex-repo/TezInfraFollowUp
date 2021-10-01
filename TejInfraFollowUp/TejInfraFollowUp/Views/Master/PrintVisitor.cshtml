@@ -73,6 +73,11 @@
                 <td style="border: 1px solid black;"><b>PickUp Location : </b>@ViewBag.PickUpLocation</td>
                 <td style="border: 1px solid black;"  colspan="2"><b>Drop Location : </b>@ViewBag.DropLocation</td>
             </tr>
+            <tr>
+
+                <td style="border: 1px solid black;"><b>PickUp Time : </b>@ViewBag.PickUpTime</td>
+                <td style="border: 1px solid black;" colspan="2"><b>Drop Time : </b>@ViewBag.DropTime</td>
+            </tr>
         </table>
 &nbsp;&nbsp;
         <table style="width: 100%;" border="1">
@@ -80,7 +85,7 @@
                 <tr>
                     <td><b>Sr No</b></td>
                     <td><b>Customer Name</b></td>
-                    <td><b>Mobile No</b></td>
+                    <td style="display:none"><b>Mobile No</b></td>
                     <td><b>Address</b></td>
                 </tr>
             </thead>
@@ -95,7 +100,7 @@
                             <tr>
                                 <td>@i</td>
                                 <td>@item.Name</td>
-                                <td>@item.MobileNo</td>
+                                <td style="display:none">@item.MobileNo</td>
                                 <td>@item.Address</td>
                             </tr>
                             i++;
@@ -164,6 +169,10 @@
                 <td style="border: 1px solid black;"><b>PickUp Location : </b>@ViewBag.PickUpLocation</td>
                 <td style="border: 1px solid black;" colspan="2"><b>Drop Location : </b>@ViewBag.DropLocation</td>
             </tr>
+            <tr>
+                <td style="border: 1px solid black;"><b>PickUp Time : </b>@ViewBag.PickUpTime</td>
+                <td style="border: 1px solid black;" colspan="2"><b>Drop Time : </b>@ViewBag.DropTime</td>
+            </tr>
 
         </table>
       &nbsp;&nbsp;
@@ -172,7 +181,7 @@
                 <tr>
                     <td><b>Sr No</b></td>
                     <td><b>Customer Name</b></td>
-                    <td><b>Mobile No</b></td>
+                    <td style="display:none"><b>Mobile No</b></td>
                     <td><b>Address</b></td>
                 </tr>
             </thead>
@@ -187,7 +196,7 @@
                             <tr>
                                 <td>@i</td>
                                 <td>@item.Name</td>
-                                <td>@item.MobileNo</td>
+                                <td style="display:none">@item.MobileNo</td>
                                 <td>@item.Address</td>
                             </tr>
                             i++;

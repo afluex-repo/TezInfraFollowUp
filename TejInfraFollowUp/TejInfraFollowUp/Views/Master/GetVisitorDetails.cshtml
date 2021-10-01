@@ -72,11 +72,17 @@
                                             <th>Site</th>
                                             <th>AssociateId</th>
                                             <th>Associate Name</th>
+
+                                            <th>Customer Name</th>
+                                            <th>Cutomer Mobile</th>
+
                                             <th>CategoryName</th>
                                             <th>Vehicle Details</th>
                                             <th>Visit Date</th>
                                             <th>PickUp Location</th>
                                             <th>Drop Location</th>
+                                            <th>PickUp Time</th>
+                                            <th>Drop Time</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -93,11 +99,17 @@
                                                         <td>@item.SiteName</td>
                                                         <td>@item.LoginId</td>
                                                         <td>@item.AssociateName</td>
+
+                                                        <td>@item.CustomerName</td>
+                                                        <td>@item.CustomerMobile</td>
+
                                                         <td>@item.CategoryName</td>
                                                         <td>@item.VehicleNumber</td>
                                                         <td>@item.VisitDate</td>
                                                         <td>@item.PickUpLocation</td>
                                                         <td>@item.DropLocation</td>
+                                                        <td>@item.PickUpTime</td>
+                                                        <td>@item.DropTime</td>
                                                         <td><a href="/Master/PrintVisitor?Id=@item.EncryptKey" class="btn btn-outline-primary" target="_blank">Print</a></td>
                                                         @*<td><input type="submit" class="btn btn-outline-primary" value="Print"/></td>*@
                                                     </tr>

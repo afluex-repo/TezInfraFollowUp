@@ -424,6 +424,8 @@ namespace TejInfraFollowUp.Controllers
                 ViewBag.VehicleDetails = ds.Tables[0].Rows[0]["VehicleDetails"].ToString();
                 ViewBag.PickUpLocation = ds.Tables[0].Rows[0]["PickUpLocation"].ToString();
                 ViewBag.DropLocation = ds.Tables[0].Rows[0]["DropLocation"].ToString();
+                ViewBag.PickUpTime = ds.Tables[0].Rows[0]["PickUpTime"].ToString();
+                ViewBag.DropTime = ds.Tables[0].Rows[0]["DropTime"].ToString();
 
                 if (ds.Tables[1].Rows.Count > 0)
                 {
@@ -503,6 +505,8 @@ namespace TejInfraFollowUp.Controllers
                     //obj.Name = r["Name"].ToString();
                     obj.PickUpLocation = r["PickUpLocation"].ToString();
                     obj.DropLocation = r["DropLocation"].ToString();
+                    obj.PickUpTime = r["PickUpTime"].ToString();
+                    obj.DropTime = r["DropTime"].ToString();
                     lst.Add(obj);
                 }
                 model.VisitorList = lst;
