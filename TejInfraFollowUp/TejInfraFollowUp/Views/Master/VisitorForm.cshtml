@@ -76,7 +76,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 Visit Date<span style="color: red">*</span>
-                                @Html.TextBoxFor(m => m.VisitDate, new { @class = "form-control", @placeholder = "DD/MM/YYYY", @disabled="true"})
+                                @Html.TextBoxFor(m => m.VisitDate, new { @class = "form-control", @placeholder = "DD/MM/YYYY", @disabled = "true" })
 
                             </div>
                         </div>
@@ -105,14 +105,14 @@
                             <div class="form-group">
                                 PickUp Time
                                 @*@Html.TextBoxFor(m => m.PickUpTime, new { @class = "form-control", @placeholder = "Drop Location" })*@
-                                <input type="time" id="PickUpTime" name="PickUpTime" min="09:00" max="18:00" placeholder="PickUp Time" class="form-control">
+                                <input type="time" id="PickUpTime" name="PickUpTime" onchange="sumhrs();" placeholder="PickUp Time" class="form-control">
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="form-group">
                                 Drop Time
-                                <input type="time" id="DropTime" name="DropTime" min="09:00" max="18:00" placeholder="Drop Time" class="form-control">
+                                <input type="time" id="DropTime" name="DropTime" onchange="sumhrs();"  placeholder="Drop Time" class="form-control">
                                 @*@Html.TextBoxFor(m => m.DropTime, new { @class = "form-control", @placeholder = "Drop Location" })*@
                             </div>
                         </div>
@@ -183,8 +183,17 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var today = new Date();
-        var date = (today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear();
-        $('#VisitDate').val(date);
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        today = mm + '/' + dd + '/' + yyyy;
+
+        var d = new Date(),
+          h = (d.getHours() < 10 ? '0' : '') + d.getHours(),
+          m = (d.getMinutes() < 10 ? '0' : '') + d.getMinutes();
+        d = h + ':' + m;
+        $('#PickUpTime').val(d);
+        $('#VisitDate').val(today);
         $('select').selectpicker();
         $('#Select Site').attr('disabled', 'disabled');
         $('#Mobile').keypress(function () {
@@ -262,6 +271,18 @@
                 $("#divload").css({ 'display': 'none' });
                 return false;
             }
+            if ($('#PickUpLocation').val() == '') {
+                $("#PickUpLocation").addClass('errortext');
+                $('#PickUpLocation').focus();
+                $("#divload").css({ 'display': 'none' });
+                return false;
+            }
+            if ($('#DropLocation').val() == '') {
+                $("#DropLocation").addClass('errortext');
+                $('#DropLocation').focus();
+                $("#divload").css({ 'display': 'none' });
+                return false;
+            }
             if ($('#VisitDate').val() == '') {
                 $("#VisitDate").addClass('errortext');
                 $('#VisitDate').focus();
@@ -271,6 +292,12 @@
             if ($('#VehicleNumber').val() == '') {
                 $("#VehicleNumber").addClass('errortext');
                 $('#VehicleNumber').focus();
+                $("#divload").css({ 'display': 'none' });
+                return false;
+            }
+            if ($('#DropTime').val() == '') {
+                $("#DropTime").addClass('errortext');
+                $('#DropTime').focus();
                 $("#divload").css({ 'display': 'none' });
                 return false;
             }
@@ -523,6 +550,42 @@
         $("#divload").css({ 'display': '' });
 
         return true;
+    }
+    function sumhrs() {
+        var smon = document.getElementById('PickUpTime').value;
+        var fmon = document.getElementById('DropTime').value;
+        var diff = 0;
+        if (smon && fmon) {
+            smon = ConvertToSeconds(smon);
+            fmon = ConvertToSeconds(fmon);
+            diff = Math.abs(fmon - smon);
+            if (diff > 10800) {
+                alert('you can not set drop time greater than 3 hrs !!')
+                $("#DropTime").addClass('errortext');
+                $("#DropTime").addClass('errortext');
+                $("#DropTime").val('');
+            }
+            console.log(diff);
+            
+            //console.log('time difference is : ' + secondsTohhmmss(diff));
+        }
+
+        function ConvertToSeconds(time) {
+            var splitTime = time.split(":");
+            return splitTime[0] * 3600 + splitTime[1] * 60;
+        }
+
+        //function secondsTohhmmss(secs) {
+         
+        //    var hours = parseInt(secs / 3600);
+        //    var seconds = parseInt(secs % 3600);
+        //    var minutes = parseInt(seconds / 60);
+        //    if (hours > 3 && minutes > 00)
+        //    {
+        //      alert('you can not set drop time greater than 3 hrs !!')
+        //    }
+           
+        //}
     }
 </script>
 
