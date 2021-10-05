@@ -1087,7 +1087,7 @@ namespace TejInfraFollowUp.Controllers
                     Master obj = new Master();
                     obj.PK_InterActionId = r["PK_InterActionId"].ToString();
                     obj.InterActionName = r["InterActionName"].ToString();
-                   
+
                     lst1.Add(obj);
                 }
                 model.lstInterAction = lst1;
@@ -1164,7 +1164,7 @@ namespace TejInfraFollowUp.Controllers
             {
                 return View(model);
             }
-    }
+        }
 
         [HttpPost]
         [ActionName("CategoryMaster")]
@@ -1335,7 +1335,7 @@ namespace TejInfraFollowUp.Controllers
                 }
                 model.lstSource = lst1;
             }
-            return View(model);       
+            return View(model);
         }
 
         [HttpPost]
@@ -1454,7 +1454,7 @@ namespace TejInfraFollowUp.Controllers
                 }
                 model.lstActivity = lst1;
             }
-            return View(model);       
+            return View(model);
         }
 
         [HttpPost]
@@ -1574,9 +1574,9 @@ namespace TejInfraFollowUp.Controllers
                 }
                 model.lstChance = lst1;
             }
-            return View(model);     
-   
-          
+            return View(model);
+
+
         }
 
         [HttpPost]
@@ -1695,8 +1695,8 @@ namespace TejInfraFollowUp.Controllers
                 }
                 model.lstProductCategory = lst1;
             }
-            return View(model);   
-       
+            return View(model);
+
         }
 
         [HttpPost]
@@ -1740,13 +1740,40 @@ namespace TejInfraFollowUp.Controllers
         }
 
 
-        
-        public ActionResult VisitorForm()
+
+        public ActionResult VisitorForm(string Id)
         {
             Master model = new Master();
+            DataSet ds = new DataSet();
+            if(Id!=null)
+            {
+                model.VisitorId = Crypto.Decrypt(Id);
+                List<Master> lst = new List<Master>();
+                model.FromDate = string.IsNullOrEmpty(model.FromDate) ? null : Common.ConvertToSystemDate(model.FromDate, "dd/MM/yyyy");
+                model.ToDate = string.IsNullOrEmpty(model.ToDate) ? null : Common.ConvertToSystemDate(model.ToDate, "dd/MM/yyyy");
+                 ds = model.GetVisitorDetails();
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    model.SiteID = ds.Tables[0].Rows[0]["SiteName"].ToString();
+                    model.AssociateID = ds.Tables[0].Rows[0]["LoginId"].ToString();
+                    model.AssociateName = ds.Tables[0].Rows[0]["AssociateName"].ToString();
+                    model.Name = ds.Tables[0].Rows[0]["CustomerName"].ToString();
+                    model.MobileNo = ds.Tables[0].Rows[0]["CustomerMobile"].ToString();
+                    model.Address = ds.Tables[0].Rows[0]["Address"].ToString();
+                    model.VehicleDetails = ds.Tables[0].Rows[0]["VehicleDetails"].ToString();
+                    model.Pk_CategoryId = ds.Tables[0].Rows[0]["Pk_CategoryId"].ToString();
+                    model.VisitDate = ds.Tables[0].Rows[0]["VisitDate"].ToString();
+                    model.VehicleNumber = ds.Tables[0].Rows[0]["VehicleDetails"].ToString();
+                    model.PickUpLocation = ds.Tables[0].Rows[0]["PickUpLocation"].ToString();
+                    model.DropLocation = ds.Tables[0].Rows[0]["DropLocation"].ToString();
+                    model.PickUpTime = ds.Tables[0].Rows[0]["PickUpTime"].ToString();
+                    model.DropTime = ds.Tables[0].Rows[0]["DropTime"].ToString();
+                }
+            }
+            
             int count1 = 0;
             List<SelectListItem> ddlsite = new List<SelectListItem>();
-            DataSet ds = model.GetSiteName();
+             ds = model.GetSiteName();
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow r in ds.Tables[0].Rows)
@@ -1777,7 +1804,7 @@ namespace TejInfraFollowUp.Controllers
                 }
             }
             ViewBag.ddlCategoryName = ddlCategoryName;
-            return View();
+            return View(model);
         }
 
 
@@ -1814,7 +1841,7 @@ namespace TejInfraFollowUp.Controllers
         {
             var profile = Request.Files;
             bool status = false;
-            var datavalue= Request["dataValue"];
+            var datavalue = Request["dataValue"];
             //string imgname = string.Empty;
             //string ImageName = string.Empty;
             //HttpPostedFileBase postedFile = Request.Files["Image"];
@@ -1851,23 +1878,47 @@ namespace TejInfraFollowUp.Controllers
             userDetail.CreatedBy = Session["UserID"].ToString();
             userDetail.PickUpLocation = System.DateTime.Today.ToShortDateString();
             DataSet ds = new DataSet();
-            ds = userDetail.SaveVisitorDetails();
 
-            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            if(userDetail.VisitorId==null)
             {
-                if (ds.Tables[0].Rows[0][0].ToString() == "1")
+                ds = userDetail.SaveVisitorDetails();
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
-                    TempData["Visitor"] = "Visitor Details saved successfully";
-                    status = true;
+                    if (ds.Tables[0].Rows[0][0].ToString() == "1")
+                    {
+                        TempData["Visitor"] = "Visitor Details saved successfully";
+                        status = true;
+                    }
+                    else if (ds.Tables[0].Rows[0][0].ToString() == "0")
+                    {
+                        TempData["Visitor"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                    }
                 }
-                else if (ds.Tables[0].Rows[0][0].ToString() == "0")
+                else
                 {
                     TempData["Visitor"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
                 }
             }
             else
             {
-                TempData["Visitor"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                userDetail.CreatedBy = Session["UserID"].ToString();
+             //   ds = userDetail.UpdateVisitorDetails();
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    if (ds.Tables[0].Rows[0][0].ToString() == "1")
+                    {
+                        TempData["Visitor"] = "Visitor Details Update successfully";
+                        status = true;
+                    }
+                    else if (ds.Tables[0].Rows[0][0].ToString() == "0")
+                    {
+                        TempData["Visitor"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                    }
+                }
+                else
+                {
+                    TempData["Visitor"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                }
             }
             return new JsonResult { Data = new { status = status } };
         }
@@ -1937,12 +1988,12 @@ namespace TejInfraFollowUp.Controllers
             //    {
             //        Master obj = new Master();
             //        obj.VisitorId = r["PK_VisitorDetailsID"].ToString();
-                    //obj.SiteName = r["SiteName"].ToString();
-                    //obj.AssociateID = r["LoginId"].ToString();
-                    //obj.AssociateName = r["AssociateName"].ToString();
-                    //obj.Amount = r["Amount"].ToString();
-                    //obj.VisitDate = r["VisitDate"].ToString();
-                    //obj.VisitorImage = r["VisitorImage"].ToString();
+            //obj.SiteName = r["SiteName"].ToString();
+            //obj.AssociateID = r["LoginId"].ToString();
+            //obj.AssociateName = r["AssociateName"].ToString();
+            //obj.Amount = r["Amount"].ToString();
+            //obj.VisitDate = r["VisitDate"].ToString();
+            //obj.VisitorImage = r["VisitorImage"].ToString();
             //        obj.Name = r["Name"].ToString();
             //        obj.MobileNo = r["Mobile"].ToString();
             //        obj.Address = r["Address"].ToString();
@@ -1956,7 +2007,7 @@ namespace TejInfraFollowUp.Controllers
         [ActionName("GetVisitorDetails")]
         public ActionResult SearchVisitorDetails(Master model)
         {
-            
+
             List<Master> lst = new List<Master>();
             model.FromDate = string.IsNullOrEmpty(model.FromDate) ? null : Common.ConvertToSystemDate(model.FromDate, "dd/MM/yyyy");
             model.ToDate = string.IsNullOrEmpty(model.ToDate) ? null : Common.ConvertToSystemDate(model.ToDate, "dd/MM/yyyy");
@@ -1966,9 +2017,9 @@ namespace TejInfraFollowUp.Controllers
                 foreach (DataRow r in ds.Tables[0].Rows)
                 {
                     Master obj = new Master();
-                    obj.EncryptKey= Crypto.Encrypt(r["PK_VisitorMasterID"].ToString());
+                    obj.EncryptKey = Crypto.Encrypt(r["PK_VisitorMasterID"].ToString());
                     //obj.VisitorId = r["PK_VisitorMasterID"].ToString();
-                   // obj.VisitorImage = r["VisitorImage"].ToString();
+                    // obj.VisitorImage = r["VisitorImage"].ToString();
                     obj.SiteName = r["SiteName"].ToString();
                     obj.LoginId = r["LoginId"].ToString();
                     obj.AssociateName = r["AssociateName"].ToString();
@@ -1976,7 +2027,7 @@ namespace TejInfraFollowUp.Controllers
                     obj.CustomerMobile = r["CustomerMobile"].ToString();
                     obj.VehicleDetails = r["VehicleDetails"].ToString();
                     obj.CategoryName = r["CategoryName"].ToString();
-                   // obj.VisitDate = r["VisitDate"].ToString();
+                    // obj.VisitDate = r["VisitDate"].ToString();
                     obj.VisitDate = r["VisitDate"].ToString();
                     //obj.VisitorImage = r["VisitorImage"].ToString();
                     obj.VehicleNumber = r["VehicleDetails"].ToString();
@@ -2008,7 +2059,7 @@ namespace TejInfraFollowUp.Controllers
                 ViewBag.VisitDate = ds.Tables[0].Rows[0]["VisitDate"].ToString();
                 //ViewBag.Image = ds.Tables[0].Rows[0]["VisitorImage"].ToString();
                 ViewBag.VehicleDetails = ds.Tables[0].Rows[0]["VehicleDetails"].ToString();
-                ViewBag.PickUpLocation = ds.Tables[0].Rows[0]["PickUpLocation"].ToString(); 
+                ViewBag.PickUpLocation = ds.Tables[0].Rows[0]["PickUpLocation"].ToString();
                 ViewBag.DropLocation = ds.Tables[0].Rows[0]["DropLocation"].ToString();
                 ViewBag.PickUpTime = ds.Tables[0].Rows[0]["PickUpTime"].ToString();
                 ViewBag.DropTime = ds.Tables[0].Rows[0]["DropTime"].ToString();
@@ -2031,8 +2082,8 @@ namespace TejInfraFollowUp.Controllers
         public ActionResult UserTypeMaster(string Id)
         {
             Master model = new Master();
-            model.UserTypeId= Id;
-            if (model.UserTypeId!=null)
+            model.UserTypeId = Id;
+            if (model.UserTypeId != null)
             {
                 DataSet ds = model.GetUserTypeDeatils();
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
@@ -2052,7 +2103,7 @@ namespace TejInfraFollowUp.Controllers
         {
             try
             {
-                if(model.UserTypeId==null)
+                if (model.UserTypeId == null)
                 {
                     model.AddedBy = Session["UserID"].ToString();
                     DataSet ds = model.SaveUserType();
@@ -2112,7 +2163,7 @@ namespace TejInfraFollowUp.Controllers
             return View(model);
         }
 
-   
+
         public ActionResult DeleteUserType(string Id)
         {
             Master model = new Master();
@@ -2139,5 +2190,240 @@ namespace TejInfraFollowUp.Controllers
             }
             return RedirectToAction("GetDetailsUserType", "Master");
         }
+
+
+        public ActionResult DeleteMaster(string Id)
+        {
+            Master model = new Master();
+            try
+            {
+                model.AddedBy = Session["UserID"].ToString();
+                model.Pk_CategoryId = Id;
+                DataSet ds = model.DeleteCategory();
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    if (ds.Tables[0].Rows[0][0].ToString() == "1")
+                    {
+                        TempData["Category"] = "Category Delete Successfully";
+                    }
+                    else if (ds.Tables[0].Rows[0][0].ToString() == "0")
+                    {
+                        TempData["Category"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                    }
+                }
+                else
+                {
+                    TempData["Category"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                TempData["Category"] = ex.Message;
+            }
+            return RedirectToAction("CategoryList", "Master");
+        }
+
+
+        public ActionResult DeleteInterActionMaster(string Id)
+        {
+            Master model = new Master();
+            try
+            {
+                model.AddedBy = Session["UserID"].ToString();
+                model.PK_InterActionId = Id;
+                DataSet ds = model.DeleteInterAction();
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    if (ds.Tables[0].Rows[0][0].ToString() == "1")
+                    {
+                        TempData["Category"] = "Record Delete Successfully";
+                    }
+                    else if (ds.Tables[0].Rows[0][0].ToString() == "0")
+                    {
+                        TempData["Category"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                    }
+                }
+                else
+                {
+                    TempData["Category"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                TempData["Category"] = ex.Message;
+            }
+            return RedirectToAction("InterActionList", "Master");
+        }
+
+        
+
+            public ActionResult DeleteDataSource(string Id)
+        {
+            Master model = new Master();
+            try
+            {
+                model.AddedBy = Session["UserID"].ToString();
+                model.Pk_SourceId = Id;
+                DataSet ds = model.DeleteDataSource();
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    if (ds.Tables[0].Rows[0][0].ToString() == "1")
+                    {
+                        TempData["Category"] = "Data Source Delete Successfully";
+                    }
+                    else if (ds.Tables[0].Rows[0][0].ToString() == "0")
+                    {
+                        TempData["Category"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                    }
+                }
+                else
+                {
+                    TempData["Category"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                TempData["Category"] = ex.Message;
+            }
+            return RedirectToAction("DataSourceList", "Master");
+        }
+
+
+
+        public ActionResult DeleteProspectActivityMaster(string Id)
+        {
+            Master model = new Master();
+            try
+            {
+                model.AddedBy = Session["UserID"].ToString();
+                model.Pk_ActivityId = Id;
+                DataSet ds = model.DeleteProspectActivity();
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    if (ds.Tables[0].Rows[0][0].ToString() == "1")
+                    {
+                        TempData["Category"] = "Prospect Activity Delete Successfully";
+                    }
+                    else if (ds.Tables[0].Rows[0][0].ToString() == "0")
+                    {
+                        TempData["Category"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                    }
+                }
+                else
+                {
+                    TempData["Category"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                TempData["Category"] = ex.Message;
+            }
+            return RedirectToAction("ProspectActivityList", "Master");
+        }
+
+
+        public ActionResult DeleteBusinessChanceMaster(string Id)
+        {
+            Master model = new Master();
+            try
+            {
+                model.AddedBy = Session["UserID"].ToString();
+                model.Pk_BusinessChanceId = Id;
+                DataSet ds = model.DeleteBusinessChance();
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    if (ds.Tables[0].Rows[0][0].ToString() == "1")
+                    {
+                        TempData["Category"] = "Business Chance Delete Successfully";
+                    }
+                    else if (ds.Tables[0].Rows[0][0].ToString() == "0")
+                    {
+                        TempData["Category"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                    }
+                }
+                else
+                {
+                    TempData["Category"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                TempData["Category"] = ex.Message;
+            }
+            return RedirectToAction("BusinessChanceList", "Master");
+        }
+
+
+        public ActionResult DeleteProductCategoryMaster(string Id)
+        {
+            Master model = new Master();
+            try
+            {
+                model.AddedBy = Session["UserID"].ToString();
+                model.Pk_ProductCategoryId = Id;
+                DataSet ds = model.DeleteProductCategory();
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    if (ds.Tables[0].Rows[0][0].ToString() == "1")
+                    {
+                        TempData["Category"] = "Product Category Delete Successfully";
+                    }
+                    else if (ds.Tables[0].Rows[0][0].ToString() == "0")
+                    {
+                        TempData["Category"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                    }
+                }
+                else
+                {
+                    TempData["Category"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                TempData["Category"] = ex.Message;
+            }
+            return RedirectToAction("ProductCategoryList", "Master");
+        }
+
+
+        public ActionResult DeleteVisitorMaster(string Id)
+        {
+            Master model = new Master();
+            try
+            {
+                model.AddedBy = Session["UserID"].ToString();
+                model.VisitorId =Crypto.Decrypt(Id);
+                DataSet ds = model.DeleteVisitor();
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    if (ds.Tables[0].Rows[0][0].ToString() == "1")
+                    {
+                        TempData["Category"] = "Visitor Details Delete Successfully";
+                    }
+                    else if (ds.Tables[0].Rows[0][0].ToString() == "0")
+                    {
+                        TempData["Category"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                    }
+                }
+                else
+                {
+                    TempData["Category"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                TempData["Category"] = ex.Message;
+            }
+            return RedirectToAction("GetVisitorDetails", "Master");
+        }
+
+        
     }
 }

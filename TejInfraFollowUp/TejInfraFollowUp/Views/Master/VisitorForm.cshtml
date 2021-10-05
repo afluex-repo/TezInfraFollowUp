@@ -38,8 +38,8 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 Select Site <span style="color: red">*</span>
-                                @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control selectpicker", multiple = "multiple" })
-
+                                @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control selectpicker", multiple = "multiple"})
+                        
                                 @*<select class="selectpicker" multiple data-live-search="true">
                                         <option>Mustard</option>
                                         <option>Ketchup</option>
@@ -105,14 +105,14 @@
                             <div class="form-group">
                                 PickUp Time
                                 @*@Html.TextBoxFor(m => m.PickUpTime, new { @class = "form-control", @placeholder = "Drop Location" })*@
-                                <input type="time" id="PickUpTime" name="PickUpTime" min="09:00" max="18:00" placeholder="PickUp Time" class="form-control">
+                                <input type="time" id="PickUpTime" name="PickUpTime" min="09:00" max="18:00" placeholder="PickUp Time" class="form-control" value="@Model.PickUpTime">
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="form-group">
                                 Drop Time
-                                <input type="time" id="DropTime" name="DropTime" min="09:00" max="18:00" placeholder="Drop Time" class="form-control">
+                                <input type="time" id="DropTime" name="DropTime" min="09:00" max="18:00" placeholder="Drop Time" class="form-control" value="@Model.DropTime">
                                 @*@Html.TextBoxFor(m => m.DropTime, new { @class = "form-control", @placeholder = "Drop Location" })*@
                             </div>
                         </div>
@@ -201,7 +201,7 @@
         });
         $('#add').click(function () {
             debugger;
-            var isAllValid = true;
+            var isAllValid = true;  
             if (!($('#Name').val().trim() != '' && ($('#Name').val().trim()))) {
                 $("#Name").addClass('errortext');
                 $('#Name').focus();
