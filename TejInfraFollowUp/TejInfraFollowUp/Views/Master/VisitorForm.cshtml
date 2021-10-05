@@ -36,10 +36,11 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4">
+                            <input type="hidden" id="VisitorId" name="VisitorId" value="@Model.VisitorId" />
                             <div class="form-group">
                                 Select Site <span style="color: red">*</span>
-                                @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control selectpicker", multiple = "multiple" })
-
+                                @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control selectpicker", multiple = "multiple"})
+                        
                                 @*<select class="selectpicker" multiple data-live-search="true">
                                         <option>Mustard</option>
                                         <option>Ketchup</option>
@@ -181,6 +182,13 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
 <script type="text/javascript">
+
+    var VisitorId = $("#VisitorId").val();
+    if (VisitorId!=0)
+    {
+        $("#btnsssubmit").val("Update");
+    }
+
     $(document).ready(function () {
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
@@ -210,7 +218,7 @@
         });
         $('#add').click(function () {
             debugger;
-            var isAllValid = true;
+            var isAllValid = true;  
             if (!($('#Name').val().trim() != '' && ($('#Name').val().trim()))) {
                 $("#Name").addClass('errortext');
                 $('#Name').focus();
