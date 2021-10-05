@@ -37,6 +37,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <input type="hidden" id="VisitorId" name="VisitorId" value="@Model.VisitorId" />
+                            <input type="hidden" id="VisitorDetailId" name="VisitorDetailId" value="@Model.VisitorDetailId" />
                             <div class="form-group">
                                 Select Site <span style="color: red">*</span>
                                 @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control selectpicker", multiple = "multiple"})
@@ -350,6 +351,8 @@
                 var files = $("#postedFile1").get(0).files;
                 formData.append("Image", files[0]);
                 formData.append("SiteID", $('#SiteID').val());
+                formData.append("VisitorId", $('#VisitorId').val());
+                formData.append("VisitorDetailId", $('#VisitorDetailId').val());
                 formData.append("AssociateID", $('#UserID').val());
                 formData.append("Pk_CategoryId", $('#Pk_CategoryId').val());
                 //formData.append("Amount", $('#Amount').val());
