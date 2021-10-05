@@ -18,6 +18,7 @@ namespace TejInfraFollowUp.Models
         public string Quantity { get; set; }
         public string Facing { get; set; }
         public string SiteID { get; set; }
+        public string Hidden { get; set; }
         public string VendorID { get; set; }
         public string Rational { get; set; }
         public string Location { get; set; }
@@ -29,6 +30,9 @@ namespace TejInfraFollowUp.Models
         public string Pk_ProductCategoryId { get; set; }
         public string Area { get; set; }
         public string SiteName { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerMobile { get; set; }
+
         public string Pk_CategoryId { get; set; }
         public string ChanceName { get; set; }
         public string Pk_BusinessChanceId { get; set; }
@@ -74,11 +78,24 @@ namespace TejInfraFollowUp.Models
         public string postedFile1 { get; set; }
         public string EncryptKey { get; set; }
         public string VehicleNumber { get; set; }
+        
         public string ToDate { get; set; }
         public string FromDate { get; set; }
         public string VehicleDetails { get; set; }
-        public List<SelectListItem> ddlCategoryName { get; set; }
+        public string PickUpLocation { get; set; }
+        public string DropLocation { get; set; }
 
+        
+        public string PickUpTime { get; set; }
+        public string DropTime { get; set; }
+
+        public string UserTypeId { get; set; }
+        public string UserType { get; set; }
+        public string Description { get; set; }
+        public List<SelectListItem> ddlCategoryName { get; set; }
+        
+        public List<Master> lstUserType { get; set; }
+        public string CreatedBy { get; set; }
 
         public DataSet VisitorListById()
         {
@@ -355,14 +372,18 @@ namespace TejInfraFollowUp.Models
         public DataSet SaveVisitorDetails()
         {
             SqlParameter[] para = {
-                                      new SqlParameter("@FK_SiteID",SiteID),
+                                      new SqlParameter("@SiteName",SiteID),
                                        new SqlParameter("@FK_AssociateId", AssociateID),
                                        new SqlParameter("@Fk_CategoryId", Pk_CategoryId),
                                        new SqlParameter("@VisiteDate", VisitDate),
                                        new SqlParameter("@VisitorImage", Image),
-                                       new SqlParameter("@AddedBy", AddedBy),
+                                       new SqlParameter("@AddedBy", CreatedBy),
                                        new SqlParameter("@AssociateName",AssociateName),
                                        new SqlParameter("@VehicleDetails",VehicleNumber),
+                                       new SqlParameter("@PickUpLocation",PickUpLocation),
+                                       new SqlParameter("@DropLocation",DropLocation),
+                                        new SqlParameter("@PickUpTime",PickUpTime),
+                                         new SqlParameter("@DropTime",DropTime),
                                       new SqlParameter("@DtVisitorDetail",dtVisitorDetails)
                                   };
             DataSet ds = DBHelper.ExecuteQuery("SaveVisitor", para);
@@ -382,10 +403,160 @@ namespace TejInfraFollowUp.Models
             return ds;
         }
 
+        public DataSet GetVisitorDetailsforEmployee()
+        {
+            SqlParameter[] para = {
+                                      new SqlParameter("@PK_VisitorId",VisitorId),
+                                       new SqlParameter("@Associateid",AssociateID),
+                                       new SqlParameter("@FromDate", FromDate),
+                                       new SqlParameter("@ToDate", ToDate),
+                                        new SqlParameter("@AddedBy",CreatedBy)
+
+
+                                  };
+            DataSet ds = DBHelper.ExecuteQuery("GetVisitorDetailsforEmployee", para);
+            return ds;
+        }
+
+
+
 
         public DataSet GetCategoryName()
         {
             DataSet ds = DBHelper.ExecuteQuery("GetCategoryName");
+            return ds;
+        }
+
+
+        public DataSet SaveUserType()
+        {
+            SqlParameter[] param = {new SqlParameter("@UserType",UserType),
+                                   //new SqlParameter("@Description",Description),
+                                   new SqlParameter("@AddedBy",AddedBy)
+            };
+            DataSet ds = DBHelper.ExecuteQuery("CreateUserType", param);
+            return ds;
+        }
+
+        public DataSet UpdateUserType()
+        {
+            SqlParameter[] param = {
+                                    new SqlParameter("@UserTypeId",UserTypeId),
+                                    new SqlParameter("@UserType",UserType),
+                                   //new SqlParameter("@Description",Description),
+                                   new SqlParameter("@AddedBy",AddedBy)
+            };
+            DataSet ds = DBHelper.ExecuteQuery("UpdateUserType", param);
+            return ds;
+        }
+
+
+        
+        public DataSet GetUserTypeDeatils()
+        {
+            SqlParameter[] param = {new SqlParameter("@UserTypeId",UserTypeId),
+                                   new SqlParameter("@UserType",UserType),
+                                   new SqlParameter("@Description",Description)
+            };
+            DataSet ds = DBHelper.ExecuteQuery("GetUserTypeDetails",param);
+            return ds;
+        }
+
+
+
+        public DataSet DeleteUserType()
+        {
+            SqlParameter[] param = {new SqlParameter("@UserTypeId",UserTypeId),
+                                 new SqlParameter("@AddedBy",AddedBy)
+            };
+            DataSet ds = DBHelper.ExecuteQuery("DeleteUserType", param);
+            return ds;
+        }
+
+        public DataSet DeleteCategory()
+        {
+            SqlParameter[] param = {new SqlParameter("@CategoryId",Pk_CategoryId),
+                                 new SqlParameter("@AddedBy",AddedBy)
+            };
+            DataSet ds = DBHelper.ExecuteQuery("DeleteCategory", param);
+            return ds;
+        }
+
+        public DataSet DeleteInterAction()
+        {
+            SqlParameter[] param = {new SqlParameter("@InsertActionId",PK_InterActionId),
+                                 new SqlParameter("@AddedBy",AddedBy)
+            };
+            DataSet ds = DBHelper.ExecuteQuery("DeleteInsertAction", param);
+            return ds;
+        }
+
+        public DataSet DeleteDataSource()
+        {
+            SqlParameter[] param = {new SqlParameter("@Pk_SourceId",Pk_SourceId),
+                                 new SqlParameter("@AddedBy",AddedBy)
+            };
+            DataSet ds = DBHelper.ExecuteQuery("DeleteDataSource", param);
+            return ds;
+        }
+
+        public DataSet DeleteProspectActivity()
+        {
+            SqlParameter[] param = {new SqlParameter("@Pk_ActivityId",Pk_ActivityId),
+                                 new SqlParameter("@AddedBy",AddedBy)
+            };
+            DataSet ds = DBHelper.ExecuteQuery("DeleteProspectActivity", param);
+            return ds;
+        }
+
+
+        public DataSet DeleteBusinessChance()
+        {
+            SqlParameter[] param = {new SqlParameter("@Pk_BusinessChanceId",Pk_BusinessChanceId),
+                                 new SqlParameter("@AddedBy",AddedBy)
+            };
+            DataSet ds = DBHelper.ExecuteQuery("DeleteBusinessChance", param);
+            return ds;
+        }
+
+        public DataSet DeleteProductCategory()
+        {
+            SqlParameter[] param = {new SqlParameter("@Pk_ProductCategoryId",Pk_ProductCategoryId),
+                                 new SqlParameter("@AddedBy",AddedBy)
+            };
+            DataSet ds = DBHelper.ExecuteQuery("DeleteProductCategory", param);
+            return ds;
+        }
+
+        public DataSet DeleteVisitor()
+        {
+            SqlParameter[] param = {new SqlParameter("@VisitorId",VisitorId),
+                                 new SqlParameter("@AddedBy",AddedBy)
+            };
+            DataSet ds = DBHelper.ExecuteQuery("DeleteVisitor", param);
+            return ds;
+        }
+
+
+        public DataSet UpdateVisitorDetails()
+        {
+            SqlParameter[] para = {
+                                      new SqlParameter("@VisitorID",VisitorId),
+                                      new SqlParameter("@SiteName",SiteID),
+                                       new SqlParameter("@FK_AssociateId", AssociateID),
+                                       new SqlParameter("@Fk_CategoryId", Pk_CategoryId),
+                                       new SqlParameter("@VisiteDate", VisitDate),
+                                       new SqlParameter("@VisitorImage", Image),
+                                       new SqlParameter("@AddedBy", CreatedBy),
+                                       new SqlParameter("@AssociateName",AssociateName),
+                                       new SqlParameter("@VehicleDetails",VehicleNumber),
+                                       new SqlParameter("@PickUpLocation",PickUpLocation),
+                                       new SqlParameter("@DropLocation",DropLocation),
+                                        new SqlParameter("@PickUpTime",PickUpTime),
+                                         new SqlParameter("@DropTime",DropTime),
+                                      new SqlParameter("@DtVisitorDetail",dtVisitorDetails)
+                                  };
+            DataSet ds = DBHelper.ExecuteQuery("UpdateVisitor", para);
             return ds;
         }
 

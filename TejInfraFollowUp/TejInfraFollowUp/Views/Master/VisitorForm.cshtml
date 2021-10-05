@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "VisitorForm";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    //;
 }
 
 <div class="page-wrapper">
@@ -34,52 +35,89 @@
                 </div>
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
+                            <input type="hidden" id="VisitorId" name="VisitorId" value="@Model.VisitorId" />
                             <div class="form-group">
                                 Select Site <span style="color: red">*</span>
-                                @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control" })
+                                @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control selectpicker", multiple = "multiple"})
+                        
+                                @*<select class="selectpicker" multiple data-live-search="true">
+                                        <option>Mustard</option>
+                                        <option>Ketchup</option>
+                                        <option>Relish</option>
+                                    </select>*@
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                Associate ID 
+                                Associate ID
                                 @Html.TextBoxFor(m => m.AssociateID, new { @class = "form-control", @Placeholder = "Affiliate ID", @onchange = "return GetAssociateNameByAssociateID();" })
                                 @Html.HiddenFor(m => m.UserID)
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 Associate Name
                                 @Html.TextBoxFor(m => m.AssociateName, new { @class = "form-control", @Placeholder = "Associate Name" })
                             </div>
                         </div>
                         @*<div class="col-md-2">
+                                <div class="form-group">
+                                    Amount<span style="color: red">*</span>
+                                    @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @Placeholder = "Amount", @onkeypress = "return isNumberOrDecimal(event)" })
+                                </div>
+                            </div>*@
+                        <div class="col-md-4">
                             <div class="form-group">
-                                Amount<span style="color: red">*</span>
-                                @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @Placeholder = "Amount", @onkeypress = "return isNumberOrDecimal(event)" })
-                            </div>
-                        </div>*@
-                        <div class="col-md-2">
-                            <div class="form-group">
-                               Category Name <span style="color: red">*</span>
+                                Category Name <span style="color: red">*</span>
                                 @Html.DropDownListFor(m => m.Pk_CategoryId, new SelectList(ViewBag.ddlCategoryName, "Value", "Text"), new { @class = "form-control" })
                             </div>
                         </div>
 
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 Visit Date<span style="color: red">*</span>
-                                @Html.TextBoxFor(m => m.VisitDate, new { @class = "form-control", @placeholder = "DD/MM/YYYY", @readonly = "readonly" })
+                                @Html.TextBoxFor(m => m.VisitDate, new { @class = "form-control", @placeholder = "DD/MM/YYYY", @disabled = "true" })
 
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 Vehicle Number<span style="color: red">*</span>
-                                @Html.TextBoxFor(m => m.VehicleNumber, new { @class = "form-control", @placeholder = "Vehicle Number"})
+                                @Html.TextBoxFor(m => m.VehicleNumber, new { @class = "form-control", @placeholder = "Vehicle Number" })
                             </div>
                         </div>
-                        <div class="col-md-2" style="display:none">
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                PickUp Location<span style="color: red">*</span>
+                                @Html.TextBoxFor(m => m.PickUpLocation, new { @class = "form-control", @placeholder = "PickUp Location" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                Drop Location<span style="color: red">*</span>
+                                @Html.TextBoxFor(m => m.DropLocation, new { @class = "form-control", @placeholder = "Drop Location" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                PickUp Time
+                                @*@Html.TextBoxFor(m => m.PickUpTime, new { @class = "form-control", @placeholder = "Drop Location" })*@
+                                <input type="time" id="PickUpTime" name="PickUpTime" onchange="sumhrs();" placeholder="PickUp Time" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                Drop Time
+                                <input type="time" id="DropTime" name="DropTime" onchange="sumhrs();"  placeholder="Drop Time" class="form-control">
+                                @*@Html.TextBoxFor(m => m.DropTime, new { @class = "form-control", @placeholder = "Drop Location" })*@
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="display:none">
                             <div class="form-group">
                                 Image<span style="color: red">*</span>
                                 <input type="file" name="postedFile1" id="postedFile1" onchange="readURL(this)" />
@@ -134,330 +172,122 @@
                     </div>
                 </div>
             </div>
-        </div>    
+        </div>
     }
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+<script type="text/javascript">
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#Mobile').keypress(function () {
-                $('.Number').keypress(function (event) {
-                    var keycode;
+    var VisitorId = $("#VisitorId").val();
+    if (VisitorId!=0)
+    {
+        $("#btnsssubmit").val("Update");
+    }
 
-                    keycode = event.keyCode ? event.keyCode : event.which;
+    $(document).ready(function () {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        today = mm + '/' + dd + '/' + yyyy;
 
-                    if (!(event.shiftKey == false && (keycode == 46 || keycode == 8 ||
-                            keycode == 37 || keycode == 39 || (keycode >= 48 && keycode <= 57)))) {
-                        event.preventDefault();
-                    }
-                });
-            });
-            $('#add').click(function () {
-                debugger;
-                var isAllValid = true;
-                if (!($('#Name').val().trim() != '' && ($('#Name').val().trim()))) {
-                    $("#Name").addClass('errortext');
-                    $('#Name').focus();
-                    isAllValid = false;
+        var d = new Date(),
+          h = (d.getHours() < 10 ? '0' : '') + d.getHours(),
+          m = (d.getMinutes() < 10 ? '0' : '') + d.getMinutes();
+        d = h + ':' + m;
+        $('#PickUpTime').val(d);
+        $('#VisitDate').val(today);
+        $('select').selectpicker();
+        $('#Select Site').attr('disabled', 'disabled');
+        $('#Mobile').keypress(function () {
+            $('.Number').keypress(function (event) {
+                var keycode;
 
-                }
-                else if (!($('#MobileNo').val().trim() != '' && ($('#MobileNo').val().trim()))) {
-                    $("#MobileNo").addClass('errortext');
-                    $('#MobileNo').focus();
-                    isAllValid = false;
-                }
-                else if (!($('#Address').val().trim() != '' && ($('#Address').val().trim()))) {
-                    $("#Address").addClass('errortext');
-                    $('#Address').focus();
-                    isAllValid = false;
-                }
-                debugger
-                if (isAllValid) {
-                    var $newRow = $('#mainrow').clone().removeAttr('id');
-                    $('.Name', $newRow).prop('disabled', true).val($('#Name').val());
-                    $('.MobileNo', $newRow).prop('disabled', true).val($('#MobileNo').val());
-                    $('.Address', $newRow).prop('disabled', true).val($('#Address').val());
-                    //Replace add button with remove button
-                    $('#add', $newRow).addClass('remove').val('Remove').removeClass('btn-success').addClass('btn-danger');
-                    //remove id attribute from new clone row
-                    $('#Name,#MobileNo,#Address,#add', $newRow).removeAttr('id');
-                    $('span.error', $newRow).remove();
-                    //append clone row
-                    $('#orderdetailsItems').append($newRow);
-                    //clear select data
-                    $('#Name,#MobileNo,#Address').val('');
-                    $('#orderItemError').empty();
-                }
+                keycode = event.keyCode ? event.keyCode : event.which;
 
-            })
-            //remove button click event
-            $('#orderdetailsItems').on('click', '.remove', function () {
-                $(this).parents('tr').remove();
-            });
-            $('#btnsssubmit').click(function () {
-                var isAllValid = true;
-                if ($('#SiteID').val() == '0') {
-                    $("#SiteID").addClass('errortext');
-                    $('#SiteID').focus();
-                    $("#divload").css({ 'display': 'none' });
-                    return false;
-                }
-                //if ($('#AssociateID').val() == '') {
-                //    $("#AssociateID").addClass('errortext');
-                //    $('#AssociateID').focus();
-                //    $("#divload").css({ 'display': 'none' });
-                //    return false;
-                //}
-
-                if ($('#Amount').val() == '') {
-                    $("#Amount").addClass('errortext');
-                    $('#Amount').focus();
-                    $("#divload").css({ 'display': 'none' });
-                    return false;
-                }
-                if ($('#VisitDate').val() == '') {
-                    $("#VisitDate").addClass('errortext');
-                    $('#VisitDate').focus();
-                    $("#divload").css({ 'display': 'none' });
-                    return false;
-                }
-                if ($('#VehicleNumber').val() == '') {
-                    $("#VehicleNumber").addClass('errortext');
-                    $('#VehicleNumber').focus();
-                    $("#divload").css({ 'display': 'none' });
-                    return false;
-                }
-                $('#orderItemError').text('');
-                var list = [];
-                var errorItemCount = 0;
-                $('#orderdetailsItems tr').each(function (index, ele) {
-                    if (
-                        $('Name', this).val() == "") {
-                        errorItemCount++;
-                        $(this).addClass('error');
-                    } else {
-                        var orderItem = {
-                            CustomerName: ($('.Name', this).val()),
-                            Mobile: $('.MobileNo', this).val(),
-                            Address: $('.Address', this).val()
-                        }
-                        list.push(orderItem);
-                    }
-
-                })
-                console.log(list)
-                if (errorItemCount > 0) {
-                    $('#orderItemError').text(errorItemCount + " invalid entry in order item list.");
-                    isAllValid = false;
-                }
-
-                if (list.length == 0) {
-                    $('#orderItemError').text('At least 1 row data required.');
-                    isAllValid = false;
-                    $("#divload").css({ 'display': 'none' });
-                    return false;
-                }
-
-                if (isAllValid) {
-                    debugger;
-                    var data = {
-                        AddData: JSON.stringify(list),
-                    }
-                    debugger
-                    var formData = new FormData();
-                    var files = $("#postedFile1").get(0).files;
-                    formData.append("Image", files[0]);
-                    formData.append("SiteID", $('#SiteID').val());
-                    formData.append("AssociateID", $('#UserID').val());
-                    formData.append("Pk_CategoryId", $('#Pk_CategoryId').val());
-                    //formData.append("Amount", $('#Amount').val());
-                    formData.append("VisitDate", $('#VisitDate').val());
-                    formData.append("AssociateName", $('#AssociateName').val());
-                    formData.append("VehicleNumber", $('#VehicleNumber').val());
-                    formData.append("dataValue", JSON.stringify(data));
-                    console.log(formData);
-                    $.ajax({
-                        type: 'POST',
-                        url: "AddProfile",
-                        data: formData,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        //url: 'save',
-                        //Type: "POST",
-                        //DataType: "JSON",
-                        //data: { dataValue: JSON.stringify(data), SiteID: $("#SiteID").val(), AssociateID: $("#UserID").val(), Amount: $("#Amount").val(), VisiteDate: $("#VisitDate").val(), postedFile1: formData},
-                     
-                        //contentType: 'application/json',
-                        success: function (response) {
-                            //alert(result);
-                            if (response.status) {
-
-                               // here we will clear the form
-                                list = [];
-
-                                //$('#ExpenseID,#ExpenseName,#TransactionID,#PaymentMode').val('0');
-                                //$('#Check,#Amount,#Date,#Remarks').val('');
-                                //$('#orderdetailsItems').empty();
-                                //$('#orderdetailsItems').hide();
-                            }
-                            else {
-                                alert('Error');
-                            }
-                            $('#submit').text('Save');
-                        },
-                        error: function (error) {
-                            console.log(error);
-                            $('#submit').text('Save');
-                        }
-                    });
-                    $('#submit').text('Save');
+                if (!(event.shiftKey == false && (keycode == 46 || keycode == 8 ||
+                        keycode == 37 || keycode == 39 || (keycode >= 48 && keycode <= 57)))) {
+                    event.preventDefault();
                 }
             });
         });
+        $('#add').click(function () {
+            debugger;
+            var isAllValid = true;  
+            if (!($('#Name').val().trim() != '' && ($('#Name').val().trim()))) {
+                $("#Name").addClass('errortext');
+                $('#Name').focus();
+                isAllValid = false;
 
-    </script>
-    <script>
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#ContentPlaceHolder1_imgProductImage')
-                        .attr('src', e.target.result);
-                };
-                reader.readAsDataURL(input.files[0]);
-               
             }
-        }
-        function isNumberOrDecimal(evt) {
-            var charCode = (evt.which) ? evt.which : evt.keyCode;
-            if (charCode != 46 && charCode > 31
-              && (charCode < 48 || charCode > 57))
-                return false;
-
-            return true;
-        }
-        function isNumberKey(evt) {
-            var charCode = (evt.which) ? evt.which : event.keyCode;
-            if (charCode != 46 && charCode > 31
-              && (charCode < 48 || charCode > 57))
-                return false;
-            return true;
-        }
-    
-        function GetAssociateNameByAssociateID() {
-            $("#divload").css({ 'display': '' });
-
-            var Associate = $('#AssociateID').val();
-            $.ajax({
-                url: '/Master/GetAssociateName', type: 'post', dataType: 'json',
-                data: { 'AssociateID': Associate },
-                success: function (data) {
-                    $("#divload").css({ 'display': 'none' });
-                    if (data.Result == "yes") {
-                        $("#AssociateName").val(data.AssociateName);
-                        $("#UserID").val(data.UserID);
-                        $("#AssociateName").removeClass('errortext');
-                        $("#AssociateID").removeClass('errortext');
-                    }
-                    else if (data.Result == "no") {
-                        $("#AssociateName").val('');
-                        $("#AssociateName").addClass('errortext');
-                        $("#AssociateID").addClass('errortext');
-                        $('#AssociateID').focus();
-
-                        alert("Invalid Associate ID");
-                        $('#AssociateID').val('');
-                    }
-                }
-
-            });
-        }
-
-        function getCustomerName() {
-
-            $("#divload").css({ 'display': '' });
-            var sponsorID = $('#CustomerID').val();
-            $.ajax({
-                url: '/Plot/GetCustomerNameFromCustomerID', type: 'post', dataType: 'json',
-                data: { 'CustomerID': sponsorID },
-                success: function (data) {
-                    $("#divload").css({ 'display': 'none' });
-                    if (data.Result == "yes") {
-                        $("#Name").val(data.Name);
-                        $("#AssociateName").val(data.AssociateName);
-                        $("#AssociateID").val(data.AssociateID);
-                        $("#Name").removeClass('errortext');
-                        $("#CustomerID").removeClass('errortext');
-                    }
-                    else if (data.Result == "no") {
-                        $("#Name").val('');
-                        $("#Name").addClass('errortext');
-                        $("#CustomerID").addClass('errortext');
-                        $('#CustomerID').focus();
-                        alert("Invalid Customer ID");
-                        $('#CustomerID').val('');
-                    }
-                }
-
-            });
-        }
-        function getmlmname() {
-            $("#divload").css({ 'display': '' });
-
-            $.ajax({
-                url: '/Plot/GetMLMLoginId', type: 'post', dataType: 'json',
-                data: { 'LoginId': $('#MLMLoginId').val() },
-                success: function (data) {
-                    $("#divload").css({ 'display': 'none' });
-                    if (data.Result == "Yes") {
-                        $("#mlmname").html(data.DisplayName);
-                        $("#mlmname").removeClass('errortext');
-
-                    }
-                    else {
-                        $("#MLMLoginId").val('');
-                        $("#MLMLoginId").addClass('errortext');
-                        $("#MLMLoginId").addClass('errortext');
-                        $("#mlmname").html("");
-                        alert("Invalid MLM Id");
-
-                    }
-                }
-
-            });
-        }
-        function validateform() {
+            else if (!($('#MobileNo').val().trim() != '' && ($('#MobileNo').val().trim()))) {
+                $("#MobileNo").addClass('errortext');
+                $('#MobileNo').focus();
+                isAllValid = false;
+            }
+            else if (!($('#Address').val().trim() != '' && ($('#Address').val().trim()))) {
+                $("#Address").addClass('errortext');
+                $('#Address').focus();
+                isAllValid = false;
+            }
             debugger
-            $("#divload").css({ 'display': '' });
+            if (isAllValid) {
+                var $newRow = $('#mainrow').clone().removeAttr('id');
+                $('.Name', $newRow).prop('disabled', true).val($('#Name').val());
+                $('.MobileNo', $newRow).prop('disabled', true).val($('#MobileNo').val());
+                $('.Address', $newRow).prop('disabled', true).val($('#Address').val());
+                //Replace add button with remove button
+                $('#add', $newRow).addClass('remove').val('Remove').removeClass('btn-success').addClass('btn-danger');
+                //remove id attribute from new clone row
+                $('#Name,#MobileNo,#Address,#add', $newRow).removeAttr('id');
+                $('span.error', $newRow).remove();
+                //append clone row
+                $('#orderdetailsItems').append($newRow);
+                //clear select data
+                $('#Name,#MobileNo,#Address').val('');
+                $('#orderItemError').empty();
+            }
 
-            $(".errortext").removeClass("errortext");
-
+        })
+        //remove button click event
+        $('#orderdetailsItems').on('click', '.remove', function () {
+            $(this).parents('tr').remove();
+        });
+        $('#btnsssubmit').click(function () {
+            var isAllValid = true;
             if ($('#SiteID').val() == '0') {
                 $("#SiteID").addClass('errortext');
                 $('#SiteID').focus();
                 $("#divload").css({ 'display': 'none' });
                 return false;
             }
-            if ($('#AssociateID').val() == '') {
-                $("#AssociateID").addClass('errortext');
-                $('#AssociateID').focus();
-                $("#divload").css({ 'display': 'none' });
-                return false;
-            }
-            if ($('#MobileNo').val() == '') {
-                $("#MobileNo").addClass('errortext');
-                $('#MobileNo').focus();
-                $("#divload").css({ 'display': 'none' });
-                return false;
-            }
+            //if ($('#AssociateID').val() == '') {
+            //    $("#AssociateID").addClass('errortext');
+            //    $('#AssociateID').focus();
+            //    $("#divload").css({ 'display': 'none' });
+            //    return false;
+            //}
+
             if ($('#Amount').val() == '') {
                 $("#Amount").addClass('errortext');
                 $('#Amount').focus();
+                $("#divload").css({ 'display': 'none' });
+                return false;
+            }
+            if ($('#PickUpLocation').val() == '') {
+                $("#PickUpLocation").addClass('errortext');
+                $('#PickUpLocation').focus();
+                $("#divload").css({ 'display': 'none' });
+                return false;
+            }
+            if ($('#DropLocation').val() == '') {
+                $("#DropLocation").addClass('errortext');
+                $('#DropLocation').focus();
                 $("#divload").css({ 'display': 'none' });
                 return false;
             }
@@ -467,41 +297,329 @@
                 $("#divload").css({ 'display': 'none' });
                 return false;
             }
-            if ($('#Name').val() == '') {
-                $("#Name").addClass('errortext');
-                $('#Name').focus();
+            if ($('#VehicleNumber').val() == '') {
+                $("#VehicleNumber").addClass('errortext');
+                $('#VehicleNumber').focus();
                 $("#divload").css({ 'display': 'none' });
                 return false;
             }
-            $("#divload").css({ 'display': '' });
+            if ($('#DropTime').val() == '') {
+                $("#DropTime").addClass('errortext');
+                $('#DropTime').focus();
+                $("#divload").css({ 'display': 'none' });
+                return false;
+            }
+            $('#orderItemError').text('');
+            var list = [];
+            var errorItemCount = 0;
+            $('#orderdetailsItems tr').each(function (index, ele) {
+                if (
+                    $('Name', this).val() == "") {
+                    errorItemCount++;
+                    $(this).addClass('error');
+                } else {
+                    var orderItem = {
+                        CustomerName: ($('.Name', this).val()),
+                        Mobile: $('.MobileNo', this).val(),
+                        Address: $('.Address', this).val()
+                    }
+                    list.push(orderItem);
+                }
 
-            return true;
-        }
-    </script>
+            })
+            console.log(list)
+            if (errorItemCount > 0) {
+                $('#orderItemError').text(errorItemCount + " invalid entry in order item list.");
+                isAllValid = false;
+            }
 
-    <style>
-        .errortext {
-            border: 1px solid red !important;
-            background-color: #fff0f0 !important;
-        }
+            if (list.length == 0) {
+                $('#orderItemError').text('At least 1 row data required.');
+                isAllValid = false;
+                $("#divload").css({ 'display': 'none' });
+                return false;
+            }
 
-        .successtext {
-            border: 1px solid red !important;
-            background-color: #808080 !important;
-        }
-    </style>
+            if (isAllValid) {
+                debugger;
+                var data = {
+                    AddData: JSON.stringify(list),
+                }
+                debugger
+                var formData = new FormData();
+                var files = $("#postedFile1").get(0).files;
+                formData.append("Image", files[0]);
+                formData.append("SiteID", $('#SiteID').val());
+                formData.append("AssociateID", $('#UserID').val());
+                formData.append("Pk_CategoryId", $('#Pk_CategoryId').val());
+                //formData.append("Amount", $('#Amount').val());
+                formData.append("VisitDate", $('#VisitDate').val());
+                formData.append("AssociateName", $('#AssociateName').val());
+                formData.append("VehicleNumber", $('#VehicleNumber').val());
+                formData.append("PickUpLocation", $('#PickUpLocation').val());
+                formData.append("DropLocation", $('#DropLocation').val());
+                formData.append("PickUpTime", $('#PickUpTime').val());
+                formData.append("DropTime", $('#DropTime').val());
+                formData.append("dataValue", JSON.stringify(data));
+                console.log(formData);
+                $.ajax({
+                    type: 'POST',
+                    url: "AddProfile",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    //url: 'save',
+                    //Type: "POST",
+                    //DataType: "JSON",
+                    //data: { dataValue: JSON.stringify(data), SiteID: $("#SiteID").val(), AssociateID: $("#UserID").val(), Amount: $("#Amount").val(), VisiteDate: $("#VisitDate").val(), postedFile1: formData},
 
-    <script>
+                    //contentType: 'application/json',
+                    success: function (response) {
+                        //alert(result);
+                        if (response.status) {
 
-        $('#VisitDate').datepicker({
-            dateFormat: 'dd/mm/yy',
-            maxDate: 0,
-            maxDate: 31,
-            changeYear: true,
-            changeMonth: true
+                            // here we will clear the form
+                            list = [];
+
+                            //$('#ExpenseID,#ExpenseName,#TransactionID,#PaymentMode').val('0');
+                            //$('#Check,#Amount,#Date,#Remarks').val('');
+                            //$('#orderdetailsItems').empty();
+                            //$('#orderdetailsItems').hide();
+                        }
+                        else {
+                            alert('Error');
+                        }
+                        $('#submit').text('Save');
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        $('#submit').text('Save');
+                    }
+                });
+                $('#submit').text('Save');
+            }
         });
+    });
 
-    </script>
+</script>
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#ContentPlaceHolder1_imgProductImage')
+                    .attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+
+        }
+    }
+    function isNumberOrDecimal(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+          && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode != 46 && charCode > 31
+          && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+
+    function GetAssociateNameByAssociateID() {
+        $("#divload").css({ 'display': '' });
+
+        var Associate = $('#AssociateID').val();
+        $.ajax({
+            url: '/Master/GetAssociateName', type: 'post', dataType: 'json',
+            data: { 'AssociateID': Associate },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                if (data.Result == "yes") {
+                    $("#AssociateName").val(data.AssociateName);
+                    $("#UserID").val(data.UserID);
+                    $("#AssociateName").removeClass('errortext');
+                    $("#AssociateID").removeClass('errortext');
+                }
+                else if (data.Result == "no") {
+                    $("#AssociateName").val('');
+                    $("#AssociateName").addClass('errortext');
+                    $("#AssociateID").addClass('errortext');
+                    $('#AssociateID').focus();
+
+                    alert("Invalid Associate ID");
+                    $('#AssociateID').val('');
+                }
+            }
+
+        });
+    }
+
+    function getCustomerName() {
+
+        $("#divload").css({ 'display': '' });
+        var sponsorID = $('#CustomerID').val();
+        $.ajax({
+            url: '/Plot/GetCustomerNameFromCustomerID', type: 'post', dataType: 'json',
+            data: { 'CustomerID': sponsorID },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                if (data.Result == "yes") {
+                    $("#Name").val(data.Name);
+                    $("#AssociateName").val(data.AssociateName);
+                    $("#AssociateID").val(data.AssociateID);
+                    $("#Name").removeClass('errortext');
+                    $("#CustomerID").removeClass('errortext');
+                }
+                else if (data.Result == "no") {
+                    $("#Name").val('');
+                    $("#Name").addClass('errortext');
+                    $("#CustomerID").addClass('errortext');
+                    $('#CustomerID').focus();
+                    alert("Invalid Customer ID");
+                    $('#CustomerID').val('');
+                }
+            }
+
+        });
+    }
+    function getmlmname() {
+        $("#divload").css({ 'display': '' });
+
+        $.ajax({
+            url: '/Plot/GetMLMLoginId', type: 'post', dataType: 'json',
+            data: { 'LoginId': $('#MLMLoginId').val() },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                if (data.Result == "Yes") {
+                    $("#mlmname").html(data.DisplayName);
+                    $("#mlmname").removeClass('errortext');
+
+                }
+                else {
+                    $("#MLMLoginId").val('');
+                    $("#MLMLoginId").addClass('errortext');
+                    $("#MLMLoginId").addClass('errortext');
+                    $("#mlmname").html("");
+                    alert("Invalid MLM Id");
+
+                }
+            }
+
+        });
+    }
+    function validateform() {
+        debugger
+        $("#divload").css({ 'display': '' });
+
+        $(".errortext").removeClass("errortext");
+
+        if ($('#SiteID').val() == '0') {
+            $("#SiteID").addClass('errortext');
+            $('#SiteID').focus();
+            $("#divload").css({ 'display': 'none' });
+            return false;
+        }
+        if ($('#AssociateID').val() == '') {
+            $("#AssociateID").addClass('errortext');
+            $('#AssociateID').focus();
+            $("#divload").css({ 'display': 'none' });
+            return false;
+        }
+        if ($('#MobileNo').val() == '') {
+            $("#MobileNo").addClass('errortext');
+            $('#MobileNo').focus();
+            $("#divload").css({ 'display': 'none' });
+            return false;
+        }
+        if ($('#Amount').val() == '') {
+            $("#Amount").addClass('errortext');
+            $('#Amount').focus();
+            $("#divload").css({ 'display': 'none' });
+            return false;
+        }
+        if ($('#VisitDate').val() == '') {
+            $("#VisitDate").addClass('errortext');
+            $('#VisitDate').focus();
+            $("#divload").css({ 'display': 'none' });
+            return false;
+        }
+        if ($('#Name').val() == '') {
+            $("#Name").addClass('errortext');
+            $('#Name').focus();
+            $("#divload").css({ 'display': 'none' });
+            return false;
+        }
+        $("#divload").css({ 'display': '' });
+
+        return true;
+    }
+    function sumhrs() {
+        var smon = document.getElementById('PickUpTime').value;
+        var fmon = document.getElementById('DropTime').value;
+        var diff = 0;
+        if (smon && fmon) {
+            smon = ConvertToSeconds(smon);
+            fmon = ConvertToSeconds(fmon);
+            diff = Math.abs(fmon - smon);
+            if (diff > 10800) {
+                alert('you can not set drop time greater than 3 hrs !!')
+                $("#DropTime").addClass('errortext');
+                $("#DropTime").addClass('errortext');
+                $("#DropTime").val('');
+            }
+            console.log(diff);
+            
+            //console.log('time difference is : ' + secondsTohhmmss(diff));
+        }
+
+        function ConvertToSeconds(time) {
+            var splitTime = time.split(":");
+            return splitTime[0] * 3600 + splitTime[1] * 60;
+        }
+
+        //function secondsTohhmmss(secs) {
+         
+        //    var hours = parseInt(secs / 3600);
+        //    var seconds = parseInt(secs % 3600);
+        //    var minutes = parseInt(seconds / 60);
+        //    if (hours > 3 && minutes > 00)
+        //    {
+        //      alert('you can not set drop time greater than 3 hrs !!')
+        //    }
+           
+        //}
+    }
+</script>
+
+<style>
+    .errortext {
+        border: 1px solid red !important;
+        background-color: #fff0f0 !important;
+    }
+
+    .successtext {
+        border: 1px solid red !important;
+        background-color: #808080 !important;
+    }
+</style>
+
+<script>
+
+    $('#VisitDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        maxDate: 0,
+        maxDate: 31,
+        changeYear: true,
+        changeMonth: true
+    });
+
+</script>
 
 
 

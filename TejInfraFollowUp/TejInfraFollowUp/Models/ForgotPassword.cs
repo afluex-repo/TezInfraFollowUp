@@ -15,6 +15,13 @@ namespace TejInfraFollowUp.Models
         public string EmailId { get; set; }
 
 
+        public string Password { get; set; }
+        public string NewPassword { get; set; }
+        public string ConfirmNewPassword { get; set; }
+
+
+
+
         public DataSet PasswordForget()
         {
             SqlParameter[] para = {new SqlParameter("@LoginId",LoginId),
@@ -23,5 +30,19 @@ namespace TejInfraFollowUp.Models
             return ds;
 
         }
+
+
+        public DataSet ChangePassword()
+        {
+            SqlParameter[] para = {new SqlParameter("@OldPassword",Password),
+                                   new SqlParameter("@NewPassword",NewPassword),
+                                   new SqlParameter("@UpdatedBy",UpdatedBy)
+            };
+            DataSet ds = DBHelper.ExecuteQuery("ChangePasswordNew", para);
+            return ds;
+
+        }
+
+
     }
 }

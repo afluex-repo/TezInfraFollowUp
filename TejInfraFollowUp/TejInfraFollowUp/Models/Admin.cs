@@ -42,6 +42,12 @@ namespace TejInfraFollowUp.Models
         public string Body { get; set; }
         public string PK_TemplateID { get; set; }
         public string PK_EmailID { get; set; }
+        
+        public string Password { get; set; }
+        public string NewPassword { get; set; }
+        public string ConfirmNewPassword { get; set; }
+        
+
         public DataSet GetDashboardDetails()
         {
             DataSet ds = DBHelper.ExecuteQuery("AdminDashboard");
@@ -104,6 +110,19 @@ namespace TejInfraFollowUp.Models
         }
 
         #endregion
+
+
+        public DataSet ChangePassword()
+        {
+            SqlParameter[] para = {new SqlParameter("@OldPassword",Password),
+                                   new SqlParameter("@NewPassword",NewPassword),
+                                   new SqlParameter("@UpdatedBy",UpdatedBy)
+            };
+            DataSet ds = DBHelper.ExecuteQuery("AdminChangePassword", para);
+            return ds;
+
+        }
+
 
     }
 }

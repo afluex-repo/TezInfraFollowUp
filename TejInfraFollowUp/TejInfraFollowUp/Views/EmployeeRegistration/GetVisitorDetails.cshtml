@@ -1,7 +1,11 @@
 ﻿@model TejInfraFollowUp.Models.Master
 @{
     ViewBag.Title = "GetVisitorDetails";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/EmployeeLayout.cshtml";
+    
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+
+    
 }
 @*<httpRuntime executionTimeout="7200" />*@
 
@@ -15,7 +19,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Masters</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">GetVisitorDetails Master</li>
+                            <li class="breadcrumb-item active" aria-current="page">Visitor Details </li>
                         </ol>
                     </nav>
                 </div>
@@ -23,27 +27,25 @@
         </div>
     </div>
 
-    @using (Html.BeginForm("GetVisitorDetails", "Master", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("GetVisitorDetails", "EmployeeRegistration", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
     {
         <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background: url(../../assets/images/big/auth-bg.jpg) no-repeat center center;min-height: 35vh;display: table-cell;">
             <div class="auth-box" style="max-width:1286px;margin:0%">
                 <div id="loginform">
                     <div class="logo">
 
-                        <p class="font-medium m-b-20" style="color:red">@TempData["Visitor"]
-                        @TempData["Category"]
-                        </p>
+                        <p class="font-medium m-b-20" style="color:red">@TempData["Visitor"]</p>
                     </div>
                 </div>
                 <div class="container">
                     <div class="row">
                         @*<div class="col-md-3">
-                            <div class="form-group">
-                                AssociateID
-                                @Html.TextBoxFor(m => m.AssociateID, new { @class = "form-control", @Placeholder = "Affiliate ID", @onchange = "return GetAssociateNameByAssociateID();" })
-                                @Html.HiddenFor(m => m.UserID)
-                            </div>
-                        </div>*@
+                                <div class="form-group">
+                                    AssociateID
+                                    @Html.TextBoxFor(m => m.AssociateID, new { @class = "form-control", @Placeholder = "Affiliate ID", @onchange = "return GetAssociateNameByAssociateID();" })
+                                    @Html.HiddenFor(m => m.UserID)
+                                </div>
+                            </div>*@
                         <div class="col-md-3">
                             <div class="form-group">
                                 Visiting From Date
@@ -74,8 +76,6 @@
                                             <th>Site</th>
                                             <th>AssociateId</th>
                                             <th>Associate Name</th>
-                                            <th>Customer Name</th>
-                                            <th>Cutomer Mobile</th>
                                             <th>CategoryName</th>
                                             <th>Vehicle Details</th>
                                             <th>Visit Date</th>
@@ -99,8 +99,6 @@
                                                         <td>@item.SiteName</td>
                                                         <td>@item.LoginId</td>
                                                         <td>@item.AssociateName</td>
-                                                        <td>@item.CustomerName</td>
-                                                        <td>@item.CustomerMobile</td>
                                                         <td>@item.CategoryName</td>
                                                         <td>@item.VehicleNumber</td>
                                                         <td>@item.VisitDate</td>
@@ -108,12 +106,8 @@
                                                         <td>@item.DropLocation</td>
                                                         <td>@item.PickUpTime</td>
                                                         <td>@item.DropTime</td>
-                                                        <td>
-                                                            <a href="/Master/PrintVisitor?Id=@item.EncryptKey" class="btn btn-outline-primary" target="_blank">Print</a>  &nbsp;
-                                                            <a href="/Master/VisitorForm?Id=@item.EncryptKey" class="btn btn-outline-success">Edit</a>  &nbsp;
-                                                            <a href="/Master/DeleteVisitorMaster?Id=@item.EncryptKey" class="btn btn-outline-danger">Delete</a>
-                                                            &nbsp;
-                                                        </td>
+                                                        <td><a href="/EmployeeRegistration/PrintVisitor?Id=@item.EncryptKey" class="btn btn-outline-primary" target="_blank">Print</a></td>
+                                                        @*<td><input type="submit" class="btn btn-outline-primary" value="Print"/></td>*@
                                                     </tr>
                                                     i++;
                                                 }
@@ -149,3 +143,4 @@
         changeMonth: true
     });
 </script>
+

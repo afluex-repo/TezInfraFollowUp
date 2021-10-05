@@ -30,7 +30,9 @@
                 <div id="loginform">
                     <div class="logo">
 
-                        <p class="font-medium m-b-20" style="color:red">@TempData["Delete"]</p>
+                        <p class="font-medium m-b-20" style="color:red">@TempData["Delete"]
+                        @TempData["Category"]
+                        </p>
                     </div>
                 </div>
                 <br />
@@ -53,7 +55,8 @@
                                         <tr>
                                             @Html.HiddenFor(m => m.Pk_CategoryId)
                                             <td>
-                                                <a href="/Master/CategoryMaster?Pk_CategoryId=@item.Pk_CategoryId" class="label label-primary">Edit</a>
+                                                <a href="/Master/CategoryMaster?Pk_CategoryId=@item.Pk_CategoryId" class="btn btn-outline-success">Edit</a>
+                                                <a href="/Master/DeleteMaster?Id=@item.Pk_CategoryId" class="btn btn-outline-danger">Delete</a>
                                                 &nbsp;
 
                                             </td>
@@ -70,13 +73,6 @@
                         </tbody>
                     </table>
                 </div>
-
-
-
-
-
-
-
             </div>
         </div>
         

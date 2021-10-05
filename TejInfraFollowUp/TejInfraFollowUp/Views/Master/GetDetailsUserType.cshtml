@@ -1,0 +1,77 @@
+﻿@model TejInfraFollowUp.Models.Master
+@{
+    ViewBag.Title = "GetDetailsUserType";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-wrapper">
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-5 align-self-center">
+                <h4 class="page-title"></h4>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Masters</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">GetDetails UserType Master</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    @using (Html.BeginForm("GetDetailsUserType", "Master", FormMethod.Post, new { @id = "form1" }))
+    {
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background: url(../../assets/images/big/auth-bg.jpg) no-repeat center center;min-height: 35vh;display: table-cell;">
+            <div class="auth-box" style="max-width:1286px;margin:0%">
+                <div id="loginform">
+                    <div class="logo">
+
+                        <p class="font-medium m-b-20" style="color:red">@TempData["Error"]</p>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table id="file_export" class="table table-striped table-bordered display">
+                                <thead>
+                                    <tr>
+                                        <th>S No.</th>
+                                        <th>Designation</th>
+                                        @*<th>Description</th>*@
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null)
+                                    {
+                                        if (Model.lstUserType != null)
+                                        {
+                                            int i = 1;
+                                            foreach (var item in Model.lstUserType)
+                                            {
+                                                <tr>
+                                                    <td>@i</td>
+                                                    <td>@item.UserType</td>
+                                                    @*<td>@item.Description</td>*@
+                                                    <td>
+                                                        <a href="/Master/UserTypeMaster?Id=@item.UserTypeId" class="btn btn-outline-success" target="_blank">Edit</a>
+                                                        <a href="/Master/DeleteUserType?Id=@item.UserTypeId" class="btn btn-outline-danger">Delete</a>
+                                                    </td>
+
+                                                </tr>
+                                                i++;
+                                            }
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

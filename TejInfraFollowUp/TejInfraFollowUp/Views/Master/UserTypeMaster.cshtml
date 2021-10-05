@@ -1,0 +1,98 @@
+﻿@model TejInfraFollowUp.Models.Master
+@{
+    ViewBag.Title = "UserTypeMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-wrapper">
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-5 align-self-center">
+                <h4 class="page-title"></h4>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Masters</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"> User Type Master</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    @using (Html.BeginForm("UserTypeMaster", "Master", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+    {
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background: url(../../assets/images/big/auth-bg.jpg) no-repeat center center;min-height: 35vh;display: table-cell;">
+            <div class="auth-box" style="max-width:1286px;margin:0%">
+                <div id="loginform">
+                    <div class="logo">
+
+                        <p class="font-medium m-b-20" style="color:red">@TempData["Error"]</p>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="hidden" name="UserTypeId" id="UserTypeId" value="@Model.UserTypeId" />
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Designation<span style="color: red">*</span></label>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(m => m.UserType, new { @class = "form-control form-control-lg", @Placeholder = "Designation" })
+
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-md-4" style="display:none;">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Description</label>
+                            <div class="col-md-9" style="display:none;">
+                                @Html.TextBoxFor(m => m.Description, new { @class = "form-control form-control-lg", @Placeholder = "Description" })
+
+                            </div>
+                        </div>
+                    </div>*@
+                    <div class="col-md-4">
+                        <div class="col-md-offset-3 col-md-9">
+                            <input type="submit" value="Save " class="btn btn-success" name="btnSave" id="btnSave" onclick="return ValidateForm();" />
+
+                            <a href="/Master/GetDetailsUserType" class="btn btn-info">Back To List</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    var UserTypeId = $("#UserTypeId").val();
+    if (UserTypeId!=0)
+    {
+        $("#btnSave").val("Update");
+    }
+
+    
+
+    function ValidateForm()
+    {
+
+        if ($('#UserType').val() == '') {
+            $("#UserType").addClass('errortext');
+            $('#UserType').focus();
+            return false;
+        }
+
+    }
+
+</script>
+
+<style>
+      .errortext {
+        border: 1px solid red !important;
+        background-color: #fff0f0 !important;
+    }
+</style>
