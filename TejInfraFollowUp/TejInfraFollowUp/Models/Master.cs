@@ -537,5 +537,28 @@ namespace TejInfraFollowUp.Models
             return ds;
         }
 
+
+        public DataSet UpdateVisitorDetails()
+        {
+            SqlParameter[] para = {
+                                      new SqlParameter("@VisitorID",VisitorId),
+                                      new SqlParameter("@SiteName",SiteID),
+                                       new SqlParameter("@FK_AssociateId", AssociateID),
+                                       new SqlParameter("@Fk_CategoryId", Pk_CategoryId),
+                                       new SqlParameter("@VisiteDate", VisitDate),
+                                       new SqlParameter("@VisitorImage", Image),
+                                       new SqlParameter("@AddedBy", CreatedBy),
+                                       new SqlParameter("@AssociateName",AssociateName),
+                                       new SqlParameter("@VehicleDetails",VehicleNumber),
+                                       new SqlParameter("@PickUpLocation",PickUpLocation),
+                                       new SqlParameter("@DropLocation",DropLocation),
+                                        new SqlParameter("@PickUpTime",PickUpTime),
+                                         new SqlParameter("@DropTime",DropTime),
+                                      new SqlParameter("@DtVisitorDetail",dtVisitorDetails)
+                                  };
+            DataSet ds = DBHelper.ExecuteQuery("UpdateVisitor", para);
+            return ds;
+        }
+
     }
 }

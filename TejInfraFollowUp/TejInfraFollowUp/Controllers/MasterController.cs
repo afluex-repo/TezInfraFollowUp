@@ -1902,7 +1902,7 @@ namespace TejInfraFollowUp.Controllers
             else
             {
                 userDetail.CreatedBy = Session["UserID"].ToString();
-             //   ds = userDetail.UpdateVisitorDetails();
+               ds = userDetail.UpdateVisitorDetails();
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
                     if (ds.Tables[0].Rows[0][0].ToString() == "1")
