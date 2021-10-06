@@ -77,6 +77,8 @@ namespace TejInfraFollowUp.Models
         public List<Master> VisitorList { get; set; }
         public string postedFile1 { get; set; }
         public string EncryptKey { get; set; }
+        public string EncryptedId { get; set; }
+        public string VisitorDetailId { get; set; }
         public string VehicleNumber { get; set; }
 
         public string ToDate { get; set; }
@@ -102,6 +104,7 @@ namespace TejInfraFollowUp.Models
             SqlParameter[] para =
             {
                 new SqlParameter("@PK_VisitorId",VisitorId),
+                new SqlParameter("@PK_VisitorDetailId",VisitorDetailId),
             };
             DataSet ds = DBHelper.ExecuteQuery("VisitorListById", para);
             return ds;
@@ -394,6 +397,7 @@ namespace TejInfraFollowUp.Models
         {
             SqlParameter[] para = {
                                       new SqlParameter("@PK_VisitorId",VisitorId),
+                                      new SqlParameter("@PK_VisitorDetailId",VisitorDetailId),
                                        new SqlParameter("@Associateid",AssociateID),
                                        new SqlParameter("@FromDate", FromDate),
                                        new SqlParameter("@ToDate", ToDate)
@@ -531,7 +535,9 @@ namespace TejInfraFollowUp.Models
         public DataSet DeleteVisitor()
         {
             SqlParameter[] param = {new SqlParameter("@VisitorId",VisitorId),
-                                 new SqlParameter("@AddedBy",AddedBy)
+                new SqlParameter("@VisitorDetailId",VisitorDetailId),
+                                 new SqlParameter("@AddedBy",AddedBy),
+
             };
             DataSet ds = DBHelper.ExecuteQuery("DeleteVisitor", param);
             return ds;
@@ -542,6 +548,7 @@ namespace TejInfraFollowUp.Models
         {
             SqlParameter[] para = {
                                       new SqlParameter("@VisitorID",VisitorId),
+                                       new SqlParameter("@VisitorDetailId",VisitorDetailId),
                                       new SqlParameter("@SiteName",SiteID),
                                        new SqlParameter("@FK_AssociateId", AssociateID),
                                        new SqlParameter("@Fk_CategoryId", Pk_CategoryId),

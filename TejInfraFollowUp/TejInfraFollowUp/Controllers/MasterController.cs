@@ -1741,17 +1741,21 @@ namespace TejInfraFollowUp.Controllers
 
 
 
-        public ActionResult VisitorForm(string Id)
+        public ActionResult VisitorForm(string Id, string VId)
         {
             Master model = new Master();
             DataSet ds = new DataSet();
-            if(Id!=null)
+            if (Id != null)
             {
                 model.VisitorId = Crypto.Decrypt(Id);
+                if (VId != null)
+                {
+                    model.VisitorDetailId = Crypto.Decrypt(VId);
+                }
                 List<Master> lst = new List<Master>();
                 model.FromDate = string.IsNullOrEmpty(model.FromDate) ? null : Common.ConvertToSystemDate(model.FromDate, "dd/MM/yyyy");
                 model.ToDate = string.IsNullOrEmpty(model.ToDate) ? null : Common.ConvertToSystemDate(model.ToDate, "dd/MM/yyyy");
-                 ds = model.GetVisitorDetails();
+                ds = model.GetVisitorDetails();
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     model.SiteID = ds.Tables[0].Rows[0]["SiteName"].ToString();
@@ -1770,10 +1774,10 @@ namespace TejInfraFollowUp.Controllers
                     model.DropTime = ds.Tables[0].Rows[0]["DropTime"].ToString();
                 }
             }
-            
+
             int count1 = 0;
             List<SelectListItem> ddlsite = new List<SelectListItem>();
-             ds = model.GetSiteName();
+            ds = model.GetSiteName();
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow r in ds.Tables[0].Rows)
@@ -1876,10 +1880,9 @@ namespace TejInfraFollowUp.Controllers
             VisitorDetails = JsonConvert.DeserializeObject<DataTable>(jdv["AddData"]);
             userDetail.dtVisitorDetails = VisitorDetails;
             userDetail.CreatedBy = Session["UserID"].ToString();
-            userDetail.PickUpLocation = System.DateTime.Today.ToShortDateString();
             DataSet ds = new DataSet();
 
-            if(userDetail.VisitorId==null)
+            if (userDetail.VisitorId == null)
             {
                 ds = userDetail.SaveVisitorDetails();
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
@@ -1902,7 +1905,7 @@ namespace TejInfraFollowUp.Controllers
             else
             {
                 userDetail.CreatedBy = Session["UserID"].ToString();
-               ds = userDetail.UpdateVisitorDetails();
+                ds = userDetail.UpdateVisitorDetails();
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
                     if (ds.Tables[0].Rows[0][0].ToString() == "1")
@@ -2018,6 +2021,7 @@ namespace TejInfraFollowUp.Controllers
                 {
                     Master obj = new Master();
                     obj.EncryptKey = Crypto.Encrypt(r["PK_VisitorMasterID"].ToString());
+                    obj.EncryptedId = Crypto.Encrypt(r["PK_VisitorDetailsID"].ToString());
                     //obj.VisitorId = r["PK_VisitorMasterID"].ToString();
                     // obj.VisitorImage = r["VisitorImage"].ToString();
                     obj.SiteName = r["SiteName"].ToString();
@@ -2042,11 +2046,12 @@ namespace TejInfraFollowUp.Controllers
             }
             return View(model);
         }
-        public ActionResult PrintVisitor(string Id)
+        public ActionResult PrintVisitor(string Id, string VId)
         {
             Master newdata = new Master();
             List<Master> lstvisitor = new List<Master>();
             newdata.VisitorId = Crypto.Decrypt(Id);
+            newdata.VisitorDetailId = Crypto.Decrypt(VId);
             DataSet ds = newdata.VisitorListById();
             if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
@@ -2257,9 +2262,9 @@ namespace TejInfraFollowUp.Controllers
             return RedirectToAction("InterActionList", "Master");
         }
 
-        
 
-            public ActionResult DeleteDataSource(string Id)
+
+        public ActionResult DeleteDataSource(string Id)
         {
             Master model = new Master();
             try
@@ -2392,13 +2397,14 @@ namespace TejInfraFollowUp.Controllers
         }
 
 
-        public ActionResult DeleteVisitorMaster(string Id)
+        public ActionResult DeleteVisitorMaster(string Id,string VId)
         {
             Master model = new Master();
             try
             {
                 model.AddedBy = Session["UserID"].ToString();
-                model.VisitorId =Crypto.Decrypt(Id);
+                model.VisitorId = Crypto.Decrypt(Id);
+                model.VisitorDetailId = Crypto.Decrypt(VId);
                 DataSet ds = model.DeleteVisitor();
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
@@ -2424,6 +2430,6 @@ namespace TejInfraFollowUp.Controllers
             return RedirectToAction("GetVisitorDetails", "Master");
         }
 
-        
+
     }
 }
