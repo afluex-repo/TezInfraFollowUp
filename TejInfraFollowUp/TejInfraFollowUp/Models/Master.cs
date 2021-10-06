@@ -41,7 +41,7 @@ namespace TejInfraFollowUp.Models
         public string PK_InterActionId { get; set; }
         public List<Master> lstChance { get; set; }
         public List<Master> lstProductCategory { get; set; }
-         public List<Master> lstActivity { get; set; }
+        public List<Master> lstActivity { get; set; }
         public List<Master> lstSource { get; set; }
         public List<Master> lstCategory { get; set; }
         public List<Master> lstSites { get; set; }
@@ -78,14 +78,14 @@ namespace TejInfraFollowUp.Models
         public string postedFile1 { get; set; }
         public string EncryptKey { get; set; }
         public string VehicleNumber { get; set; }
-        
+
         public string ToDate { get; set; }
         public string FromDate { get; set; }
         public string VehicleDetails { get; set; }
         public string PickUpLocation { get; set; }
         public string DropLocation { get; set; }
 
-        
+
         public string PickUpTime { get; set; }
         public string DropTime { get; set; }
 
@@ -93,7 +93,7 @@ namespace TejInfraFollowUp.Models
         public string UserType { get; set; }
         public string Description { get; set; }
         public List<SelectListItem> ddlCategoryName { get; set; }
-        
+
         public List<Master> lstUserType { get; set; }
         public string CreatedBy { get; set; }
 
@@ -114,7 +114,7 @@ namespace TejInfraFollowUp.Models
             DataSet ds = DBHelper.ExecuteQuery("SiteMaster", para);
             return ds;
         }
-        
+
         public DataSet UpdateSite()
         {
             SqlParameter[] para ={
@@ -142,7 +142,7 @@ namespace TejInfraFollowUp.Models
             DataSet ds = DBHelper.ExecuteQuery("UpdateSite", para);
             return ds;
         }
-        
+
         public DataSet GetSiteList()
         {
             SqlParameter[] para ={new SqlParameter ("@SiteName",SiteName),
@@ -207,7 +207,7 @@ namespace TejInfraFollowUp.Models
         {
             SqlParameter[] para ={new SqlParameter ("@ServiceID",ServiceId),
                                      new SqlParameter("@DeletedBy",DeletedBy),
-                                     
+
                                  };
             DataSet ds = DBHelper.ExecuteQuery("DeleteService", para);
             return ds;
@@ -307,7 +307,7 @@ namespace TejInfraFollowUp.Models
                                    new SqlParameter("@UpdatedBy",UpdatedBy)};
             DataSet ds = DBHelper.ExecuteQuery("UpdateProspectActivity", param);
             return ds;
-        } 
+        }
 
         public DataSet InsertBusinessChance()
         {
@@ -399,7 +399,7 @@ namespace TejInfraFollowUp.Models
                                        new SqlParameter("@ToDate", ToDate)
 
                                   };
-            DataSet ds = DBHelper.ExecuteQuery("GetVisitorDetails",para);
+            DataSet ds = DBHelper.ExecuteQuery("GetVisitorDetails", para);
             return ds;
         }
 
@@ -451,14 +451,14 @@ namespace TejInfraFollowUp.Models
         }
 
 
-        
+
         public DataSet GetUserTypeDeatils()
         {
             SqlParameter[] param = {new SqlParameter("@UserTypeId",UserTypeId),
                                    new SqlParameter("@UserType",UserType),
                                    new SqlParameter("@Description",Description)
             };
-            DataSet ds = DBHelper.ExecuteQuery("GetUserTypeDetails",param);
+            DataSet ds = DBHelper.ExecuteQuery("GetUserTypeDetails", param);
             return ds;
         }
 
