@@ -24,6 +24,11 @@
     background: #fff;
  
     }
+             @@media print {
+            #printPageButton {
+                display: none;
+            }
+        }
     </style>
    
 </head>
@@ -38,6 +43,9 @@
                 <td style="border: 0px none black;">
                     <h1 style="color:#326e41">Tej Infrazone Pvt. Ltd</h1>
                 </td>
+                <td style="border: 0px none black; padding-left:160%">
+                    <button style="color:#ffffff; float:left; text-align:center; border-radius:100px; background:#a20e0e; padding: 5px; padding-right: 15px;padding-left:15px;" id="printPageButton" onclick="window.print()">Print</button>
+                   </td>
             </tr>
         </table>
 

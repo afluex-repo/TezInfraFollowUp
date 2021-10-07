@@ -2010,7 +2010,6 @@ namespace TejInfraFollowUp.Controllers
         [ActionName("GetVisitorDetails")]
         public ActionResult SearchVisitorDetails(Master model)
         {
-
             List<Master> lst = new List<Master>();
             model.FromDate = string.IsNullOrEmpty(model.FromDate) ? null : Common.ConvertToSystemDate(model.FromDate, "dd/MM/yyyy");
             model.ToDate = string.IsNullOrEmpty(model.ToDate) ? null : Common.ConvertToSystemDate(model.ToDate, "dd/MM/yyyy");
@@ -2019,6 +2018,7 @@ namespace TejInfraFollowUp.Controllers
             {
                 foreach (DataRow r in ds.Tables[0].Rows)
                 {
+                    
                     Master obj = new Master();
                     obj.EncryptKey = Crypto.Encrypt(r["PK_VisitorMasterID"].ToString());
                     obj.EncryptedId = Crypto.Encrypt(r["PK_VisitorDetailsID"].ToString());
@@ -2038,9 +2038,15 @@ namespace TejInfraFollowUp.Controllers
                     obj.PickUpLocation = r["PickUpLocation"].ToString();
                     obj.DropLocation = r["DropLocation"].ToString();
                     obj.PickUpTime = r["PickUpTime"].ToString();
-                    obj.DropTime = r["DropTime"].ToString();
+                    //obj.DropTime = r["DropTime"].ToString();
+
+                 
+
+                   
+
                     //obj.Address = r["Address"].ToString();
                     lst.Add(obj);
+                    
                 }
                 model.VisitorList = lst;
             }

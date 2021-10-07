@@ -88,12 +88,12 @@
                                     </thead>
                                     <tbody>
                                         @if (Model != null)
-                {
-                    if (Model.VisitorList != null)
-                    {
-                        int i = 1;
-                        foreach (var item in Model.VisitorList)
-                        {
+                                        {
+                                            if (Model.VisitorList != null)
+                                            {
+                                                int i = 1;
+                                                foreach (var item in Model.VisitorList)
+                                                {
                                                     <tr>
                                                         <td>@i</td>
                                                         <td>@item.SiteName</td>
