@@ -2038,12 +2038,7 @@ namespace TejInfraFollowUp.Controllers
                     obj.PickUpLocation = r["PickUpLocation"].ToString();
                     obj.DropLocation = r["DropLocation"].ToString();
                     obj.PickUpTime = r["PickUpTime"].ToString();
-                    //obj.DropTime = r["DropTime"].ToString();
-
-                 
-
-                   
-
+                    obj.DropTime = r["DropTime"].ToString();
                     //obj.Address = r["Address"].ToString();
                     lst.Add(obj);
                     

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -90,8 +91,7 @@ namespace TejInfraFollowUp.Models
 
         public string PickUpTime { get; set; }
         public string DropTime { get; set; }
-
-       // public DateTime.Now DropTime { get; set; }
+        
 
         public string UserTypeId { get; set; }
         public string UserType { get; set; }

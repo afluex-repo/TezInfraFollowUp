@@ -507,8 +507,8 @@ namespace TejInfraFollowUp.Controllers
                     obj.DropLocation = r["DropLocation"].ToString();
                     obj.PickUpTime = r["PickUpTime"].ToString();
                     obj.DropTime = r["DropTime"].ToString();
-                   
-                    
+
+
                     lst.Add(obj);
                 }
                 model.VisitorList = lst;
