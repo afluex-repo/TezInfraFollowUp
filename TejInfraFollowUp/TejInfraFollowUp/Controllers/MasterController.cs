@@ -1846,6 +1846,7 @@ namespace TejInfraFollowUp.Controllers
             var profile = Request.Files;
             bool status = false;
             var datavalue = Request["dataValue"];
+            userDetail.VisitDate = DateTime.Now.ToString();
             //string imgname = string.Empty;
             //string ImageName = string.Empty;
             //HttpPostedFileBase postedFile = Request.Files["Image"];
@@ -1923,7 +1924,8 @@ namespace TejInfraFollowUp.Controllers
                     TempData["Visitor"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
                 }
             }
-            return new JsonResult { Data = new { status = status } };
+            return new JsonResult {Data = new { status = status } };
+            //return Json(userDetail, JsonRequestBehavior.AllowGet);
         }
 
         //public ActionResult save(Master obj, string dataValue, string SiteID, string AssociateID, string Amount, string VisiteDate, string postedFile1)// string AssociateName,
@@ -2038,12 +2040,7 @@ namespace TejInfraFollowUp.Controllers
                     obj.PickUpLocation = r["PickUpLocation"].ToString();
                     obj.DropLocation = r["DropLocation"].ToString();
                     obj.PickUpTime = r["PickUpTime"].ToString();
-                    //obj.DropTime = r["DropTime"].ToString();
-
-                 
-
-                   
-
+                    obj.DropTime = r["DropTime"].ToString();
                     //obj.Address = r["Address"].ToString();
                     lst.Add(obj);
                     
