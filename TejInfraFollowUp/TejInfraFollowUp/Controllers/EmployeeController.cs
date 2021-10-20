@@ -22,7 +22,7 @@ namespace TejInfraFollowUp.Controllers
             List<Lead> lstpending = new List<Lead>();
             obj.FromDate = DateTime.Now.ToString("MM/dd/yyyy");
             obj.ToDate = DateTime.Now.ToString("MM/dd/yyyy");
-            obj.EmployeeId = Session["FK_UserTypeID"].ToString();
+            obj.EmployeeId = Session["ExecutiveID"].ToString();
             DataSet ds = obj.GetDashBoardDetails();
             if (ds != null && ds.Tables.Count > 0)
             {
