@@ -269,9 +269,8 @@
 })
 
            function GetDWRdetails() {
-
-               var value = $('#Pk_LeadeId').val();
-
+              debugger
+              var value = $('#Fk_LeadId').val();
                $.ajax({
                    url: '/EmployeeDWR/GetLeadDetailsByID', type: 'post', dataType: 'json',
                    data: { 'Pk_LeadeId': value }, success: function (data) {
@@ -344,9 +343,7 @@
                });
            }
       function GetLeadDetailsByID() {
-
-            var value = $('#Pk_LeadeId').val();
-
+            var value = $('#Fk_LeadeId').val();
             $.ajax({
                 url: '/EmployeeDWR/GetLeadDetailsByID', type: 'post', dataType: 'json',
                 data: { 'Pk_LeadeId': value }, success: function (data) {

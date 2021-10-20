@@ -19,7 +19,7 @@ namespace TejInfraFollowUp.Controllers
         {
 
             EmployeeProspect model = new EmployeeProspect();
-
+            model.Fk_ExecutiveId = Session["ExecutiveID"].ToString();
             #region BindCategory
             int count = 0;
             List<SelectListItem> ddlcategory = new List<SelectListItem>();
