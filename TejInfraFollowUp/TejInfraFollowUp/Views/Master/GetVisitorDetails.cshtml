@@ -30,7 +30,9 @@
                 <div id="loginform">
                     <div class="logo">
 
-                        <p class="font-medium m-b-20" style="color:red">@TempData["Visitor"]</p>
+                        <p class="font-medium m-b-20" style="color:red">@TempData["Visitor"]
+                        @TempData["Category"]
+                        </p>
                     </div>
                 </div>
                 <div class="container">
@@ -72,10 +74,8 @@
                                             <th>Site</th>
                                             <th>AssociateId</th>
                                             <th>Associate Name</th>
-
                                             <th>Customer Name</th>
                                             <th>Cutomer Mobile</th>
-
                                             <th>CategoryName</th>
                                             <th>Vehicle Details</th>
                                             <th>Visit Date</th>
@@ -88,21 +88,19 @@
                                     </thead>
                                     <tbody>
                                         @if (Model != null)
-                {
-                    if (Model.VisitorList != null)
-                    {
-                        int i = 1;
-                        foreach (var item in Model.VisitorList)
-                        {
+                                        {
+                                            if (Model.VisitorList != null)
+                                            {
+                                                int i = 1;
+                                                foreach (var item in Model.VisitorList)
+                                                {
                                                     <tr>
                                                         <td>@i</td>
                                                         <td>@item.SiteName</td>
                                                         <td>@item.LoginId</td>
                                                         <td>@item.AssociateName</td>
-
                                                         <td>@item.CustomerName</td>
                                                         <td>@item.CustomerMobile</td>
-
                                                         <td>@item.CategoryName</td>
                                                         <td>@item.VehicleNumber</td>
                                                         <td>@item.VisitDate</td>
@@ -110,8 +108,12 @@
                                                         <td>@item.DropLocation</td>
                                                         <td>@item.PickUpTime</td>
                                                         <td>@item.DropTime</td>
-                                                        <td><a href="/Master/PrintVisitor?Id=@item.EncryptKey" class="btn btn-outline-primary" target="_blank">Print</a></td>
-                                                        @*<td><input type="submit" class="btn btn-outline-primary" value="Print"/></td>*@
+                                                        <td>
+                                                            <a href="/Master/PrintVisitor?Id=@item.EncryptKey&VId=@item.EncryptedId" class="btn btn-outline-primary btn-sm" target="_blank">Print</a>  &nbsp;
+                                                            <a href="/Master/VisitorForm?Id=@item.EncryptKey&VId=@item.EncryptedId" class="btn btn-outline-success btn-sm">Edit</a>  &nbsp;
+                                                            <a href="/Master/DeleteVisitorMaster?Id=@item.EncryptKey&VId=@item.EncryptedId" class="btn btn-outline-danger btn-sm">Delete</a>
+                                                            &nbsp;
+                                                        </td>
                                                     </tr>
                                                     i++;
                                                 }
