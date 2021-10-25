@@ -35,6 +35,7 @@ namespace TejInfraFollowUp.Controllers
                         Lead obj1 = new Lead();
 
                         obj1.Fk_ProcpectId = r["ContactPerson"].ToString();
+                        obj1.ContactNo = r["ContactNo"].ToString();
                         obj1.FirstInstructionDate = r["FirstInstructionDate"].ToString();
                         obj1.Fk_ExpectedProductCategoryId = r["ProductCategoryName"].ToString();
                         obj1.Fk_SourceId = r["SourceName"].ToString();
@@ -61,6 +62,7 @@ namespace TejInfraFollowUp.Controllers
                         Lead obj1 = new Lead();
 
                         obj1.Fk_ProcpectId = r["ContactPerson"].ToString();
+                        obj1.ContactNo = r["ContactNo"].ToString();
                         obj1.FirstInstructionDate = r["FirstInstructionDate"].ToString();
                         obj1.Fk_ExpectedProductCategoryId = r["ProductCategoryName"].ToString();
                         obj1.Fk_SourceId = r["SourceName"].ToString();
@@ -83,6 +85,7 @@ namespace TejInfraFollowUp.Controllers
 
                         Lead obj1 = new Lead();
                         obj1.Fk_ProcpectId = r["ContactPerson"].ToString();
+                        obj1.ContactNo = r["ContactNo"].ToString();
                         obj1.Fk_ProcpectId = r["ContactPerson"].ToString();
                         obj1.FirstInstructionDate = r["FirstInstructionDate"].ToString();
                         obj1.Fk_ExpectedProductCategoryId = r["ProductCategoryName"].ToString();
